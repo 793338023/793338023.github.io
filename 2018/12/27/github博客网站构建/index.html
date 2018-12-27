@@ -155,6 +155,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your@email.com"</span>（请填你设置的邮箱地址）</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">接着出现：</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/Users/your_user_directory/.ssh/id_rsa):</span><br><span class="line">请直接按下回车</span><br><span class="line">然后系统会自动在.ssh文件夹下生成两个文件，id_rsa和id_rsa.pub，用记事本打开id_rsa.pub</span><br><span class="line">将全部的内容复制</span><br></pre></td></tr></table></figure>
 <p>注意输入完ssh-keygen这个后出现的都回车，不要输入东西。<br>那么就可以出现在git中输入命令：<br>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a><br>然后会跳出一堆话。。<br>输入命令：yes<br>不是没有yes这个命令输入，并且也无法提交。</p>
+<p><a href="https://blog.csdn.net/jingtingfengguo/article/details/51892864" target="_blank" rel="noopener">资料</a></p>
 </section>
     <!-- Tags START -->
     
