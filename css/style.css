@@ -360,7 +360,8 @@ h2.article-head {
 }
 .logo {
   background: url("images/logo.png");
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   width: 40px;
   height: 40px;
   margin-right: 10px;
