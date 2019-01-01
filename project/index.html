@@ -154,7 +154,7 @@
         Accept: 'application/vnd.github.v3.raw'
       },
       type: 'get',
-      url: 'https://api.github.com/users/793338023/repos?access_token=44a1cb46a6ac068edf81dd243c95b1c28ca7eb85',
+      url: 'https://api.github.com/users/793338023/repos?client_id=aa387cd0926d406dafd8&client_secret=1749e4071e65ddc79e5a153c500086d78fce5b52',
       success: function (data) {
         var repos = data.sort(function(a, b) {
           return (b.stargazers_count - a.stargazers_count)
