@@ -10,7 +10,7 @@
   
   <title>
     
-      github博客网站构建 | 张志成博客
+      es6语法使用之大全 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,8 +138,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>github博客网站构建</h2>
-  <p class="post-date">2018-12-27</p>
+  <h2>es6语法使用之大全</h2>
+  <p class="post-date">2019-01-07</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -147,23 +147,14 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直打算使用github搭建自己的博客地址，而且看起来还不错的，但ssh的问题一直都提交不成功，一度不放弃了很多次，但在最后还是成功了。<br><a href="https://www.cnblogs.com/jackyroc/p/7681938.html" target="_blank" rel="noopener">前面的构建可以参考</a></p>
-<h2 id="ssh问题解决"><a href="#ssh问题解决" class="headerlink" title="ssh问题解决"></a>ssh问题解决</h2><p>1、首先我得重新在git设置一下身份的名字和邮箱（因为当初都忘了设置啥了，因为遇到坑了）进入到需要提交的文件夹底下（因为直接打开git Bash，在没有路径的情况下，根本没！法！改！刚使用git时遇到的坑。。。）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"yourname"</span>·</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email“your@email.com<span class="string">"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：yourname是你要设置的名字，your@email是你要设置的邮箱。</span><br></pre></td></tr></table></figure>
-<p>2、删除.ssh文件夹（直接搜索该文件夹）下的known_hosts(手动删除即可，不需要git）<br>3、git输入命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your@email.com"</span>（请填你设置的邮箱地址）</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">接着出现：</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/Users/your_user_directory/.ssh/id_rsa):</span><br><span class="line">请直接按下回车</span><br><span class="line">然后系统会自动在.ssh文件夹下生成两个文件，id_rsa和id_rsa.pub，用记事本打开id_rsa.pub</span><br><span class="line">将全部的内容复制</span><br></pre></td></tr></table></figure>
-<p>注意输入完ssh-keygen这个后出现的都回车，不要输入东西。<br>那么就可以出现在git中输入命令：<br>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a><br>然后会跳出一堆话。。<br>输入命令：yes<br>不是没有yes这个命令输入，并且也无法提交。</p>
-<p><a href="https://blog.csdn.net/jingtingfengguo/article/details/51892864" target="_blank" rel="noopener">资料</a></p>
-</section>
+    <section class="markdown-content"></section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#github">
-    <span class="tag-code">github</span>
+  <a href="/tags#es6">
+    <span class="tag-code">es6</span>
   </a>
 
       </div>
@@ -174,20 +165,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/12/26/hello-world/">
+      <a class="nav-left" href="/2018/12/27/github博客网站构建/">
         <span class="nav-arrow">← </span>
         
-          Hello World
+          github博客网站构建
         
       </a>
     
-    
-      <a class="nav-right" href="/2019/01/07/es6语法使用之大全/">
-        
-          es6语法使用之大全
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -233,7 +217,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ssh问题解决"><span class="toc-nav-text">ssh问题解决</span></a></li></ol>
+      <ol class="nav">none</ol>
     
   </div>
 </aside>
@@ -243,7 +227,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/12/27/github博客网站构建/';
+    var url = 'http://yoursite.com/2019/01/07/es6语法使用之大全/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -299,7 +283,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "github博客网站构建",
+        id: "es6语法使用之大全",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -327,7 +311,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2018/12/27/github博客网站构建/';
+  var disqus_url = 'http://yoursite.com/2019/01/07/es6语法使用之大全/';
   
   (function(){
     var dsq = document.createElement('script');
