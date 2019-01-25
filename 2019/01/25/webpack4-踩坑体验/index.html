@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      webpack4-踩坑体验 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>webpack4-踩坑体验</h2>
+  <p class="post-date">2019-01-25</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="webpack4"><a href="#webpack4" class="headerlink" title="webpack4"></a><a href="http://webpack.html.cn/" target="_blank" rel="noopener">webpack4</a></h2><p>webpack4与之前的版本差别很大，当webpack每个大版本的更新，都需要重新学习一下webpack的打包功能，因为每次的大版本更新带来的一连串的别的模块的跟随更新，而上下版本之前是不兼容的。</p>
+<h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p>先安装node与npm。<br>建议局部方式安装，因为webpack的版本更新很快，使用全局可能会出现不兼容的报错问题。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 创建项目文件夹</span><br><span class="line">npm init</span><br><span class="line">// 安装webpack与webpack-cli</span><br><span class="line">cnpm webpack webpack-cli --save-dev</span><br><span class="line">// 创建webpack.config.js文件，使用webpack指令时会访问到这个webpack配置文件</span><br><span class="line">// 在package.json的scripts里添加webpack指令。如</span><br><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"webpack"</span></span><br><span class="line">  &#125;</span><br><span class="line">// 在终端执行指令npm start 就会执行局部安装的webpack指令，实现简单的打包功能</span><br></pre></td></tr></table></figure></p>
+<h3 id="2、babel安装"><a href="#2、babel安装" class="headerlink" title="2、babel安装"></a>2、<a href="https://webpack.docschina.org/loaders/babel-loader/#src/components/Sidebar/Sidebar.jsx" target="_blank" rel="noopener">babel</a>安装</h3><p>而babel的更新也是很快的，所以之前安装babel的方式已经不符合了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cnpm install babel-cli babel-loader @babel/preset-env @babel/core --save-dev</span><br><span class="line"></span><br><span class="line">// .babelrc</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [</span><br><span class="line">        [<span class="string">"@babel/preset-env"</span>, &#123;</span><br><span class="line">          <span class="string">"modules"</span>: <span class="literal">false</span>,</span><br><span class="line">          <span class="string">"targets"</span>: &#123;</span><br><span class="line">            <span class="string">"browsers"</span>: [<span class="string">"&gt; 1%"</span>, <span class="string">"last 2 versions"</span>, <span class="string">"not ie &lt;= 8"</span>]</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;],</span><br><span class="line">    ],   </span><br><span class="line">    <span class="string">"plugins"</span>: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jb51.net/article/135225.htm" target="_blank" rel="noopener">在.babelrc配置文件中，主要是对预设（presets）和插件（plugins）进行配置</a>。<br><a href="https://babeljs.io/docs/en/babel-preset-env/" target="_blank" rel="noopener">presets</a> 预设<br>targets可以制定兼容浏览器版本，如果设置了browsers，那么就会覆盖targets原本对浏览器的限制配置。<br>targets.node正对node版本进行编译<br>modules通常都会设置为false，因为默认都是支持CommonJS规范，同时还有其他配置参数：”amd” | “umd” | “systemjs” | “commonjs”。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"targets"</span>: &#123;</span><br><span class="line">    <span class="string">"chrome"</span>: 52,</span><br><span class="line">    <span class="string">"browsers"</span>: [<span class="string">"last 2 versions"</span>, <span class="string">"safari 7"</span>],</span><br><span class="line">    <span class="string">"node"</span>:<span class="string">"6.10"</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="string">"modules"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3、webpack-dev-server热替换"><a href="#3、webpack-dev-server热替换" class="headerlink" title="3、webpack-dev-server热替换"></a>3、<a href="https://webpack.docschina.org/configuration/dev-server/#devserver-contentbase" target="_blank" rel="noopener">webpack-dev-server</a>热替换</h3><p>安装<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cnpm install webpack-dev-server --save-dev</span><br><span class="line">// 配置启动</span><br><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"dev"</span>: <span class="string">"webpack-dev-server"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于热替换的直接配置webpack.config.js里的devServer下，而不是通过CLI配置，所以如hot的配置需要在配置文件添加webpack.HotModuleReplacementPlugin插件，而CLI的配置会自动添加webpack.HotModuleReplacementPlugin。<br>由于启动了热替换，为了在终端上更好的观察变化情况，需要添加<a href="https://www.jianshu.com/p/8499842defbe" target="_blank" rel="noopener">webpack.HotModuleReplacementPlugin()</a>插件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">        hot: <span class="literal">true</span>,</span><br><span class="line">        compress: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">---------------------------</span><br><span class="line">plugins: [</span><br><span class="line">    new webpack.NamedModulesPlugin(),</span><br><span class="line">    new webpack.HotModuleReplacementPlugin()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="4、html-webpack-plugin自动注入"><a href="#4、html-webpack-plugin自动注入" class="headerlink" title="4、html-webpack-plugin自动注入"></a>4、html-webpack-plugin自动注入</h3><p>使用过vue的一定都对它的开发环境下自动注入很好奇，为什么热替换下没有打包浏览器观察到的文件，而浏览器的开发者模式下观察到的文件与项目下文件不一样，而且项目下没有文件打包，这就是因为html-webpack-plugin与热替换的原因。</p>
+<p><a href="https://www.cnblogs.com/wonyun/p/6030090.html" target="_blank" rel="noopener">资料一</a><br><a href="https://www.npmjs.com/package/html-webpack-plugin" target="_blank" rel="noopener">资料二</a></p>
+<p>以上资料已经把html-webpack-plugin的使用很详细的介绍了。</p>
+<p>而自动注入而不生成文件的，是因为使用热替换的情况下，会把变化的文件放到热替换的开启的服务器容器里，既内存里，只会在浏览器体验到它的打包变化，实际文件是没有变化的，而html-webpack-plugin会把js文件插入html里面，那么实现以上的效果。</p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><p>package.json<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"w4"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"webpack4"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"dev"</span>: <span class="string">"webpack-dev-server"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"@babel/core"</span>: <span class="string">"^7.0.0"</span>,</span><br><span class="line">    <span class="string">"@babel/preset-env"</span>: <span class="string">"^7.3.1"</span>,</span><br><span class="line">    <span class="string">"babel-cli"</span>: <span class="string">"^6.26.0"</span>,</span><br><span class="line">    <span class="string">"babel-loader"</span>: <span class="string">"^8.0.5"</span>,</span><br><span class="line">    <span class="string">"html-webpack-plugin"</span>: <span class="string">"^3.2.0"</span>,</span><br><span class="line">    <span class="string">"path"</span>: <span class="string">"^0.12.7"</span>,</span><br><span class="line">    <span class="string">"webpack"</span>: <span class="string">"^4.29.0"</span>,</span><br><span class="line">    <span class="string">"webpack-cli"</span>: <span class="string">"^3.2.1"</span>,</span><br><span class="line">    <span class="string">"webpack-dev-server"</span>: <span class="string">"^3.1.14"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>webpack.config.js<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(<span class="string">'webpack'</span>);</span><br><span class="line">const path = require(<span class="string">'path'</span>);</span><br><span class="line">const HtmlWebpackPlugin = require(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode: <span class="string">'development'</span>,</span><br><span class="line">    entry: &#123;</span><br><span class="line">        app: <span class="string">'./src/index.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        hot: <span class="literal">true</span>,</span><br><span class="line">        compress: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">test</span>: /\.js$/,</span><br><span class="line">                loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">                exclude: /(node_modules|bower_components)/</span><br><span class="line">              &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        new webpack.NamedModulesPlugin(),</span><br><span class="line">        new webpack.HotModuleReplacementPlugin(),</span><br><span class="line">        new HtmlWebpackPlugin(&#123;</span><br><span class="line">            filename: <span class="string">'index.html'</span>,</span><br><span class="line">            template: <span class="string">'index.html'</span>,</span><br><span class="line">            inject: <span class="literal">true</span></span><br><span class="line">          &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/793338023/webpack4Test" target="_blank" rel="noopener">github代码</a></p>
+<p><a href="https://webpack.js.org/concepts/mode/" target="_blank" rel="noopener">webpack4</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 使用babel报错</span><br><span class="line">Cannot <span class="built_in">read</span> property <span class="string">'bindings'</span> of null</span><br><span class="line">是因为没有正常安装与配置</span><br><span class="line">解决:</span><br><span class="line">cnpm install babel-cli babel-loader @babel/preset-env @babel/core --save-dev</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"presets"</span>: [<span class="string">"@babel/preset-env"</span>],</span><br><span class="line"><span class="string">"plugins"</span>: []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">还有由于使用babel转换要忽略这些文件</span><br><span class="line">exclude: /(node_modules|bower_components)/</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/01/21/css3的pointer-events/">
+        <span class="nav-arrow">← </span>
+        
+          css3的pointer-events
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#webpack4"><span class="toc-nav-text">webpack4</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1、安装"><span class="toc-nav-text">1、安装</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2、babel安装"><span class="toc-nav-text">2、babel安装</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3、webpack-dev-server热替换"><span class="toc-nav-text">3、webpack-dev-server热替换</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4、html-webpack-plugin自动注入"><span class="toc-nav-text">4、html-webpack-plugin自动注入</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#完整代码"><span class="toc-nav-text">完整代码</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/01/25/webpack4-踩坑体验/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "webpack4-踩坑体验",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/01/25/webpack4-踩坑体验/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
