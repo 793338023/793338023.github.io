@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      node-爬虫体验 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>node-爬虫体验</h2>
+  <p class="post-date">2019-01-30</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="node-爬虫"><a href="#node-爬虫" class="headerlink" title="node-爬虫"></a>node-爬虫</h2><p>使用技术:<br>express + crawler + request<br>而crawler是集成了request+cheerio，由于某些方面crawler没有使用request那么方便，只是在爬虫上可以比request简单的实现爬虫，所以比较强大简单，而在node里比较流行，而node实现爬虫有些不够好，所以在这方面框架没有几个，不像python那么强大而且这方面的库很多，很专业，而node的使用后发现有些不太好，而且这方面都比较简单而粗略。</p>
+<p>爬去电影天堂的代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> express = require(<span class="string">'express'</span>);</span><br><span class="line"><span class="built_in">let</span> router = express.Router();</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> Crawler = require(<span class="string">'crawler'</span>);</span><br><span class="line"><span class="built_in">let</span> fs = require(<span class="string">'fs'</span>);</span><br><span class="line"><span class="built_in">let</span> path = require(<span class="string">'path'</span>);</span><br><span class="line"><span class="built_in">let</span> request = require(<span class="string">'request'</span>);</span><br><span class="line"><span class="built_in">let</span> mkdirs = require(<span class="string">'../util/mkdirs'</span>);</span><br><span class="line"><span class="built_in">let</span> dataUrl = path.resolve(__dirname, <span class="string">'../../data'</span>);</span><br><span class="line"><span class="built_in">let</span> root = <span class="string">'https://www.dytt8.net'</span>;</span><br><span class="line"></span><br><span class="line">/* GET home page. */</span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res, next) &#123;</span><br><span class="line">  <span class="built_in">let</span> c = new Crawler(&#123;</span><br><span class="line">        // 在每个请求处理完毕后将调用此回调函数</span><br><span class="line">        callback : <span class="keyword">function</span> (error, resData, <span class="keyword">done</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(error)&#123;</span><br><span class="line">                console.log(error);</span><br><span class="line">                res.render(<span class="string">'index'</span>, &#123; title: <span class="string">'电影天堂'</span>, content: error &#125;);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                var $ = resData.$;</span><br><span class="line">                <span class="built_in">let</span> <span class="variable">$dataList</span> = $(<span class="string">".bd3r .co_content8 ul table"</span>);</span><br><span class="line">                <span class="built_in">let</span> paging = $(<span class="string">".bd3r .co_content8 .x"</span>);</span><br><span class="line">                <span class="built_in">let</span> listData = []; </span><br><span class="line"></span><br><span class="line">                // 分页处理</span><br><span class="line">                <span class="built_in">let</span> sel = paging.find(<span class="string">'select'</span>);</span><br><span class="line">                <span class="built_in">let</span> maxLen = sel.children().length;</span><br><span class="line">                <span class="built_in">let</span> currPage = sel.find(<span class="string">'[selected]'</span>).text();</span><br><span class="line"></span><br><span class="line">                <span class="variable">$dataList</span>.each((key, item)=&gt;&#123;</span><br><span class="line">                  <span class="built_in">let</span> <span class="variable">$a</span> = $(item).find(<span class="string">'a'</span>);</span><br><span class="line">                  <span class="built_in">let</span> dac = $(item).find(<span class="string">'font'</span>).text();</span><br><span class="line">                  <span class="built_in">let</span> content = $(<span class="string">":last-child"</span>,item).find(<span class="string">'td'</span>).text();</span><br><span class="line">                  </span><br><span class="line">                  dac.match(/(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125; [\d:]+)\D*(\d+)/);</span><br><span class="line">                  listData.push(&#123;<span class="string">"name"</span>: <span class="variable">$a</span>.text(),</span><br><span class="line">                                  <span class="string">"href"</span>: root+<span class="variable">$a</span>.attr(<span class="string">'href'</span>),</span><br><span class="line">                                  <span class="string">"date"</span>: RegExp.<span class="variable">$1</span>,</span><br><span class="line">                                  <span class="string">"clickNum"</span>: RegExp.<span class="variable">$2</span>,</span><br><span class="line">                                  <span class="string">"content"</span>: content</span><br><span class="line">                                &#125;);</span><br><span class="line">                &#125;);</span><br><span class="line">                createFs(currPage, listData);</span><br><span class="line"></span><br><span class="line">                <span class="built_in">let</span> listUrl = [];</span><br><span class="line">                <span class="keyword">for</span>(<span class="built_in">let</span> i=2;i&lt;=maxLen;i++)&#123;</span><br><span class="line">                  listUrl.push(root+<span class="string">'/html/gndy/dyzz/list_23_'</span>+i+<span class="string">'.html'</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                getPageNum(listUrl);</span><br><span class="line">                res.render(<span class="string">'index'</span>, &#123; title: <span class="string">'电影天堂'</span>, content: listData &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">done</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  // 将一个URL加入请求队列，并使用默认回调函数</span><br><span class="line">  c.queue(root+<span class="string">'/html/gndy/dyzz/list_23_1.html'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 获取当前页的数据</span><br><span class="line"><span class="keyword">function</span> getPageNum(listUrl)&#123;</span><br><span class="line">  <span class="built_in">let</span> c = new Crawler(&#123;</span><br><span class="line">    // 在每个请求处理完毕后将调用此回调函数</span><br><span class="line">    callback : <span class="keyword">function</span> (error, resData, <span class="keyword">done</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(error)&#123;</span><br><span class="line">            console.log(error);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            var $ = resData.$;</span><br><span class="line">            <span class="built_in">let</span> <span class="variable">$dataList</span> = $(<span class="string">".bd3r .co_content8 ul table"</span>);</span><br><span class="line">            <span class="built_in">let</span> paging = $(<span class="string">".bd3r .co_content8 .x"</span>);</span><br><span class="line">            <span class="built_in">let</span> listData = []; </span><br><span class="line"></span><br><span class="line">            // 分页处理</span><br><span class="line">            <span class="built_in">let</span> sel = paging.find(<span class="string">'select'</span>);</span><br><span class="line">            <span class="built_in">let</span> maxLen = sel.children().length;</span><br><span class="line">            <span class="built_in">let</span> currPage = sel.find(<span class="string">'[selected]'</span>).text();</span><br><span class="line"></span><br><span class="line">            <span class="variable">$dataList</span>.each((key, item)=&gt;&#123;</span><br><span class="line">              <span class="built_in">let</span> <span class="variable">$a</span> = $(item).find(<span class="string">'a'</span>);</span><br><span class="line">              <span class="built_in">let</span> dac = $(item).find(<span class="string">'font'</span>).text();</span><br><span class="line">              <span class="built_in">let</span> content = $(<span class="string">":last-child"</span>,item).find(<span class="string">'td'</span>).text();</span><br><span class="line">              </span><br><span class="line">              dac.match(/(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125; [\d:]+)\D*(\d+)/);</span><br><span class="line">              listData.push(&#123;<span class="string">"name"</span>: <span class="variable">$a</span>.text(),</span><br><span class="line">                              <span class="string">"href"</span>: root+<span class="variable">$a</span>.attr(<span class="string">'href'</span>),</span><br><span class="line">                              <span class="string">"date"</span>: RegExp.<span class="variable">$1</span>,</span><br><span class="line">                              <span class="string">"clickNum"</span>: RegExp.<span class="variable">$2</span>,</span><br><span class="line">                              <span class="string">"content"</span>: content</span><br><span class="line">                            &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            createFs(currPage, listData);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">done</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 将一个URL加入请求队列，并使用默认回调函数</span><br><span class="line">c.queue(listUrl);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 遍历当前页的条数</span><br><span class="line">async <span class="keyword">function</span> createFs(page, content)&#123;</span><br><span class="line">  <span class="built_in">let</span> url =  path.join(dataUrl,<span class="string">'./'</span>+page);</span><br><span class="line">  <span class="built_in">let</span> file = path.join(url, <span class="string">'./mkdir.json'</span>); </span><br><span class="line">  // 如果不存在创建目录，支持多层创建，异步</span><br><span class="line">  await mkdirs(url);</span><br><span class="line">  await (()=&gt;&#123;</span><br><span class="line">    <span class="built_in">let</span> p = new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">      fs.writeFile(file, JSON.stringify(content), (err)=&gt;&#123;</span><br><span class="line">        <span class="keyword">if</span>(err)&#123;</span><br><span class="line">          resolve(<span class="literal">false</span>);</span><br><span class="line">          console.log(err);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          resolve(<span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">return</span> p;</span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="keyword">for</span>(<span class="built_in">let</span> item of content)&#123;</span><br><span class="line">    detailContent(item, url);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取具体信息</span><br><span class="line">async <span class="keyword">function</span> detailContent(item, rootUrl)&#123;</span><br><span class="line">  <span class="built_in">let</span> dirUrl = path.join(rootUrl,<span class="string">'./'</span>+item.name.replace(/[\\\/:*?<span class="string">"&lt;&gt;|]/g,"</span>-<span class="string">"));</span></span><br><span class="line"><span class="string">  let file = path.join(dirUrl,'./detail.json');</span></span><br><span class="line"><span class="string">  await mkdirs(dirUrl);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  let c = new Crawler(&#123;</span></span><br><span class="line"><span class="string">    callback(error, resData, done)&#123;</span></span><br><span class="line"><span class="string">      if(error)&#123;</span></span><br><span class="line"><span class="string">        console.log(error);</span></span><br><span class="line"><span class="string">      &#125;else&#123;</span></span><br><span class="line"><span class="string">        let data = &#123;&#125;;</span></span><br><span class="line"><span class="string">        let $ = resData.$;</span></span><br><span class="line"><span class="string">        let <span class="variable">$content</span> = <span class="variable">$('.bd3r .co_area2')</span>;</span></span><br><span class="line"><span class="string">        let contentStr = <span class="variable">$content</span>.find('#Zoom p').eq(0).text();</span></span><br><span class="line"><span class="string">        let imgList = [];</span></span><br><span class="line"><span class="string">        data.title = <span class="variable">$content</span>.find('.title_all font').text();</span></span><br><span class="line"><span class="string">        data.content = contentStr.substr(0,contentStr.indexOf('【下载地址】'));</span></span><br><span class="line"><span class="string">        <span class="variable">$content</span>.find('#Zoom img').each(function(key, it)&#123;</span></span><br><span class="line"><span class="string">          imgList.push(<span class="variable">$(it)</span>.attr('src'));</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        data.img = imgList;</span></span><br><span class="line"><span class="string">        data.magnet = <span class="variable">$content</span>.find('[href^="</span>magnet<span class="string">"]').attr('href');</span></span><br><span class="line"><span class="string">        data.thunder = <span class="variable">$content</span>.find('[vkorgxpv]').attr('vkorgxpv');</span></span><br><span class="line"><span class="string">        fs.writeFile(file, JSON.stringify(data), err=&gt;&#123;</span></span><br><span class="line"><span class="string">          if(err)&#123;</span></span><br><span class="line"><span class="string">            console.log(err);</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        // getImg(JSON.stringify(imgList), dirUrl);</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">      done();</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;);</span></span><br><span class="line"><span class="string">  c.queue(item.href);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 图片下载处理</span></span><br><span class="line"><span class="string">// 由于某些问题无法正确获取到图片,并且会报错而无法爬取下去</span></span><br><span class="line"><span class="string">function getImg(imgList, dirUrl)&#123;</span></span><br><span class="line"><span class="string">  // var c = new Crawler(&#123;</span></span><br><span class="line"><span class="string">  //     encoding:null,</span></span><br><span class="line"><span class="string">  //     jQuery:false,// set false to suppress warning message.</span></span><br><span class="line"><span class="string">  //     callback:function(err, res, done)&#123;</span></span><br><span class="line"><span class="string">  //         if(err)&#123;</span></span><br><span class="line"><span class="string">  //             console.error(err.stack);</span></span><br><span class="line"><span class="string">  //         &#125;else&#123;</span></span><br><span class="line"><span class="string">  //           console.log(res.options.filename);</span></span><br><span class="line"><span class="string">  //           console.log(res.body);</span></span><br><span class="line"><span class="string">  //             fs.createWriteStream(res.options.filename).write(res.body);</span></span><br><span class="line"><span class="string">  //         &#125;</span></span><br><span class="line"><span class="string">  //         done();</span></span><br><span class="line"><span class="string">  //     &#125;</span></span><br><span class="line"><span class="string">  // &#125;);</span></span><br><span class="line"><span class="string">  imgList = JSON.parse(imgList);</span></span><br><span class="line"><span class="string">  imgList = imgList.map((item, key)=&gt;&#123;</span></span><br><span class="line"><span class="string">    return &#123;uri: item, filename: path.join(dirUrl,"</span>./<span class="string">"+key+"</span>.jpg<span class="string">")&#125;;</span></span><br><span class="line"><span class="string">  &#125;);</span></span><br><span class="line"><span class="string">  // c.queue(imgList);</span></span><br><span class="line"><span class="string">  for(let ii = 0; ii&lt;imgList.length; ii++)&#123;</span></span><br><span class="line"><span class="string">    if(!fs.existsSync(imgList[ii].filename))&#123;</span></span><br><span class="line"><span class="string">      setTimeout(()=&gt;&#123;</span></span><br><span class="line"><span class="string">        let options = &#123;</span></span><br><span class="line"><span class="string">          url: imgList[ii].uri,</span></span><br><span class="line"><span class="string">          headers: &#123;</span></span><br><span class="line"><span class="string">            'content-length': 1001976</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;;</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        request(options).pipe(fs.createWriteStream(imgList[ii].filename)).on('close',function()&#123;</span></span><br><span class="line"><span class="string">          console.log("</span>关闭...<span class="string">"+imgList[ii].filename);</span></span><br><span class="line"><span class="string">          &#125;);</span></span><br><span class="line"><span class="string">      &#125;,1000);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">module.exports = router;</span></span><br></pre></td></tr></table></figure></p>
+<p>在文字爬去方面一点问题都没有，但在图片方面都各种问题出现，而图片量大时不要使用pipe，会出现0k的图片，既空图片，而且要使用异步的形式下载图片，如使用<a href="https://blog.csdn.net/davidsu33/article/details/52711892" target="_blank" rel="noopener">bagpipe或async</a>方法下载图片。</p>
+<p>// 图片下载方式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">request(&#123;</span><br><span class="line">    url: imgUrl,// 请求链接</span><br><span class="line">    encoding:null</span><br><span class="line">&#125;, (err, response, body) =&gt; &#123;</span><br><span class="line">    fs.writeFileSync(</span><br><span class="line">        imgPath, // 保存本地地址</span><br><span class="line">        body, // 保存内容</span><br><span class="line">        &#123;</span><br><span class="line">            encoding:<span class="string">'binary'</span></span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#node">
+    <span class="tag-code">node</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/01/25/webpack4-踩坑体验/">
+        <span class="nav-arrow">← </span>
+        
+          webpack4-踩坑体验
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#node-爬虫"><span class="toc-nav-text">node-爬虫</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/01/30/node-爬虫体验/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "node-爬虫体验",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/01/30/node-爬虫体验/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
