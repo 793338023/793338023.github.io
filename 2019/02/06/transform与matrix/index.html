@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      transform与matrix | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>transform与matrix</h2>
+  <p class="post-date">2019-02-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="Transform的值大类"><a href="#Transform的值大类" class="headerlink" title="Transform的值大类"></a>Transform的值大类</h2><p>transform 本质上来说是一系列的变形函数，主要有以下值：<br>none -  不进行转换，常用作覆盖别的值使用<br>translate(x,y) - 2d位移；translate3d(x,y,z) - 3d位移； transformX/Y/Z(n) - 单向位移<br>scale(x,y) - 2d缩放； scale3d(x,y,z) - 3d缩放； scaleX/Y(n) - 单向缩放<br>rotate(angle) - 2d旋转； rotate3d(x,y,z,angle) - 3d旋转；rotateX/Y/Z(angle) - 单向旋转<br>skew(x-angle,y-angle) - 倾斜变换； skewX/Y(angle) - 单向倾斜变换<br>matrix[3d] - 矩阵<br>perspective(n) - 视距（值）</p>
+<h2 id="Transform的前置属性"><a href="#Transform的前置属性" class="headerlink" title="Transform的前置属性"></a>Transform的前置属性</h2><p>transform-origin - 变换原点<br>transform-style - 变换类型<br>perspective - 3d透视视图的视距（属性）<br>perspective-origin - 视距的基点<br>backface-visibility - 是否可以看见背面</p>
+<h2 id="Transform特性"><a href="#Transform特性" class="headerlink" title="Transform特性"></a>Transform特性</h2><p>1、如果是动画效果，translate能达到比1px更小的过渡效果，而position却不行，这就影响了用户体验。<br>2、translate的动画效果能启用电脑GPU加速，分离图层，大大减少页面重绘模块，节省资源。<br>3、position 的可拓展性不如 translate等。<br>4、transform百分比的基准是被设置值的本身容器，而不是像margin等以父级为基准。<br>5、3d效果需要使用在父级使用perspective，否则设置的值无效。</p>
+<h2 id="矩阵-matrix"><a href="#矩阵-matrix" class="headerlink" title="矩阵 - matrix"></a>矩阵 - matrix</h2><p>线性代数里矩阵<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|1 0 0|</span><br><span class="line">|1 0 0|</span><br><span class="line">|2 0 0|</span><br><span class="line"></span><br><span class="line">transform: matrix(a,b,c,d,e,f);</span><br><span class="line"></span><br><span class="line">|a b c|</span><br><span class="line">|d e f|</span><br><span class="line">|0 0 1|</span><br></pre></td></tr></table></figure></p>
+<p>当我们要做变换时，实质上就是对初始值添加一些系数，也就是:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|a b c|   |x|    |ax by c|</span><br><span class="line">|d e f| * |y| =  |dx ey f|</span><br><span class="line">|0 0 1|   |1|    |0  0  1|</span><br></pre></td></tr></table></figure></p>
+<p>而变化后的x与y坐标<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x<span class="string">' = ax + cy +  e   // 即：x坐标</span></span><br><span class="line"><span class="string">y'</span> = bx + dy + f    // 即：y坐标</span><br></pre></td></tr></table></figure></p>
+<p>默认值:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix(1, 0, 0, 1, 0, 0)</span><br><span class="line">// 在默认基础上继续变化</span><br></pre></td></tr></table></figure></p>
+<h3 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">matrix(a,b,c,d,e,f);</span><br><span class="line">// 只需要变换e,f即可，e为x，f为y</span><br><span class="line">// 如</span><br><span class="line">transform: matrix(1, 0, 0, 1, 10, 20);</span><br><span class="line">// x为10px,y为20px</span><br></pre></td></tr></table></figure>
+<h3 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">matrix(a,b,c,d,e,f);</span><br><span class="line">// 只需要变换a,d即可，a为x，d为y，既放大缩小多少倍，如果在是正常倍数，设置为1即可,否则图形会消失，如设置为0了</span><br><span class="line">// 如</span><br><span class="line">transform: matrix(2, 0, 0, 2, 0, 0);</span><br><span class="line">// x为2倍,y为2倍</span><br></pre></td></tr></table></figure>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>由于旋转需要使用到三角函数，cos与sin，而且matrix(a,b,c,d,e,f)中要使用都abcd。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'matrix('</span>+Math.cos(x)+<span class="string">', '</span>+Math.sin(x)+<span class="string">', -'</span>+Math.sin(x)+<span class="string">', '</span>+Math.cos(x)+<span class="string">', 0, 0)'</span></span><br><span class="line"></span><br><span class="line">// 三角函数的转换</span><br><span class="line"><span class="built_in">let</span> x = 2 * Math.PI / 360 * angle;</span><br></pre></td></tr></table></figure>
+<p>例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=<span class="string">"hello"</span>&gt;</span><br><span class="line">    &lt;button @click=<span class="string">'btnFn'</span>&gt;开始&lt;/button&gt;</span><br><span class="line">    &lt;div class=<span class="string">"wrapper"</span>&gt;</span><br><span class="line">      &lt;div ref=<span class="string">"item"</span> class=<span class="string">"item"</span>&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="built_in">export</span> default &#123;</span><br><span class="line">  name: <span class="string">'HelloWorld'</span>,</span><br><span class="line">  <span class="function"><span class="title">data</span></span> () &#123;</span><br><span class="line">    <span class="built_in">return</span> &#123;</span><br><span class="line">      timer: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="title">mounted</span></span>()&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    transFn(angle = 0)&#123;</span><br><span class="line">      <span class="built_in">let</span> item = this.<span class="variable">$refs</span>.item;</span><br><span class="line">      <span class="built_in">let</span> x = 2 * Math.PI / 360 * angle;</span><br><span class="line">      item.style.transform = <span class="string">'matrix('</span>+Math.cos(x)+<span class="string">', '</span>+Math.sin(x)+<span class="string">', -'</span>+Math.sin(x)+<span class="string">', '</span>+Math.cos(x)+<span class="string">', 0, 0)'</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    move(start, end)&#123;</span><br><span class="line">      clearInterval(this.timer);</span><br><span class="line">      this.timer = setInterval(()=&gt;&#123;</span><br><span class="line">        this.transFn(start);</span><br><span class="line">        <span class="keyword">if</span>(start &gt;= end)&#123;</span><br><span class="line">          clearInterval(this.timer);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          start+= 2;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, 100);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">btnFn</span></span>()&#123;</span><br><span class="line">      this.move(0, 360);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.wrapper &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 50%;</span><br><span class="line">  left: 50%;</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 500px;</span><br><span class="line">  perspective: 100px; </span><br><span class="line">&#125;</span><br><span class="line">.item &#123;</span><br><span class="line">  background-color: <span class="comment">#42b983;</span></span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  transform: matrix(2, 0, 0, 2, 0, 0);</span><br><span class="line">  transform-origin: 0 0 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="拉伸"><a href="#拉伸" class="headerlink" title="拉伸"></a>拉伸</h3><p>由于旋转需要使用到三角函数，tan，而且matrix(a,b,c,d,e,f)中要使用都bc。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">matrix(1,tan(θy),tan(θx),1,0,0)</span><br><span class="line">// 三角函数的转换</span><br><span class="line"><span class="built_in">let</span> x = 2 * Math.PI / 360 * angle;</span><br><span class="line"><span class="built_in">let</span> θ = Math.tan(x);</span><br><span class="line">// 30度</span><br><span class="line">transform: matrix(1, 0.5, 0.5, 1, 0, 0);</span><br></pre></td></tr></table></figure>
+<p>以上是对单种变换的matrix使用，若要多个一起使用就要按顺序使用上述的方法累加起来，所以在使用transform是变换使用都会根据使用的变换顺序不同而达到的结果不一样，因为它会根据前一个变换后的结果进行下一次的变换，如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">transform: rotate(30deg) translate(10px, 20px);</span><br><span class="line"></span><br><span class="line">transform: translate(10px, 20px) rotate(30deg);</span><br></pre></td></tr></table></figure></p>
+<p>以上的数值都一致，但结果是不一样的。<br>第一个为旋转后根据旋转的方向进行移动<br>第二个为移动后再进行旋转</p>
+<p><a href="https://www.html.cn/tool/css3Preview/Transform-Matrix.html" target="_blank" rel="noopener">matrix 工具</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#css3">
+    <span class="tag-code">css3</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/02/01/proto-与prototype/">
+        <span class="nav-arrow">← </span>
+        
+          __proto__与prototype
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Transform的值大类"><span class="toc-nav-text">Transform的值大类</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Transform的前置属性"><span class="toc-nav-text">Transform的前置属性</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Transform特性"><span class="toc-nav-text">Transform特性</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#矩阵-matrix"><span class="toc-nav-text">矩阵 - matrix</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#平移"><span class="toc-nav-text">平移</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#缩放"><span class="toc-nav-text">缩放</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#旋转"><span class="toc-nav-text">旋转</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#拉伸"><span class="toc-nav-text">拉伸</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/02/06/transform与matrix/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "transform与matrix",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/02/06/transform与matrix/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
