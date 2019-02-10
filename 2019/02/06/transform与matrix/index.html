@@ -151,7 +151,7 @@
 <h2 id="Transform的前置属性"><a href="#Transform的前置属性" class="headerlink" title="Transform的前置属性"></a>Transform的前置属性</h2><p>transform-origin - 变换原点<br>transform-style - 变换类型<br>perspective - 3d透视视图的视距（属性）<br>perspective-origin - 视距的基点<br>backface-visibility - 是否可以看见背面</p>
 <h2 id="Transform特性"><a href="#Transform特性" class="headerlink" title="Transform特性"></a>Transform特性</h2><p>1、如果是动画效果，translate能达到比1px更小的过渡效果，而position却不行，这就影响了用户体验。<br>2、translate的动画效果能启用电脑GPU加速，分离图层，大大减少页面重绘模块，节省资源。<br>3、position 的可拓展性不如 translate等。<br>4、transform百分比的基准是被设置值的本身容器，而不是像margin等以父级为基准。<br>5、3d效果需要使用在父级使用perspective，否则设置的值无效。</p>
 <h2 id="矩阵-matrix"><a href="#矩阵-matrix" class="headerlink" title="矩阵 - matrix"></a>矩阵 - matrix</h2><p>线性代数里矩阵<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|1 0 0|</span><br><span class="line">|1 0 0|</span><br><span class="line">|2 0 0|</span><br><span class="line"></span><br><span class="line">transform: matrix(a,b,c,d,e,f);</span><br><span class="line"></span><br><span class="line">|a b c|</span><br><span class="line">|d e f|</span><br><span class="line">|0 0 1|</span><br></pre></td></tr></table></figure></p>
-<p>当我们要做变换时，实质上就是对初始值添加一些系数，也就是:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|a b c|   |x|    |ax by c|</span><br><span class="line">|d e f| * |y| =  |dx ey f|</span><br><span class="line">|0 0 1|   |1|    |0  0  1|</span><br></pre></td></tr></table></figure></p>
+<p>当我们要做变换时，实质上就是对初始值添加一些系数，也就是:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|a c e|   |x|    |ax cy e|</span><br><span class="line">|b d f| * |y| =  |bx dy f|</span><br><span class="line">|0 0 1|   |1|    |0  0  1|</span><br></pre></td></tr></table></figure></p>
 <p>而变化后的x与y坐标<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x<span class="string">' = ax + cy +  e   // 即：x坐标</span></span><br><span class="line"><span class="string">y'</span> = bx + dy + f    // 即：y坐标</span><br></pre></td></tr></table></figure></p>
 <p>默认值:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix(1, 0, 0, 1, 0, 0)</span><br><span class="line">// 在默认基础上继续变化</span><br></pre></td></tr></table></figure></p>
 <h3 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">matrix(a,b,c,d,e,f);</span><br><span class="line">// 只需要变换e,f即可，e为x，f为y</span><br><span class="line">// 如</span><br><span class="line">transform: matrix(1, 0, 0, 1, 10, 20);</span><br><span class="line">// x为10px,y为20px</span><br></pre></td></tr></table></figure>
@@ -189,6 +189,13 @@
         
       </a>
     
+    
+      <a class="nav-right" href="/2019/02/10/复杂vue路由/">
+        
+          复杂vue路由
+        
+        <span class="nav-arrow"> →</span>
+      </a>
     
   </div>
 
