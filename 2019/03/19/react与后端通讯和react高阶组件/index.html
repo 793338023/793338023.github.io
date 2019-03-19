@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      react与后端通讯和react高阶组件 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>react与后端通讯和react高阶组件</h2>
+  <p class="post-date">2019-03-19</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="react与后端通讯"><a href="#react与后端通讯" class="headerlink" title="react与后端通讯"></a>react与后端通讯</h2><h3 id="react组件"><a href="#react组件" class="headerlink" title="react组件"></a>react组件</h3><p>当只考虑使用react组件与后端进行通讯时，一般在componentDidMount钩子函数里实现请求即可，componentDidMount是render渲染后触发，在这里可以进行DOM之类的操作。而react不带请求方法，需要引入插件，而使用JQ这类的有点冗余，而axios插件流行，且灵活度高，而且返回的结果为Promise，便于操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm isntall axios --save</span><br></pre></td></tr></table></figure>
+<p>请求例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">componentDidMount</span></span>()&#123;</span><br><span class="line">    axios.get(<span class="string">'请求URL'</span>)</span><br><span class="line">    .<span class="keyword">then</span>(<span class="keyword">function</span> (response) &#123;</span><br><span class="line">     // response.data返回数据</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="keyword">function</span> (error) &#123;</span><br><span class="line">      // 捕获异常，如reject之类的</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.jianshu.com/p/7a9fbcbb1114" target="_blank" rel="noopener">axios</a>的拦截器可以对请求装饰，如添加token，添加遮罩或处理一些公共的信息，如错误码跳转等，这些可以让项目更容易维护。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//添加请求拦截器</span><br><span class="line">axios.interceptors.request.use（<span class="keyword">function</span>（config）&#123;</span><br><span class="line">     //在发送请求之前做某事</span><br><span class="line">     <span class="built_in">return</span> config;</span><br><span class="line">   &#125;，<span class="keyword">function</span>（error）&#123;</span><br><span class="line">     //请求错误时做些事</span><br><span class="line">     <span class="built_in">return</span> Promise.reject（error）;</span><br><span class="line">   &#125;）;</span><br><span class="line"> </span><br><span class="line">//添加响应拦截器</span><br><span class="line">axios.interceptors.response.use（<span class="keyword">function</span>（response）&#123;</span><br><span class="line">     //对响应数据做些事</span><br><span class="line">     <span class="built_in">return</span> response;</span><br><span class="line">   &#125;，<span class="keyword">function</span>（error）&#123;</span><br><span class="line">     //请求错误时做些事</span><br><span class="line">     <span class="built_in">return</span> Promise.reject（error）;</span><br><span class="line">   &#125;）;</span><br></pre></td></tr></table></figure>
+<h3 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h3><p>当项目很复杂时需要使用redux进行数据的集中分发时那么数据的来源都是从redux里来，而这样前端与后端的通讯就要在redux里进行。<br>但redux的数据进行传送过程时同步的，那么就需要中间件转为异步操作，而redux的强大又体出来了，redux适配性很高，只要给它加个合适的中间件，即可方便使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save redux-thunk</span><br></pre></td></tr></table></figure>
+<p>redux-thunk在Redux的action对象被reducer函数处理之前，插入异步功能。<br>redux-thunk中间件可以让action创建函数先不返回一个action对象，而是返回一个函数，函数传递两个参数(dispatch,getState),在函数体内进行业务逻辑的封装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import &#123;createStore, applyMiddleware&#125; from <span class="string">'redux'</span>;</span><br><span class="line">import thunk from <span class="string">'redux-thunk'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> count(state = 0, action) &#123;</span><br><span class="line">    switch (action.type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'ADD'</span>:</span><br><span class="line">            <span class="built_in">return</span> state + 1;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'REDUCER'</span>:</span><br><span class="line">            <span class="built_in">return</span> state - 1;</span><br><span class="line">        default:</span><br><span class="line">            <span class="built_in">return</span> state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">const store = createStore(count,applyMiddleware(thunk));</span><br><span class="line"></span><br><span class="line">//action创建函数</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">addIfOdd</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> (dispatch, getState) =&gt; &#123;</span><br><span class="line">        const currentValue = getState();</span><br><span class="line">        <span class="keyword">if</span> (currentValue % 2 == 0) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        dispatch(&#123;</span><br><span class="line">            <span class="built_in">type</span>: <span class="string">'ADD'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h2><p>高阶组件用于增强现有组件组件，好比装饰器模式一样。<br>简单来说，一个高阶组件就是一个函数，这个函数接受一个组件作为输入，然后返回一个新的组件作为结果，而且，返回的新组件拥有了输入组件所不具有的功能。</p>
+<p>而高阶组件的实现有两种方式，代理方式与继承方式。</p>
+<h3 id="代理方式"><a href="#代理方式" class="headerlink" title="代理方式"></a>代理方式</h3><p>代理方式就是以组件为参数传入返回一个新的组件。<br>代理方式的高阶组件，可以应用在下列场景中：<br>1、操纵 prop;<br>2、访问 ref;<br>3、抽取状态；<br>4、包装组件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const newComponent = (Component, newProps)=&gt;&#123;</span><br><span class="line">    <span class="built_in">return</span> calss Wrapper extends React.Component&#123;</span><br><span class="line">        constructor(props)&#123;</span><br><span class="line">            super(props);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="title">render</span></span>()&#123;</span><br><span class="line">            <span class="built_in">return</span> (</span><br><span class="line">                &lt;Component &#123;...this.props&#125; &#123;...newProps&#125; /&gt;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="继承方式"><a href="#继承方式" class="headerlink" title="继承方式"></a>继承方式</h3><p>继承方式的高阶组件采用继承关系关联作为参数的组件和返回的组件，假如传入的组件参数是 WrappedComponent，那么返回的组件就直接继承自 WrappedComponent。</p>
+<p>继承方式的高阶组件可以应用于下列场景：<br>1、操纵 prop;<br>2、操纵生命周期函数。</p>
+<p>而继承方式改变prop是很麻烦的，需要使用React.cloneElement复制一份组件并修改prop值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const modyComponent = (WrappedComponent)=&gt;&#123;</span><br><span class="line">    <span class="built_in">return</span> class NewComponent extends WrappedComponent&#123;</span><br><span class="line">        <span class="function"><span class="title">render</span></span>()&#123;</span><br><span class="line">            const elem = super.render();</span><br><span class="line">            const newProps = &#123;...this.props, style: &#123;color: <span class="string">'red'</span>&#125;&#125;;</span><br><span class="line">            <span class="built_in">return</span> React.cloneElement(elem, newProps, elem.props.children);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面例子的比较可以看出来，各方面看来代理方式都要优于继承方式。</p>
+<h2 id="以函数为子组件"><a href="#以函数为子组件" class="headerlink" title="以函数为子组件"></a>以函数为子组件</h2><p>由于以上的高阶组件都有一个问题就是嵌套加深，都要在组件外包囊一层，而且固化prop，无法达到预期的灵活要求，而以函数为子组件就可以解决这个问题。<br>以函数为子组件其实就是在使用this.props.children获取嵌套在组件内的函数，然后传参调用返回组件。</p>
+<p>弊端就是每次使用都要创建一个函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">calss Wrapper extend Component&#123;</span><br><span class="line">    constructor(props)&#123;</span><br><span class="line">            super(props);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="function"><span class="title">render</span></span>()&#123;</span><br><span class="line">        childFn = this.props.children(this.props);</span><br><span class="line">        <span class="built_in">return</span> childFn;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 一定要是函数</span><br><span class="line">Wrapper.propTypes = &#123;</span><br><span class="line">    children: React.PropTypes.func.isRequired</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">&lt;Wrapper&gt;</span><br><span class="line">&#123;(aa)=&gt;&lt;div&gt;&#123;aa&#125;&lt;/div&gt;&#125;</span><br><span class="line">&lt;/Wrapper&gt;</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#react">
+    <span class="tag-code">react</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/03/16/redux运用/">
+        <span class="nav-arrow">← </span>
+        
+          redux运用
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#react与后端通讯"><span class="toc-nav-text">react与后端通讯</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#react组件"><span class="toc-nav-text">react组件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#redux"><span class="toc-nav-text">redux</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#高阶组件"><span class="toc-nav-text">高阶组件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代理方式"><span class="toc-nav-text">代理方式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#继承方式"><span class="toc-nav-text">继承方式</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#以函数为子组件"><span class="toc-nav-text">以函数为子组件</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/03/19/react与后端通讯和react高阶组件/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "react与后端通讯和react高阶组件",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/03/19/react与后端通讯和react高阶组件/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
