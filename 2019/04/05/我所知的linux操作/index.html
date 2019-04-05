@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      我所知的linux操作 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>我所知的linux操作</h2>
+  <p class="post-date">2019-04-05</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p>##前言<br>作为一个开发者，有时工作久了，总要会一些不一样知识来填充自己，如我是一名前端开发，但前端的发展总要向后台靠拢，不是你无法知道怎么实现一个功能才能更符合逻辑，因为我们最后还是要和后台数据对接的或别的，而部署到服务器的项目，最后不会想windows那样使用，而是一种更加符合编码人员口味的linux，我们使用它打开文件，查看文件，安装等等，而对我们前端，最重要是查看，因为在一个BUG出现后终会看看是不是数据的问题，而这样就要查看日志了。</p>
+<p>而我也只是使用过查看的功能，因为我没有权限。</p>
+<h2 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h2><ol>
+<li>进入要目录<br>cd 目录名或路径</li>
+<li>进入”家”目录<br>cd ~</li>
+<li>进入上一次工作路径<br>cd -</li>
+<li>进入根目录<br>cd /</li>
+<li>进入上层目录<br>cd ../</li>
+</ol>
+<h2 id="pwd命令"><a href="#pwd命令" class="headerlink" title="pwd命令"></a>pwd命令</h2><p>查看当前工作目录路径</p>
+<ol>
+<li>查看当前路径<br>pwd</li>
+<li>查看软链接的实际路径<br>pwd -P</li>
+</ol>
+<h2 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h2><p>通过ls 命令不仅可以查看linux文件夹包含的文件，而且可以查看文件权限(包括目录、文件夹、文件权限)查看目录信息等等,是目前很常使用的命令，因为进入目录后不知道有什么文件，可以使用它查询</p>
+<p>参数:</p>
+<ol>
+<li>-a 列出目录所有文件，包含以.开始的隐藏文件</li>
+<li>-A 列出除.及..的其它文件</li>
+<li>-r 反序排列</li>
+<li>-t 以文件修改时间排序</li>
+<li>-S 以文件大小排序</li>
+<li>-h 以易读大小显示</li>
+<li>-l 除了文件名之外，还将文件的权限、所有者、文件大小等信息详细列出来</li>
+</ol>
+<p>使用:</p>
+<ol>
+<li>按易读方式按时间反序排序，并显示文件详细信息<br>ls -lhrt</li>
+<li>按大小反序显示文件详细信息<br>ls -lrS</li>
+<li>列出当前目录中所有以“t”开头的目录的详细内容<br>ls -l t*</li>
+<li>列出文件绝对路径（不包含隐藏文件）<br>ls | sed “s:^:<code>pwd</code>/:”</li>
+<li>列出文件绝对路径（包含隐藏文件）<br>find $pwd -maxdepth 1 | xargs ls -ld</li>
+</ol>
+<p>而我比较常用的是<br>ls -lrt<br>反序列出所有修改时间的文件信息，可以看到最新的文件在顶部</p>
+<h2 id="less命令"><a href="#less命令" class="headerlink" title="less命令"></a>less命令</h2><p>使用 less 可以随意浏览文件，之前使用view浏览文件的，但view查看会以乱码无法查看</p>
+<p>常用命令参数：<br>-i  忽略搜索时的大小写<br>-N  显示每行的行号<br>-o  &lt;文件名&gt; 将less 输出的内容在指定文件中保存起来<br>-s  显示连续空行为一行<br>/字符串：向下搜索“字符串”的功能<br>?字符串：向上搜索“字符串”的功能<br>n：重复前一个搜索（与 / 或 ? 有关）<br>N：反向重复前一个搜索（与 / 或 ? 有关）<br>-x &lt;数字&gt; 将“tab”键显示为规定的数字空格<br>b  向后翻一页<br>d  向后翻半页<br>h  显示帮助界面<br>Q  退出less 命令<br>u  向前滚动半页<br>y  向前滚动一行<br>空格键 滚动一行<br>回车键 滚动一页<br>[pagedown]： 向下翻动一页<br>[pageup]：   向上翻动一页<br>实例：</p>
+<ol>
+<li>ps查看进程信息并通过less分页显示<br>ps -aux | less -N</li>
+<li>查看多个文件<br>less 1.log 2.log<br>可以使用n查看下一个，使用p查看前一个</li>
+</ol>
+<h2 id="tail命令"><a href="#tail命令" class="headerlink" title="tail命令"></a>tail命令</h2><p>用于显示指定文件末尾内容，不指定文件时，作为输入信息进行处理。常用查看日志文件。而我是为了实时查看某个日志输出情况，而判断问题。</p>
+<p> tail -f 查看日志文件</p>
+<h2 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h2><p>强大的文本搜索命令，grep(Global Regular Expression Print)全局正则表达式搜索</p>
+<p>grep的工作方式是这样的，它在一个或多个文件中搜索字符串模板。如果模板包括空格，则必须被引用，模板后的所有字符串被看作文件名。搜索的结果被送到标准输出，不影响原文件内容。</p>
+<p>命令格式：<br>grep [option] pattern file|dir</p>
+<p>grep参数实在太多了，<a href="https://www.cnblogs.com/wangcp-2014/p/5146335.html" target="_blank" rel="noopener">请看grep资料</a></p>
+<p>实例：</p>
+<ol>
+<li>查找指定进程<br>ps -ef | grep svn</li>
+<li>查找指定进程个数<br>ps -ef | grep svn -c</li>
+<li>从文件中读取关键词<br>cat test1.txt | grep -f key.log</li>
+<li>从文件夹中递归查找以grep开头的行，并只列出文件<br>grep -lR ‘^grep’ /tmp</li>
+<li>查找非x开关的行内容<br>grep ‘^[^x]’ test.txt</li>
+<li>显示包含ed或者at字符的内容行<br>grep -E ‘ed|at’ test.txt</li>
+</ol>
+<p>而4例子是最常使用的，因为有时不知道文件在哪里。只能根据大概的文件夹，递归的寻找到文件</p>
+<p>以上都是一些查看操作权限</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#linux">
+    <span class="tag-code">linux</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/04/02/react与antDesign/">
+        <span class="nav-arrow">← </span>
+        
+          react与antDesign
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#cd命令"><span class="toc-nav-text">cd命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#pwd命令"><span class="toc-nav-text">pwd命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ls命令"><span class="toc-nav-text">ls命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#less命令"><span class="toc-nav-text">less命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#tail命令"><span class="toc-nav-text">tail命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#grep命令"><span class="toc-nav-text">grep命令</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/04/05/我所知的linux操作/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "我所知的linux操作",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/04/05/我所知的linux操作/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
