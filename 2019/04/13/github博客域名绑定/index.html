@@ -151,6 +151,7 @@
 <p><a href="https://help.aliyun.com/document_detail/106669.html?spm=5176.100251.111252.22.5d774f15RAQ3dA" target="_blank" rel="noopener">阿里云解析教程</a></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>跟着阿里云的域名解析后，打开DNS解析设置，添加记录，记录类型为CNAME，因为github不支持子域设置顶级域，所以只能重定向这样的，让github博客地址重定向到自定义域名上<br><img src="/2019/04/13/github博客域名绑定/DNS.PNG" alt="DNS"><br><img src="/2019/04/13/github博客域名绑定/tj.PNG" alt="添加"><br>打开jithub的博客仓库，然后再setting的域名地址。<br><img src="/2019/04/13/github博客域名绑定/git.PNG" alt="git"></p>
 <p>这样就可以直接使用域名访问了，但访问地址是主机名+域名，不是www+域名，如我的是blog.gitzhangzhicheng.top</p>
+<p>由于使用hexo博客，所以每次创建的CNAME都会被删除，那么就在source目录下创建CNAME，那么每次提交到会把提交上，就不会出现覆盖不见的情况。</p>
 </section>
     <!-- Tags START -->
     
