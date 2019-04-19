@@ -10,7 +10,7 @@
   
   <title>
     
-      git的协同开发使用 | 张志成博客
+      javascript类型与语句 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,8 +138,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>git的协同开发使用</h2>
-  <p class="post-date">2019-03-27</p>
+  <h2>javascript类型与语句</h2>
+  <p class="post-date">2019-04-13</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -147,34 +147,24 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在团队开发中，难免要合并代码，代码冲突，检查代码之类的，而选择一个版本维护工具是首选项，这会影响以后在代码上的把控，而我使用过svn与git，然后在体验上发现git在这方面是做的最好的，它强大的分支功能和离线状态可使用，让后期工作效率更高，在代码上更方便，而svn在这方面就很吃力，代码的合并与检查都需要人为的操作，如需要代码清单，代码比对工具等人为的检查合并代码，真心浪费时间。</p>
-<h2 id="协同流程"><a href="#协同流程" class="headerlink" title="协同流程"></a>协同流程</h2><p>不同公司，协同的方式有可能不一样。<br>而我们的流程是:</p>
-<ol>
-<li>首先fork远程源的仓库到自己的远程仓库</li>
-<li><p>使用git clone 把项目克隆到自己的本地</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 远程仓库地址</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改项目代码后检查状态，添加本地，提交本地</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 直接从主分支提交到远程的主分支上</span><br><span class="line"></span><br><span class="line">git status // 查状态</span><br><span class="line">git add . // 添加所以修改</span><br><span class="line">或</span><br><span class="line">git add 修改文件 // 可文件夹，多个文件用空格隔开</span><br><span class="line">git commit -m &quot;修改信息&quot; // 提交到本地仓库</span><br><span class="line">git remote -v // 检查关联的远程仓库，找到提交的远程仓库名称</span><br><span class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt; // 提交到远程仓库</span><br><span class="line">如: 关联的远程仓库有: myDemo、gs</span><br><span class="line">git push myDemo master</span><br><span class="line">本地的主分支推送到myDemo远程仓库里</span><br><span class="line"></span><br><span class="line">// 从创建分支提交到远程的创建分支，然后请求合并，最后合并到主分支master上</span><br><span class="line"></span><br><span class="line">git checkout -b fz // fz为分支名，这是创建分支并切换到创建分支上</span><br><span class="line">git status // 查看状态</span><br><span class="line">git diff 文件 // 根据状态查看文件，然后比较是否为需要提交的代码</span><br><span class="line">git add 文件... // 根据状态查看文件，添加文件到暂缓区</span><br><span class="line">git commit -m &quot;描述&quot; // 提交暂缓区到当前分支的本地仓库上 </span><br><span class="line">git branch // 查看所有分支，并确认分支名</span><br><span class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt; // 提交到远程仓库</span><br><span class="line">// 到远程仓库中提出合并请求</span><br><span class="line">git checkout master // 切换到主分支</span><br><span class="line">git merge fz // 合并分支到主分支</span><br><span class="line">git push &lt;远程主机名&gt; master // 把合并修改提交远程仓库的主分支上，为了同步，因为自己仓库需要自己维护，所以本地合并后提交到远程master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推到自己的远程仓库后向fork源提出合并请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点击</span><br><span class="line">pull request</span><br><span class="line">合并请求填写请求描述</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>当项目已经存在，每次提交需要拉取一份远程源地址代码然后diff比较不同，查看是否冲突，然后合并到本地代码，再进行提交，推送</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git remote add 代码源地址名称taregt 代码源地址 // 添加远程仓库关联</span><br><span class="line">git fetch git fetch taregt master:temp // 从远程的taregt仓库的master分支下载到本地并新建一个分支temp</span><br><span class="line">git diff temp // 比较本地的仓库和远程仓库的拉取到本地分支对比</span><br><span class="line">git merge temp // 合并temp分支到master分支</span><br><span class="line">git branch -d temp // 删除temp分支</span><br><span class="line"></span><br><span class="line">// 重新操作、添加、提交、推送、pull request 进行代码贡献</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001373962845513aefd77a99f4145f0a2c7a7ca057e7570000" target="_blank" rel="noopener">更多git的学习</a></p>
-<hr>
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 开始</span><br><span class="line">op1=&gt;operation: fork源项目</span><br><span class="line">op2=&gt;operation: add添加本地</span><br><span class="line">op3=&gt;operation: commit提交本地</span><br><span class="line">opt4=&gt;operation: 推送自己远程仓库</span><br><span class="line">opt5=&gt;operation: pull request</span><br><span class="line">opt6=&gt;operation: remote add 添加远程源仓库</span><br><span class="line">opt7=&gt;operation: clone克隆到本地</span><br><span class="line">opt8=&gt;operation: fetch拉取到本地仓库的新分支</span><br><span class="line">opt9=&gt;operation: diff比较主与支代码</span><br><span class="line">opt10=&gt;operation: 合并代码，删除分支</span><br><span class="line">cond=&gt;condition: 是否为初创项目?</span><br><span class="line">e=&gt;end: 结束</span><br><span class="line">st-&gt;cond</span><br><span class="line">cond(yes)-&gt;op1-&gt;opt7-&gt;opt6-&gt;op2-&gt;op3-&gt;opt4-&gt;opt5-&gt;e</span><br><span class="line">cond(no)-&gt;opt8-&gt;opt9-&gt;opt10-&gt;op2</span><br></pre></td></tr></table></figure>
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><p>语句相当于句子，表达式相当于短语，运算符相当于标点符号和连接符。<br>语句都是有结果返回的。<br>如在控制台输入一个语句，可以查看到一个返回结果。</p>
+<p>赋值表达式的副作用，就是变量被赋予某个值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var b;</span><br><span class="line">var a = 10;</span><br><span class="line">if(a &amp;&amp; (b = typeof a))&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// b就被赋值，而且也进行了校验</span><br></pre></td></tr></table></figure></p>
+<p>代码块:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[] + &#123;&#125;; // [object object]</span><br><span class="line">&#123;&#125; + []; // 0</span><br></pre></td></tr></table></figure></p>
+<p>第一行[]强制转换为””, “”+{}，被认为{}空对象<br>第二行{}被当作空的代码块，而代码块不需要分号，+[]被强制转换为数字0，如+”” === 0</p>
+<p>主要看运算符在谁前面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = false,b = true, c = false, d = true, e = false, w = false, q = false, x = true, z = true;</span><br><span class="line">a || b &amp;&amp; c?d:e &amp;&amp; w? q: x||z</span><br></pre></td></tr></table></figure>
+<p>&amp;&amp; 优先于 || 优先于 ?:</p>
+<p>优先级,=优先于”,”,用()包着可以先优先执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = 10;</span><br><span class="line">var c = (++a,a)</span><br></pre></td></tr></table></figure></p>
+<p>无论情况finally都会执行，除了finally报错，那么try的值就不会给返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    return 10;</span><br><span class="line">&#125;finally&#123;</span><br><span class="line">    console.log(&quot;finally&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>switch case比较的是和===类似，所以计较严格，类型不一样也无法匹配。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">switch(a)&#123;</span><br><span class="line">    case 10:....</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">switch(true)&#123;</span><br><span class="line">    case a == &apos;10&apos;:....</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用&amp;&amp; || 要小心，因为它返回的是值，不是布尔值</span><br></pre></td></tr></table></figure></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#git">
-    <span class="tag-code">git</span>
+  <a href="/tags#js">
+    <span class="tag-code">js</span>
   </a>
 
       </div>
@@ -185,20 +175,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2019/03/25/react的setState/">
+      <a class="nav-left" href="/2019/04/13/github博客域名绑定/">
         <span class="nav-arrow">← </span>
         
-          react的setState
+          github博客域名绑定
         
       </a>
     
-    
-      <a class="nav-right" href="/2019/04/02/react与antDesign/">
-        
-          react与antDesign
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -244,7 +227,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#协同流程"><span class="toc-nav-text">协同流程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#流程图"><span class="toc-nav-text">流程图</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#类型"><span class="toc-nav-text">类型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语句"><span class="toc-nav-text">语句</span></a></li></ol>
     
   </div>
 </aside>
@@ -254,7 +237,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2019/03/27/git的协同开发使用/';
+    var url = 'http://yoursite.com/2019/04/13/javascript类型与语句/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -310,7 +293,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "git的协同开发使用",
+        id: "javascript类型与语句",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -338,7 +321,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2019/03/27/git的协同开发使用/';
+  var disqus_url = 'http://yoursite.com/2019/04/13/javascript类型与语句/';
   
   (function(){
     var dsq = document.createElement('script');
