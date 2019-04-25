@@ -96,6 +96,9 @@ h2.article-head {
   font-size: 1.6em;
   margin-bottom: 0;
 }
+h2.article-head .article-zd {
+  font-size: 1.4em;
+}
 .article-head > a {
   color: #34495e;
 }
