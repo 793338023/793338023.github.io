@@ -186,6 +186,17 @@
 <p>问题的本质在于浏览器发出去第一次请求就被攻击者拦截了下来并做了修改，根本不给浏览器和服务器进行HTTPS通信的机会。大致过程如下，用户在浏览器里输入URL的时候往往不是从https:\//开始的，而是直接从域名开始输入，随后浏览器向服务器发起HTTP通信，然而由于攻击者的存在，它把服务器端返回的跳转到HTTPS页面的响应拦截了，并且代替客户端和服务器端进行后续的通信。由于这一切都是暗中进行的，所以使用前端应用的用户对此毫无察觉。</p>
 <p>防御:<br>使用HSTS,它通过下面这个HTTP Header以及一个预加载的清单，来告知浏览器在和网站进行通信的时候强制性的使用HTTPS，而不是通过明文的HTTP进行通信：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Strict-Transport-Security: max-age=&lt;seconds&gt;; includeSubDomains; preload</span><br></pre></td></tr></table></figure></p>
 <p><a href="https://www.jianshu.com/p/999492eb5b1a" target="_blank" rel="noopener">Strict-Transport-Security</a></p>
+<h2 id="敏感信息、错误信息暴露"><a href="#敏感信息、错误信息暴露" class="headerlink" title="敏感信息、错误信息暴露"></a>敏感信息、错误信息暴露</h2><ol>
+<li><p>由于程序员疏忽直接在页面的js以及AJAX请求返回的内容中输出参与评论用户的敏感信息，导致攻击者可以轻松获取用户的手机号，真实姓名，注册邮箱，住址甚至有可能获取用户手机的IMEI，和抽奖和抽中的游戏礼包号。泄露内容千奇百怪，遇到此类问题时，看着泄露的内容时常会被雷到。<br>而这些敏感信息很容易就会获取到客户信息。</p>
+</li>
+<li><p>由于后台的疏忽，经常会出现堆栈信息被打印到页面，而这也是很容易很推断某些信息，而进行他想的攻击。</p>
+</li>
+</ol>
+<p>防御:</p>
+<ol>
+<li>使用不对称密钥进行加密。</li>
+<li>过滤堆栈信息，打印友好话术信息。</li>
+</ol>
 </section>
     <!-- Tags START -->
     
@@ -256,7 +267,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#xss"><span class="toc-nav-text">xss</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#iframe"><span class="toc-nav-text">iframe</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CSRF"><span class="toc-nav-text">CSRF</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#点击劫持"><span class="toc-nav-text">点击劫持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#错误MIME-types被执行"><span class="toc-nav-text">错误MIME types被执行</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#不安全的第三方依赖包"><span class="toc-nav-text">不安全的第三方依赖包</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTPS被拦截降级为HTTP"><span class="toc-nav-text">HTTPS被拦截降级为HTTP</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#xss"><span class="toc-nav-text">xss</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#iframe"><span class="toc-nav-text">iframe</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CSRF"><span class="toc-nav-text">CSRF</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#点击劫持"><span class="toc-nav-text">点击劫持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#错误MIME-types被执行"><span class="toc-nav-text">错误MIME types被执行</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#不安全的第三方依赖包"><span class="toc-nav-text">不安全的第三方依赖包</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTPS被拦截降级为HTTP"><span class="toc-nav-text">HTTPS被拦截降级为HTTP</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#敏感信息、错误信息暴露"><span class="toc-nav-text">敏感信息、错误信息暴露</span></a></li></ol>
     
   </div>
 </aside>
