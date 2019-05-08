@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      前端安全问题 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>前端安全问题</h2>
+  <p class="post-date">2019-05-02</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着前端的发展，现在应用越来越庞大，而大前端的时代，也让前端独立起来，复杂起来，重要起来，而前端信息被盗用，很容易就出现严重的情况，比如信息泄露，资金损失等等，所以前端安全也是必不可少的。</p>
+<h2 id="xss"><a href="#xss" class="headerlink" title="xss"></a>xss</h2><p>xss跨站脚本攻击，是目前也是一直最流行的攻击方式，而它主要对html或js注入恶意代码，被执行后向目标服务器发送内容或篡改内容，以达到攻击的效果。</p>
+<p>xss攻击又分三种，DOM xss、反射型XSS、存储型XSS。<br>而他们的最终目的都是向html或js注入代码，所以只要防御好注入代码不被执行即可。</p>
+<p>防御:</p>
+<ol>
+<li>前端在解析html时对外部来源的代码进行<a href="http://www.cnblogs.com/lovesong/p/5211667.html" target="_blank" rel="noopener">HtmlEncode</a>既实体字符转换，对js进行<a href="http://www.cnblogs.com/lovesong/p/5211667.html" target="_blank" rel="noopener">JavaScriptEncode</a>既特殊字符进行16进制转换，以达到外部来源的代码不能以代码自执行的方式被使用。</li>
+<li>前后端通讯时后台也要对数据的特殊字符进行处理，以免回传到前端时被自动使用执行而入侵。</li>
+<li>cookie信息安全，由于cookie在前端很容易被获取，而权限泄露，所以对cookie设置HttpOnly属性，让前端无法获取到cookie，从而无法泄露出去。</li>
+</ol>
+<h2 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h2><p>iframe框架，一般都是为了让第三方的页面功能可以正常的嵌套在自己项目的页面里，以达到添加的功能，典型的例子是使用iframe在页面上添加第三方提供的广告、天气预报、社交分享插件等等。</p>
+<p>防御:<br>html5对iframe提供了sandbox的安全属性，实现“最小权限“原则，这样就可以最大限制各方面的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe sandbox src=&quot;...&quot;&gt; ... &lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" target="_blank" rel="noopener">sandbox</a></p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>CSRF跨站点请求伪造,冒充用户进行一些违背用户操作行为的事。<br>可能会造成以下影响：</p>
+<ol>
+<li>利用已通过认证的用户权限更新设定信息等；</li>
+<li>利用已通过认证的用户权限购买商品；</li>
+<li>利用已通过的用户权限在留言板上发表言论。</li>
+</ol>
+<p>CSRF就是劫持http上的登陆权限，然后冒充用户进行非法操作。</p>
+<p>防御:</p>
+<ol>
+<li>验证码:强制用户进行交互行为，以达到在终端使用。</li>
+<li>使用post方法传递参数，get方法参数在url上很容易被劫持。</li>
+<li>Referer来源限制，这个方法有缺陷，比如Referer丢失之类的，所以有点没有保障，而且也有可能被伪造。</li>
+<li>Token这是最优的解决方式，现在比较流行JWT。</li>
+</ol>
+<h2 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h2><p>利用透明的按钮或连接做成陷阱，覆盖在 Web 页面之上。然后诱使用户在不知情的情况下，点击那个连接访问内容的一种攻击手段。也叫界面伪装。<br>就是把目标页面放到iframe里，然后顶层为透明层，诱惑用户点击，触发透明层。</p>
+<p>防御:<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options" target="_blank" rel="noopener">X-FRAME-OPTIONS</a>；<br>X-FRAME-OPTIONS HTTP 响应头是用来给浏览器指示允许一个页面可否在\&lt;frame>, \&lt;iframe> 或者 \&lt;object> 中展现的标记。网站可以使用此功能，来确保自己网站内容没有被嵌到别人的网站中去，也从而避免点击劫持的攻击。</p>
+<h2 id="错误MIME-types被执行"><a href="#错误MIME-types被执行" class="headerlink" title="错误MIME types被执行"></a>错误MIME types被执行</h2><p>有些攻击会用上传文件之类的，然后在后台里储存，当被前端终端读取后，由于终端的智能手段，把把它转换为可执行的类型进行执行，想想就可怕，如某网站允许用户在评论里上传图片，攻击者在上传图片的时候，看似提交的是个图片文件，实则是个含有JavaScript的脚本文件。该文件逃过了文件类型校验（这涉及到了恶意文件上传这个常见安全问题，但是由于和前端相关度不高因此暂不详细介绍），在服务器里存储了下来。接下来，受害者在访问这段评论的时候，浏览器会去请求这个伪装成图片的JavaScript脚本，而此时如果浏览器错误的推断了这个响应的内容类型（MIME types），那么就会把这个图片文件当做JavaScript脚本执行，于是攻击也就成功了。</p>
+<p>防御:<br>通过设置<a href="https://www.jianshu.com/p/0e28d54e927b" target="_blank" rel="noopener">X-Content-Type-Options</a>这个HTTP Header明确禁止浏览器去推断响应类型。</p>
+<h2 id="不安全的第三方依赖包"><a href="#不安全的第三方依赖包" class="headerlink" title="不安全的第三方依赖包"></a>不安全的第三方依赖包</h2><p>现如今进行应用开发，就好比站在巨人的肩膀上写代码。据统计，一个应用有将近80%的代码其实是来自于第三方组件、依赖的类库等，而应用自身的代码其实只占了20%左右。无论是后端服务器应用还是前端应用开发，绝大多数时候我们都是在借助开发框架和各种类库进行快速开发。</p>
+<p>比如vue的生态包就出现过被黑的情况，安装包时 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
+<p>而依赖使用这些流行框架影响会很大。</p>
+<p>防御:<br>只能实时留意网上信息的动态，与使用安全工具对其进行扫描，以防万一，因为三方库都是很多人使用的，有问题会第一时间提出并修改。</p>
+<h2 id="HTTPS被拦截降级为HTTP"><a href="#HTTPS被拦截降级为HTTP" class="headerlink" title="HTTPS被拦截降级为HTTP"></a>HTTPS被拦截降级为HTTP</h2><p>HTTPS是在HTTP上加TLS安全传输层，TLS是建立在传输层TCP协议之上的协议，服务于应用层，它的前身是SSL，它实现了将应用层的报文进行加密后再交由TCP进行传输的功能。<br>但有TLS还是可能被攻击的，黑客可以利用SSL Stripping这种攻击手段，强制让HTTPS降级回HTTP，从而继续进行中间人攻击。</p>
+<p>问题的本质在于浏览器发出去第一次请求就被攻击者拦截了下来并做了修改，根本不给浏览器和服务器进行HTTPS通信的机会。大致过程如下，用户在浏览器里输入URL的时候往往不是从https:\//开始的，而是直接从域名开始输入，随后浏览器向服务器发起HTTP通信，然而由于攻击者的存在，它把服务器端返回的跳转到HTTPS页面的响应拦截了，并且代替客户端和服务器端进行后续的通信。由于这一切都是暗中进行的，所以使用前端应用的用户对此毫无察觉。</p>
+<p>防御:<br>使用HSTS,它通过下面这个HTTP Header以及一个预加载的清单，来告知浏览器在和网站进行通信的时候强制性的使用HTTPS，而不是通过明文的HTTP进行通信：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Strict-Transport-Security: max-age=&lt;seconds&gt;; includeSubDomains; preload</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.jianshu.com/p/999492eb5b1a" target="_blank" rel="noopener">Strict-Transport-Security</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#js">
+    <span class="tag-code">js</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/04/30/defineProperty与Proxy/">
+        <span class="nav-arrow">← </span>
+        
+          defineProperty与Proxy
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#xss"><span class="toc-nav-text">xss</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#iframe"><span class="toc-nav-text">iframe</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CSRF"><span class="toc-nav-text">CSRF</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#点击劫持"><span class="toc-nav-text">点击劫持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#错误MIME-types被执行"><span class="toc-nav-text">错误MIME types被执行</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#不安全的第三方依赖包"><span class="toc-nav-text">不安全的第三方依赖包</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTPS被拦截降级为HTTP"><span class="toc-nav-text">HTTPS被拦截降级为HTTP</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/05/02/前端安全问题/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "前端安全问题",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/05/02/前端安全问题/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
