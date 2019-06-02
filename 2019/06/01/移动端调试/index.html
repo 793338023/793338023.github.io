@@ -10,7 +10,7 @@
   
   <title>
     
-      认识TCP | 张志成博客
+      移动端调试 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,8 +138,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>认识TCP</h2>
-  <p class="post-date">2019-05-14</p>
+  <h2>移动端调试</h2>
+  <p class="post-date">2019-06-01</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -147,28 +147,53 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用过webSocket的，应该都知道它是使用TCP来实现客户端与服务端双工通道，而且连接方式是ip+端开口号，这为端到端的模式，而由于它的确认方式与断开方式多次确认避免了错误重发导致的错误连接之类的且各种方式保证了它的可靠的交付能力，而UDP在这方面就差了些，是不可靠的交付，它只负责发送，不负责确认，所以省去了很多的确认开销，可以很大的提高传送的速度，提高性能，对要求高性能的服务，一般都会使用到UDP，所以两者有得有失，看需求的倾向。</p>
-<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p><img src="/2019/05/14/认识TCP/三次握手.png" alt="三次握手"><br>第一次握手，建立连接，客户端会把SYN发给服务器，进入SYN_SEND状态，等待服务器确认，第二次握手，会确认SYN包信息，然后在接受信息上添加SYN+ACK报文段，发送给客户端，进入SYN_RECV状态，第三次握手，客户端接受到报文后向服务器发送ACK包，客户端和服务器端都进入ESTABLISHED状态。</p>
-<p>TCP进入三次握手是因为预防客户端与服务器端出现丢失包而双方的一方不知道而以为可以正常进入连接状态，这样会会出现BUG问题，就好比收快递，如果快递员只送到目的地而不告知或确认是否收到，那么快递丢失，收件员就无法收到快递而损失或不知道快递在哪，这个很不可靠的，而三次握手就会保证连接无误，因为第一次为请求连接，而服务器回应为确认连接，再到客户端的答复为已经收到确认连接，这样是不是就能明确三次握手的必要性。</p>
-<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><p><img src="/2019/05/14/认识TCP/四次挥手.png" alt="四次挥手"></p>
-<p>1）客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。<br>2）服务器收到连接释放报文，发出确认报文，ACK=1，ack=u+1，并且带上自己的序列号seq=v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。<br>3）客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。<br>4）服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。<br>5）客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>6）服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</p>
-<p>四次挥手是因为客户端的关闭与服务器端关闭都要关闭，每个都有一个请求一个回应，所以就四次。<br>在服务器关闭时客户端的TINE_WAIT是为了确认服务器端是否接受客户端的应答，如若收到，那么服务器端就不会再发送关闭请求，那么客户端在2<a href="https://baike.baidu.com/item/MSL/13975171?fr=aladdin" target="_blank" rel="noopener">MSL</a>时间后就自动认为服务器端关闭了，结束本次的TCP连接，如若收到再次请求关闭，那么就是重置时间再等待2MSL时间。</p>
-<p>MSL指一个片段在网络中最大的存活时间</p>
-<p>TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75秒钟发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。</p>
-<h2 id="可靠交付的手段"><a href="#可靠交付的手段" class="headerlink" title="可靠交付的手段"></a><a href="https://www.jianshu.com/p/4fbb48c4285d" target="_blank" rel="noopener">可靠交付的手段</a></h2><p>TCP 是一种提供可靠性交付的协议。<br>也就是说，通过 TCP 连接传输的数据，无差错、不丢失、不重复、并且按序到达。</p>
-<h3 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h3><p>TCP 报文段在传输的过程中，下面的情况都是有可能发生的：</p>
-<p>数据包中途丢失；<br>数据包顺利到达，但对方发送的 ACK 报文中途丢失；<br>数据包顺利到达，但对方异常未响应 ACK 或被对方丢弃；</p>
-<p>当出现这些异常情况时，TCP 就会超时重传。<br>TCP 每发送一个报文段，就对这个报文段设置一次计时器。只要计时器设置的重传时间到了，但还没有收到确认，就重传这一报文段，这个就叫做「超时重传」。</p>
-<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>滑动窗口协议比较复杂，也是 TCP 协议的精髓所在。<br>TCP 头里有一个字段叫 Window，叫 Advertised-Window，这个字段是接收端告诉发送端自己还有多少缓冲区可以接收数据。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来。<br>滑动窗口分为「接收窗口」和「发送窗口」<br>因为 TCP 协议是全双工的，会话的双方都可以同时接收和发送，那么就需要各自维护一个「发送窗口」和「接收窗口」。</p>
-<p>滑动窗口就是在存储有序的内容，当当前的某段内容都确认后就滑动到确认区域内，而某段内容之前有丢失的，那么后面的只能等待丢失的确认后才能有序滑到确认区域。</p>
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大前端时代，移动互联网是大趋势，而偏向移动开发，但前端开发的功能在移动上调试是比较困难的，因为无法像PC浏览器那样有各种各样的内置调试工具，而出现问题时只从页面上效果判断具体问题，这是不太可能的，如样式，在IOS和安卓上展示的效果不一致，而在开发浏览器上一点问题都没有，这就只能猜测和不断尝试，但如果对需要部署的环境且频繁拜托别人部署是很浪费时间，效率也低下，还要看别人是否愿意陪你折腾，因为你也在浪费他的时间，因此能自己一个人解决就绝对不要浪费别人的时间，而对移动开发的调试，我一般都是vConsole、weinre、fiddler。</p>
+<h2 id="vConsole"><a href="#vConsole" class="headerlink" title="vConsole"></a>vConsole</h2><p>主要使用在需要打印console的内容而能像pc浏览器一样有控制台，当然它也有其他的功能，但对我而言Log是最重要的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install vconsole</span><br><span class="line">import VConsole from &apos;vconsole/dist/vconsole.min.js&apos; //import vconsole</span><br><span class="line">let vConsole = new VConsole() // 初始化</span><br><span class="line"></span><br><span class="line">console.log(&apos;test.....&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/06/01/移动端调试/v1.png" alt="vConsole"><br><img src="/2019/06/01/移动端调试/v2.png" alt="vConsole"></p>
+<h2 id="weinre"><a href="#weinre" class="headerlink" title="weinre"></a>weinre</h2><p>weinre是一款还不错的远程调试工具。功能与网页浏览器的开发者工具基本类似，适合用于移动端web的调试，但可能会用起来不顺手，因为它只是实现了浏览器调式的一部分功能，而且它的调式界面有点简陋，功能运用上没有浏览器调试那么便捷，但它比VConsole功能强大一些，也包含了它的功能。<br>而它最好的地方在于可以在Elements对样式的修改可以动态的修改到远端的样式，这就和在浏览器上调式样式一样，很不错的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm -g install weinre</span><br><span class="line">weinre --httpPort 8081 --boundHost -all-</span><br><span class="line"></span><br><span class="line">主要参数解析：</span><br><span class="line">httpPort	调试服务器运行的端口，默认8080</span><br><span class="line">boundHost	调试服务器绑定的IP地址或域名，默认localhost</span><br></pre></td></tr></table></figure>
+<p>运行后打开localhost:8081 调式界面<br><img src="/2019/06/01/移动端调试/w1.png" alt="weinre"></p>
+<p>Elements的tab页里可以对元素进行样式调整，而选中样式也会在移动出现被选中的效果，如果没有重新刷新一下，因为它实现与远端同步是使用轮询方式实现的，如果请求有问题了，只能重新来，就是刷新，这一点我觉得体验效果很差。</p>
+<p><img src="/2019/06/01/移动端调试/w2.png" alt="weinre"></p>
+<h2 id="fiddler"><a href="#fiddler" class="headerlink" title="fiddler"></a>fiddler</h2><p>Fiddler是强大的抓包工具，它的原理是以web代理服务器的形式进行工作的。<br>而且Fiddler的用途很广，但这里就介绍一下怎么进行移动端的调式。<br>Fiddler它的简单原理就是拦截请求，伪造请求返回给客户端。</p>
+<h3 id="远程抓取手机数据配置"><a href="#远程抓取手机数据配置" class="headerlink" title="远程抓取手机数据配置"></a>远程抓取手机数据配置</h3><ol>
+<li>配置fiddler允许监听到https（fiddler默认只抓取http格式的）<br>打开Fiddler菜单项Tools-&gt;Options-&gt;HTTPS<br>勾选CaptureHTTPS CONNECTs,勾选Decrypt HTTPS traffic和Ignore servercertificate errors两项,点击OK（首次点击会弹出是否信任fiddler证书和安全提示，直接点击yes就行）</li>
+</ol>
+<p><img src="/2019/06/01/移动端调试/f1.png" alt="fiddler"></p>
+<ol start="2">
+<li>配置fiddler允许远程连接</li>
+</ol>
+<p>Tools-&gt;Options-&gt;Connections，勾选allow remote computers to connect，默认监听端口为8888（下图Fiddler listens on port就是端口号），若端口被占用可以设置成其他的，配置好后要重新启动fiddler</p>
+<p><img src="/2019/06/01/移动端调试/f2.png" alt="fiddler"></p>
+<ol start="3">
+<li>对手机端进行参数配置</li>
+</ol>
+<p>首先要保证手机和电脑都处于同一个WIFI网络；</p>
+<p>然后要知道电脑的ip地址（当然这个电脑是安装fiddler的电脑），电脑ip地址可通过cmd，输入ipconfig查询，或网络共享中ipv4找到，我的是192.168.0.103。</p>
+<p>再者要知道fiddler的端口号，Tools-&gt;Options-&gt;Connections，port中值就是端口号，一般默认为8888；接下来开始操作手机；</p>
+<p>手机打开浏览器输入<a href="http://ip:端口号，如http://192.168.0.103:8888，会打开https证书下载地址，点击FiddlerRootcertificate下载证书。" target="_blank" rel="noopener">http://ip:端口号，如http://192.168.0.103:8888，会打开https证书下载地址，点击FiddlerRootcertificate下载证书。</a></p>
+<p><img src="/2019/06/01/移动端调试/f3.png" alt="fiddler"></p>
+<p>找到手机上证书安装设置，记住证书下载地址，然后在证书安装设置找到证书安装,由于手机不一样，证书安装设置也不一样，需要自己百度自己的手机证书怎么安装。<br><a href="https://blog.csdn.net/qq_39720249/article/details/81069929" target="_blank" rel="noopener">具体参考</a></p>
+<ol start="4">
+<li>更改手机无线网的代理<br>在手机的WiFi那里的高级设置，代理选择手动，主机名就是fiddler的电脑ip地址，端口号，就是fiddler的端口号，与浏览器中ip：端口号保持一致，点击确定即可。</li>
+</ol>
+<p>这个无线代理设置也是手机不一样设置也有些不一样，需要自己百度查看自己的手机类型怎么设置。</p>
+<p><a href="https://www.jb51.net/article/136052.htm" target="_blank" rel="noopener">具体参考</a></p>
+<h3 id="fiddler使用"><a href="#fiddler使用" class="headerlink" title="fiddler使用"></a>fiddler使用</h3><p>目前经常使用的Inspectors与AutoResponse。</p>
+<p>Inspectors可以查看到请求中所有报文数据，如header，报文体，返回数据，而且可以查看不同数据类型的数据，如json，图片等</p>
+<p>AutoResponse可以拦截转发预期的请求然后返回客户端，这是一个很强大的功能。<br>要勾选上Enable rules 与 Unmatched requests passthrough<br><img src="/2019/06/01/移动端调试/f4.png" alt="fiddler"></p>
+<p>这样我们可以把请求转发到本地的某个文件，然后实现类似如mock数据那样，但不对代码进行调正，只是把请求转发，而我们就可以修改本地的数据，实现到请求数据为我们修改的预期数据，如样式修改，我们把样式文件的请求转发的本地目标样式文件，然后修改本地样式文件就可以刷新查看到重新请求的样式可进行了调整。</p>
+<p>如果拦截不生效，是缓存问题或者配置问题，所以要注意。</p>
+<p>正则匹配可以使用$1\$2…等选中匹配中的第几个子串，这和正则一样。<br><img src="/2019/06/01/移动端调试/f5.png" alt="fiddler"><br>资料:<br><a href="https://www.cnblogs.com/frostbelt/archive/2012/08/24/2654658.html" target="_blank" rel="noopener">Fiddler AutoResponse</a><br><a href="https://www.cnblogs.com/pachongshangdexuebi/p/6601363.html" target="_blank" rel="noopener">AutoResponder正则匹配</a><br><a href="https://blog.csdn.net/chniccs/article/details/79640498" target="_blank" rel="noopener">fiddler正则匹配2</a></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#tcp">
-    <span class="tag-code">tcp</span>
+  <a href="/tags#调试">
+    <span class="tag-code">调试</span>
   </a>
 
       </div>
@@ -179,20 +204,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2019/05/02/前端安全问题/">
+      <a class="nav-left" href="/2019/05/14/认识TCP/">
         <span class="nav-arrow">← </span>
         
-          前端安全问题
+          认识TCP
         
       </a>
     
-    
-      <a class="nav-right" href="/2019/06/01/移动端调试/">
-        
-          移动端调试
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -238,7 +256,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三次握手"><span class="toc-nav-text">三次握手</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四次挥手"><span class="toc-nav-text">四次挥手</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#可靠交付的手段"><span class="toc-nav-text">可靠交付的手段</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#超时重传"><span class="toc-nav-text">超时重传</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#滑动窗口"><span class="toc-nav-text">滑动窗口</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#vConsole"><span class="toc-nav-text">vConsole</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#weinre"><span class="toc-nav-text">weinre</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#fiddler"><span class="toc-nav-text">fiddler</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#远程抓取手机数据配置"><span class="toc-nav-text">远程抓取手机数据配置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#fiddler使用"><span class="toc-nav-text">fiddler使用</span></a></li></ol></li></ol>
     
   </div>
 </aside>
@@ -248,7 +266,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2019/05/14/认识TCP/';
+    var url = 'http://yoursite.com/2019/06/01/移动端调试/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -304,7 +322,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "认识TCP",
+        id: "移动端调试",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -332,7 +350,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2019/05/14/认识TCP/';
+  var disqus_url = 'http://yoursite.com/2019/06/01/移动端调试/';
   
   (function(){
     var dsq = document.createElement('script');
