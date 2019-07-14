@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      使用gulp制作组件化工具 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>使用gulp制作组件化工具</h2>
+  <p class="post-date">2019-07-10</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在组件化是流行的一种方式，但一般我们都是只是制作适用于当前项目的组件，如使用react、vue、angular等前端架构项目，然后把当前复用性比较高的功能抽取出来封装成组件，然后组件有可能是可以使用到另外一个类似项目中去，但目前我们抽取的组件只是限制于在当前项目中，别的项目是没有办法引用这个组件的，那么另外的项目就要重新开发这部分的组件，那么就会做了重复工作了，而且以后同步更新也要修改两套代码，而这时把组件打包放到npm上就是可以解决这个重复工作，因为组件的维护都在组件化的项目包里，项目只要使用就行了。</p>
+<h2 id="webpack、rollup与gulp选择"><a href="#webpack、rollup与gulp选择" class="headerlink" title="webpack、rollup与gulp选择"></a>webpack、rollup与gulp选择</h2><h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><p>WebPack是一种模块化的解决方案。<br>Webpack的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个浏览器可识别的JavaScript文件，但为了更加完美兼容，打包文件里添加了很多代码使文件的可读性很差。</p>
+<p>webpack兼容性等完善，在应用上开发很适合。</p>
+<h3 id="rollup"><a href="#rollup" class="headerlink" title="rollup"></a>rollup</h3><p>rollup的功能与webpack类似，rollup 相对 webpack 而言，要小巧、代码干净利落一些，但不具备 webpack 的一些强大的功能，如热更新，代码分割，公共依赖提取等。<br>而vue、react等使用它进行打包，但它的插件、loader之类比较少，使用的人也比较少，遇到问题难以从网上寻到答案。</p>
+<p>在熟悉它的情况开发类库是不错的选择。</p>
+<h3 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h3><p>Gulp侧重于前端开发的整个过程的控制管理（像是流水线），我们可以通过给gulp配置不同的task（通过Gulp中的gulp.task()方法配置，比如启动server、sass/less预编译、文件的合并压缩等等）来让gulp实现不同的功能，从而构建整个前端开发流程。</p>
+<p>而gulp不会根据文件的引入别的文件而把引入文件也打包了，它只会根据当前文件打包，而代码合并之类的都需要自己实现task来实现。<br>所以在打包多文件时会简单很多且自由度高，因为gulp以文件流的形式输入输出，可以对此进行一些操作来实现添加一些逻辑达到某些需要的目标，而webpack在这方面就复杂很多，需要自己实现插件来完成某些特殊要求。</p>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>目前标准:</p>
+<ol>
+<li>打包出干净的代码，可读性号</li>
+<li>根据组件打包出多个组件文件夹与多个组件文件，包含ts文件</li>
+<li>可以被babel-plugin-import或ts-import-plugin 实现组件的按需引入</li>
+<li>样式文件抽离</li>
+<li>打包后的为 es与lib 模块</li>
+<li>第三方包排除打包</li>
+</ol>
+<p>实现起来简单且符合以上条件，webpack不符合，rollup勉强符合，但实现多文件与排除第三方等需要多次执行rollup配置，遍历的执行，重复执行很多没有必要的重复内容等等，gulp对多文件打包友好，且可操作流程内容。</p>
+<p>gulp适合。</p>
+<h2 id="gulp实现打包"><a href="#gulp实现打包" class="headerlink" title="gulp实现打包"></a>gulp实现打包</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">|-- gulp打包文件目录</span><br><span class="line">    |-- package.json</span><br><span class="line">    |-- bin                 // 安装后可执行的命令文件夹</span><br><span class="line">    |   |-- rzzc-tool-run.js</span><br><span class="line">    |   |-- rzzc-tool.js</span><br><span class="line">    |-- demo               // 例子文件夹</span><br><span class="line">    |   |-- components</span><br><span class="line">    |       |-- index.tsx</span><br><span class="line">    |       |-- an-test</span><br><span class="line">    |       |   |-- index.tsx</span><br><span class="line">    |       |   |-- style</span><br><span class="line">    |       |       |-- index.scss</span><br><span class="line">    |       |       |-- index.tsx</span><br><span class="line">    |       |-- style</span><br><span class="line">    |       |   |-- index.scss</span><br><span class="line">    |       |   |-- index.tsx</span><br><span class="line">    |       |-- t-ainamte</span><br><span class="line">    |           |-- index.tsx</span><br><span class="line">    |           |-- tAnimateUtil.tsx</span><br><span class="line">    |           |-- img</span><br><span class="line">    |           |   |-- 123.jpg</span><br><span class="line">    |           |-- style</span><br><span class="line">    |               |-- index.scss</span><br><span class="line">    |               |-- index.tsx</span><br><span class="line">    |-- gulpConfig           // gulp 配置文件夹</span><br><span class="line">        |-- babel.js</span><br><span class="line">        |-- gulpfile.js</span><br><span class="line">        |-- postcssConfig.js</span><br><span class="line">        |-- utils.js</span><br></pre></td></tr></table></figure>
+<h3 id="使用到的插件"><a href="#使用到的插件" class="headerlink" title="使用到的插件"></a>使用到的插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">gulp</span><br><span class="line"></span><br><span class="line">// typescript转换es6 </span><br><span class="line">gulp-typescript</span><br><span class="line">typescript</span><br><span class="line"></span><br><span class="line">// es6 转换成符合浏览器执行版本的js，如es5</span><br><span class="line">gulp-babel</span><br><span class="line">@babel/core</span><br><span class="line">@babel/plugin-proposal-class-properties // class类属性转换</span><br><span class="line">@babel/plugin-proposal-decorators  // 装饰器转换</span><br><span class="line">@babel/plugin-transform-runtime</span><br><span class="line">@babel/preset-env</span><br><span class="line">@babel/preset-react // react转换</span><br><span class="line"></span><br><span class="line">// sass转换css</span><br><span class="line">gulp-sass</span><br><span class="line">node-sass</span><br><span class="line">// css3兼容性处理</span><br><span class="line">gulp-postcss</span><br><span class="line">rucksack-css</span><br><span class="line">autoprefixer</span><br><span class="line"></span><br><span class="line">// react与react-dom的typescript类型    </span><br><span class="line">@types/react</span><br><span class="line">@types/react-dom</span><br><span class="line"></span><br><span class="line">// 其他</span><br><span class="line">merge2 // 合并gulp任务，按顺序执行</span><br><span class="line">rimraf // 删除文件或文件夹</span><br><span class="line">through2 // 流输出的封装处理</span><br><span class="line">colorful // 颜色</span><br><span class="line">commander // 自定义指令</span><br></pre></td></tr></table></figure>
+<h3 id="gulp配置文件目录分析"><a href="#gulp配置文件目录分析" class="headerlink" title="gulp配置文件目录分析"></a>gulp配置文件目录分析</h3><ol>
+<li>babel.js 相当于 .babelrc 文件</li>
+<li>postcssConfig.js css的转换处理文件</li>
+<li>utils.js 工具文件，如获取执行路径之类</li>
+<li>gulpfile.js gulp的配置文件</li>
+</ol>
+<p>require.resolve 输入的path会以node_modules里为起点查询，然后输出绝对路径，不存在会报错。</p>
+<p>process.cwd() 当前执行node的路径</p>
+<p>through2 函数接受的三个参数 file-文件流, encoding-字符编码, next-触发执行下一步流程<br>文件内容在file.content里，对file.content转换字符编码就可以正常操作，如file.content.toString(encoding)<br>操作完后使用Buffer.from转换为二进制内容，既文件流格式</p>
+<h3 id="按需加载与组件文件夹"><a href="#按需加载与组件文件夹" class="headerlink" title="按需加载与组件文件夹"></a>按需加载与组件文件夹</h3><p>typescript按需加载: ts-import-plugin<br>babel按需加载: babel-plugin-import<br>由于使用的是antd的配套按需加载插件，那么一般按一定的目录结构开发才能很好的便利使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">an-test</span><br><span class="line">    |-- index.tsx // 组件入口</span><br><span class="line">    |-- style     // 组件样式文件夹</span><br><span class="line">    |-- index.scss// 组件样式</span><br><span class="line">    |-- index.tsx // 按需加载时加载的样式文件引用</span><br></pre></td></tr></table></figure>
+<p>以上的结构是最好兼容开发的，但也可以自定义,只是只能自定义css。</p>
+<p>自定义按需加载:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    libraryName: &apos;antd&apos;,</span><br><span class="line">    libraryDirectory: &apos;es&apos;,</span><br><span class="line">    style: importPath=&gt;&#123;</span><br><span class="line">        return importPath+&quot;/style.css&quot;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">importPath  组件问价夹路径</span><br><span class="line">拼接上组件css路径</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置打包目录与清除目录"><a href="#配置打包目录与清除目录" class="headerlink" title="配置打包目录与清除目录"></a>配置打包目录与清除目录</h2><p>在package.json中自定义一个customParams字段;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&quot;customParams&quot;: &#123;</span><br><span class="line">    &quot;scanRoot&quot;: &quot;demo/components&quot;,</span><br><span class="line">    &quot;typeRoot&quot;: &quot;demo/typings&quot;,</span><br><span class="line">    &quot;clean&quot;: [</span><br><span class="line">      &quot;es&quot;,</span><br><span class="line">      &quot;lib&quot;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据 scanRoot与typeRoot 把组件打包到es与lib<br>根据 clean 清除目标目录</p>
+<h3 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h3><p>在package.json的bin里定义自定义指令名称与入口文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;bin&quot;: &#123;</span><br><span class="line">    &quot;rzzc-tool&quot;: &quot;./bin/rzzc-tool.js&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>使用commander在代码里执行node的命令，如cli脚手架之类的指令。</p>
+<p>首先定义解析语言<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env node</span><br><span class="line"></span><br><span class="line">只能文件顶部加才能生效</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">  .version(packageInfo.version)</span><br><span class="line">  .command(&apos;run [name]&apos;, &apos;run specified task&apos;)</span><br><span class="line">  .parse(process.argv);</span><br></pre></td></tr></table></figure>
+<p>执行子命令，会找到当前文件名加上run,如rzzc-tool.js，那么子命令文件就是rzzc-tool-run.js,然后执行它。<br>[name] 为参数,这里为gulp执行任务的名称，可以从program.args中获取。<br>加载gulp配置文件，然后使用gulp.task(name)返回值再调用就会执行当前任务。<br>如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const c=gulp.task(&apos;clean&apos;);</span><br><span class="line">c(); // 就执行清除任务</span><br></pre></td></tr></table></figure></p>
+<h2 id="npm发布"><a href="#npm发布" class="headerlink" title="npm发布"></a>npm发布</h2><ol>
+<li><p>登陆账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm login # 输入用户名 密码</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>publish</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish # 需要确保 package.json version 与上一个版本不一样</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>版本的更加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 小版本更改 如从1.0.1-&gt;1.0.2</span><br><span class="line">npm version patch </span><br><span class="line">// 中版本更改 如从1.0.1-&gt;1.1.0</span><br><span class="line">npm version minor</span><br><span class="line">// 大版本更改 如从1.0.1-&gt;2.0.1</span><br><span class="line">npm version major</span><br></pre></td></tr></table></figure></p>
+<p>注:<br>可以npm下载下来配置环境然后打包，也可以github下载下来webpack与gulp配合打包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装</span><br><span class="line">npm install --save-dev rzzc-tool</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/793338023/npm-rzzc-tool" target="_blank" rel="noopener">具体代码查看github</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#gulp">
+    <span class="tag-code">gulp</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/06/29/linux001/">
+        <span class="nav-arrow">← </span>
+        
+          linux001
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#webpack、rollup与gulp选择"><span class="toc-nav-text">webpack、rollup与gulp选择</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#webpack"><span class="toc-nav-text">webpack</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#rollup"><span class="toc-nav-text">rollup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#gulp"><span class="toc-nav-text">gulp</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#选择"><span class="toc-nav-text">选择</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#gulp实现打包"><span class="toc-nav-text">gulp实现打包</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#目录"><span class="toc-nav-text">目录</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使用到的插件"><span class="toc-nav-text">使用到的插件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#gulp配置文件目录分析"><span class="toc-nav-text">gulp配置文件目录分析</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#按需加载与组件文件夹"><span class="toc-nav-text">按需加载与组件文件夹</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#配置打包目录与清除目录"><span class="toc-nav-text">配置打包目录与清除目录</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#自定义指令"><span class="toc-nav-text">自定义指令</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#npm发布"><span class="toc-nav-text">npm发布</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/07/10/使用gulp制作组件化工具/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "使用gulp制作组件化工具",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/07/10/使用gulp制作组件化工具/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

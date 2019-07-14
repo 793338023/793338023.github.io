@@ -10,7 +10,7 @@
   
   <title>
     
-      github博客网站构建 | 张志成博客
+      linux001 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,8 +138,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>github博客网站构建</h2>
-  <p class="post-date">2018-12-27</p>
+  <h2>linux001</h2>
+  <p class="post-date">2019-06-29</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -147,23 +147,21 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直打算使用github搭建自己的博客地址，而且看起来还不错的，但ssh的问题一直都提交不成功，一度不放弃了很多次，但在最后还是成功了。<br><a href="https://www.cnblogs.com/jackyroc/p/7681938.html" target="_blank" rel="noopener">前面的构建可以参考</a></p>
-<h2 id="ssh问题解决"><a href="#ssh问题解决" class="headerlink" title="ssh问题解决"></a>ssh问题解决</h2><p>1、首先我得重新在git设置一下身份的名字和邮箱（因为当初都忘了设置啥了，因为遇到坑了）进入到需要提交的文件夹底下（因为直接打开git Bash，在没有路径的情况下，根本没！法！改！刚使用git时遇到的坑。。。）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"yourname"</span>·</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email“your@email.com<span class="string">"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：yourname是你要设置的名字，your@email是你要设置的邮箱。</span><br></pre></td></tr></table></figure>
-<p>2、删除.ssh文件夹（直接搜索该文件夹）下的known_hosts(手动删除即可，不需要git）<br>3、git输入命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your@email.com"</span>（请填你设置的邮箱地址）</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">接着出现：</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/Users/your_user_directory/.ssh/id_rsa):</span><br><span class="line">请直接按下回车</span><br><span class="line">然后系统会自动在.ssh文件夹下生成两个文件，id_rsa和id_rsa.pub，用记事本打开id_rsa.pub</span><br><span class="line">将全部的内容复制</span><br></pre></td></tr></table></figure>
-<p>注意输入完ssh-keygen这个后出现的都回车，不要输入东西。<br>那么就可以出现在git中输入命令：<br>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a><br>然后会跳出一堆话。。<br>输入命令：yes<br>不是没有yes这个命令输入，并且也无法提交。</p>
-<p><a href="https://blog.csdn.net/jingtingfengguo/article/details/51892864" target="_blank" rel="noopener">资料</a></p>
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="linux的软件使用"><a href="#linux的软件使用" class="headerlink" title="linux的软件使用"></a>linux的软件使用</h2><p>安装VMware,配置虚拟机，加载镜像，使用NAT网络链接，安装VMTOOls，这样就是使用共享文件夹。<br>远程登陆，安装xshell与xftp，xshell操作命令，xftp传输文件，使用sftp。<br>sshd:守护进程，端口号为22<br>一般ftp与远程登陆xshell都使用sshd的端口号22<br>如果出现登陆不了远程的linux，可以查看一下sshd是否开启，命令setup，网络服务<br>查看ip地址ifconfig</p>
+<h2 id="vi与vim"><a href="#vi与vim" class="headerlink" title="vi与vim"></a>vi与vim</h2><p>所有的linux系统都会内建vi文本编辑器。<br>vim具有程序编辑能力，是vi的增强版，对程序编辑友好，可以代码补全等功能。</p>
+<p>三个模式:<br>1) 正常模式<br>以 vim 打开一个档案就直接进入一般模式了(这是默认的模式)。在这个模式中， 你可以使用『上下左右』 按键来移动光标，你可以使用『删除字符』 或『删除整行』 来处理档案内容，也可以使用『复制、贴上』 来处理你的文件数据。</p>
+<p>2) 插入模式<br>按下i, I, o, O, a, A, r, R等任何一个字母之后才会进入编辑模式, 一般来说按i即可。</p>
+<p>3) 命令行模式<br>在这个模式当中， 可以提供你相关指令，完成读取、存盘、替换、离开 vim 、显示行号等的动作则是在此模式中达成的！</p>
+<p>使用vim进入一般为正常模式，然后按下i等进入插入模式，退出插入模式就是命令行模式。</p>
+<p>常用操作:<br>1)vim 进入或创建文件，按下i进入编辑模式，编辑完，按ESC退出编辑模式，按下:wq保存修改，:q 在没有修改情况退出正常模式，:q! 强制退出。<br>2) 正常模式,拷贝当前行 yy , 拷贝当前行向下的5行 5yy，并粘贴 p。<br>3) 正常模式,删除当前行 dd , 删除当前行向下的5行 5dd<br>4) 正常模式,在文件中查找某个单词 [命令行下 /关键字 ， 回车 查找 , 输入 n 就是查找下一个 ]<br>5) 正常模式,设置文件的行号，取消文件的行号.[命令行下 : set nu 和 :set nonu]<br>6) 正常模式,使用快捷键到底文档的最末行[G]和最首行[gg]<br>7) 插入模式，在一个文件中输入 “hello” ,然后正常模式撤销这个动作 u<br>8) 正常模式,并将光标移动到 20行 shift+g</p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#github">
-    <span class="tag-code">github</span>
+  <a href="/tags#linux">
+    <span class="tag-code">linux</span>
   </a>
 
       </div>
@@ -174,10 +172,17 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-    
-      <a class="nav-right" href="/2019/01/07/es6语法使用之大全/">
+      <a class="nav-left" href="/2019/06/05/IOS对FormData、File兼容性/">
+        <span class="nav-arrow">← </span>
         
-          es6语法使用之大全
+          IOS对FormData、File兼容性
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2019/07/10/使用gulp制作组件化工具/">
+        
+          使用gulp制作组件化工具
         
         <span class="nav-arrow"> →</span>
       </a>
@@ -226,7 +231,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ssh问题解决"><span class="toc-nav-text">ssh问题解决</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#linux的软件使用"><span class="toc-nav-text">linux的软件使用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#vi与vim"><span class="toc-nav-text">vi与vim</span></a></li></ol>
     
   </div>
 </aside>
@@ -236,7 +241,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/12/27/github博客网站构建/';
+    var url = 'http://yoursite.com/2019/06/29/linux001/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -292,7 +297,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "github博客网站构建",
+        id: "linux001",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -320,7 +325,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2018/12/27/github博客网站构建/';
+  var disqus_url = 'http://yoursite.com/2019/06/29/linux001/';
   
   (function(){
     var dsq = document.createElement('script');
