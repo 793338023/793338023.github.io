@@ -150,11 +150,11 @@
 <p>cconsole的地方为循环调用的，而且是交替的，那么就会意义很难懂。</p>
 <p>而最好的调式的方式应该是可以查看调用栈，那么就可以追踪问题的行为，而判断BUG怎么修复。</p>
 <h2 id="调试方式-console"><a href="#调试方式-console" class="headerlink" title="调试方式-console"></a>调试方式-console</h2><p>在一般知道问题所在的情况下是console可以简单的快速定位问题原因，而且console量大是可以分组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 分组方式</span><br><span class="line">console.group()</span><br><span class="line">console.log(&quot;问题打印&quot;);</span><br><span class="line">console.groupEnd();</span><br></pre></td></tr></table></figure></p>
-<h2 id="调试方式-Sources"><a href="#调试方式-Sources" class="headerlink" title="调试方式-Sources"></a>调试方式-Sources</h2><p><img src="chrome调试查找问题根源\s.png" alt="chrome调试查找问题根源"><br>打开Sources可以用来查看页面的源文件，里面包含了debugger调式，这是重点。<br>ctrl+p查找目标文件，当然也可以使用console打印后找到目标文件,点击红圈就可以跳转到目标文件。<br><img src="chrome调试查找问题根源\console.PNG" alt="console"></p>
+<h2 id="调试方式-Sources"><a href="#调试方式-Sources" class="headerlink" title="调试方式-Sources"></a>调试方式-Sources</h2><p><img src="/2019/04/27/chrome调试查找问题根源/s.png" alt="chrome调试查找问题根源"><br>打开Sources可以用来查看页面的源文件，里面包含了debugger调式，这是重点。<br>ctrl+p查找目标文件，当然也可以使用console打印后找到目标文件,点击红圈就可以跳转到目标文件。<br><img src="/2019/04/27/chrome调试查找问题根源/console.PNG" alt="console"></p>
 <p>而debugger后可以使用-&gt;来一步一步走完所有的调用，这样可以更仔细的查找到问题，当不知道问题具体在哪时。</p>
-<p><img src="chrome调试查找问题根源\call.PNG" alt="调用栈"><br>Call Stack是当前debugger过程的调用栈，可以使用它查看到之前的调用过程，从而推断问题，而且点击对应的调用可以跳转到对应的调用方法上，这样就会可以查看当前调用的信息，但旧的浏览器还不可查看那些调用信息，还有watch是把某些变量放入，方面之后debugger执行查看到当前监控变量的值变化，Scope当前调用方法的作用域的变量值，BreakPoints为所拥有的debugger数和具体的debugger，可以在这里删除debugger，因为有时不知道debugger在哪里打，那么在这里移除是最好的，当前还有其他几个，但暂时没有使用到。</p>
+<p><img src="/2019/04/27/chrome调试查找问题根源/call.PNG" alt="调用栈"><br>Call Stack是当前debugger过程的调用栈，可以使用它查看到之前的调用过程，从而推断问题，而且点击对应的调用可以跳转到对应的调用方法上，这样就会可以查看当前调用的信息，但旧的浏览器还不可查看那些调用信息，还有watch是把某些变量放入，方面之后debugger执行查看到当前监控变量的值变化，Scope当前调用方法的作用域的变量值，BreakPoints为所拥有的debugger数和具体的debugger，可以在这里删除debugger，因为有时不知道debugger在哪里打，那么在这里移除是最好的，当前还有其他几个，但暂时没有使用到。</p>
 <h2 id="调式方式-error"><a href="#调式方式-error" class="headerlink" title="调式方式-error"></a>调式方式-error</h2><p>当控制台报错时，会有报错信息与调用栈信息，而一般报错信息只能判断是什么原因，不能定位问题所在，而这时不用调用栈时很被动的，因为只有报错信息与简单的文件报错位置，在复杂的场景下是不够定位问题的，而这时调用栈的信息就可以让我们推断出问题所在，因为他与以上的debugger的调用栈是一样的，所以可以追踪的到的调用行为，以推断出问题，以想出对应的解决方法。</p>
-<p><img src="chrome调试查找问题根源\e.PNG" alt="调用栈"></p>
+<p><img src="/2019/04/27/chrome调试查找问题根源/e.PNG" alt="调用栈"></p>
 <p>调式方式有很多种，如请求问题，可以查看network等等，优化可以Memory等，这些都很好，但我觉得调用栈才是定位问题的最佳方式，因为如果你知道问题的行为，那么你就相当如知道具体的问题在哪里出现，就可以直接针对修复，而现在的日志系统也是趋向用户行为分析来定位具体的问题，所以知道行为就是知道具体问题。</p>
 </section>
     <!-- Tags START -->
@@ -386,5 +386,5 @@
 <!-- Baidu Tongji -->
 
 <script src="/js/script.js"></script>
-  </body>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
 </html>

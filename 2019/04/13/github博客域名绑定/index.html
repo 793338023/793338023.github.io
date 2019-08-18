@@ -148,7 +148,7 @@
   <article class="post-article">
     <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>阿里云的域名就挺不错的，还有免费的SSL，就是不稳定，而好的年费上千，而区其他的地方购买域名有点坑，可能解析不成功或感觉卡BUG。</p>
 <p><a href="https://help.aliyun.com/document_detail/106669.html?spm=5176.100251.111252.22.5d774f15RAQ3dA" target="_blank" rel="noopener">阿里云解析教程</a></p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>跟着阿里云的域名解析后，打开DNS解析设置，添加记录，记录类型为CNAME，因为github不支持子域设置顶级域，所以只能重定向这样的，让github博客地址重定向到自定义域名上<br><img src="github博客域名绑定\DNS.PNG" alt="DNS"><br><img src="github博客域名绑定\tj.PNG" alt="添加"><br>打开jithub的博客仓库，然后再setting的域名地址。<br><img src="github博客域名绑定\git.PNG" alt="git"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>跟着阿里云的域名解析后，打开DNS解析设置，添加记录，记录类型为CNAME，因为github不支持子域设置顶级域，所以只能重定向这样的，让github博客地址重定向到自定义域名上<br><img src="/2019/04/13/github博客域名绑定/DNS.PNG" alt="DNS"><br><img src="/2019/04/13/github博客域名绑定/tj.PNG" alt="添加"><br>打开jithub的博客仓库，然后再setting的域名地址。<br><img src="/2019/04/13/github博客域名绑定/git.PNG" alt="git"></p>
 <p>这样就可以直接使用域名访问了，但访问地址是主机名+域名，不是www+域名，如我的是blog.gitzhangzhicheng.top</p>
 <p>由于使用hexo博客，所以每次创建的CNAME都会被删除，那么就在source目录下创建CNAME，那么每次提交到会把提交上，就不会出现覆盖不见的情况。</p>
 </section>
@@ -381,5 +381,5 @@
 <!-- Baidu Tongji -->
 
 <script src="/js/script.js"></script>
-  </body>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
 </html>
