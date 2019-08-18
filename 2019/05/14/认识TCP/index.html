@@ -147,9 +147,9 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用过webSocket的，应该都知道它是使用TCP来实现客户端与服务端双工通道，而且连接方式是ip+端开口号，这为端到端的模式，而由于它的确认方式与断开方式多次确认避免了错误重发导致的错误连接之类的且各种方式保证了它的可靠的交付能力，而UDP在这方面就差了些，是不可靠的交付，它只负责发送，不负责确认，所以省去了很多的确认开销，可以很大的提高传送的速度，提高性能，对要求高性能的服务，一般都会使用到UDP，所以两者有得有失，看需求的倾向。</p>
-<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p><img src="/2019/05/14/认识TCP/三次握手.png" alt="三次握手"><br>第一次握手，建立连接，客户端会把SYN发给服务器，进入SYN_SEND状态，等待服务器确认，第二次握手，会确认SYN包信息，然后在接受信息上添加SYN+ACK报文段，发送给客户端，进入SYN_RECV状态，第三次握手，客户端接受到报文后向服务器发送ACK包，客户端和服务器端都进入ESTABLISHED状态。</p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p><img src="认识TCP/三次握手.png" alt="三次握手"><br>第一次握手，建立连接，客户端会把SYN发给服务器，进入SYN_SEND状态，等待服务器确认，第二次握手，会确认SYN包信息，然后在接受信息上添加SYN+ACK报文段，发送给客户端，进入SYN_RECV状态，第三次握手，客户端接受到报文后向服务器发送ACK包，客户端和服务器端都进入ESTABLISHED状态。</p>
 <p>TCP进入三次握手是因为预防客户端与服务器端出现丢失包而双方的一方不知道而以为可以正常进入连接状态，这样会会出现BUG问题，就好比收快递，如果快递员只送到目的地而不告知或确认是否收到，那么快递丢失，收件员就无法收到快递而损失或不知道快递在哪，这个很不可靠的，而三次握手就会保证连接无误，因为第一次为请求连接，而服务器回应为确认连接，再到客户端的答复为已经收到确认连接，这样是不是就能明确三次握手的必要性。</p>
-<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><p><img src="/2019/05/14/认识TCP/四次挥手.png" alt="四次挥手"></p>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><p><img src="认识TCP/四次挥手.png" alt="四次挥手"></p>
 <p>1）客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。<br>2）服务器收到连接释放报文，发出确认报文，ACK=1，ack=u+1，并且带上自己的序列号seq=v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。<br>3）客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。<br>4）服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。<br>5）客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>6）服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</p>
 <p>四次挥手是因为客户端的关闭与服务器端关闭都要关闭，每个都有一个请求一个回应，所以就四次。<br>在服务器关闭时客户端的TINE_WAIT是为了确认服务器端是否接受客户端的应答，如若收到，那么服务器端就不会再发送关闭请求，那么客户端在2<a href="https://baike.baidu.com/item/MSL/13975171?fr=aladdin" target="_blank" rel="noopener">MSL</a>时间后就自动认为服务器端关闭了，结束本次的TCP连接，如若收到再次请求关闭，那么就是重置时间再等待2MSL时间。</p>
 <p>MSL指一个片段在网络中最大的存活时间</p>
@@ -390,5 +390,5 @@
 <!-- Baidu Tongji -->
 
 <script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+  </body>
 </html>
