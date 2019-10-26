@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      webpack之实现loader | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>webpack之实现loader</h2>
+  <p class="post-date">2019-10-26</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在使用 webpack 时，我们一般都会知道 loader 与 plugin,因为在使用 webpack 时，别不可少，而这边主要了解和知道怎么实现 loader。<br>loader 是一种对指定内容的打包方案，如在 webpack 中的 rules 某一条配置的规则 test 是匹配 css 类的文件，当遇到这类 css 格式文件，webpack 就会执行这条 rules 里的 loader,实现我们期望的内容打包处理。而 Npm 上有各种各样的 loader 供我们使用，一般情况下，直接下载使用即可，没有必要自己动手实现，但由于项目的特殊性，npm 无法找到适合的包，那么只能自己实现。</p>
+<h2 id="什么是-Loader"><a href="#什么是-Loader" class="headerlink" title="什么是 Loader"></a>什么是 Loader</h2><p>本质上来说，loader 就是一个 node 模块，既然是 node 模块，那就一定会导出点什么。在 webpack 的定义中，loader 导出一个函数，loader 会在转换源模块（resource）的时候调用该函数。在这个函数内部，我们可以通过传入 this 上下文给 <a href="https://webpack.js.org/api/loaders/" target="_blank" rel="noopener">Loader API </a>来使用它们。<br>简单说，就是与写 node 没有很大区别，只是 webpack 那些 Loader API 都使用需要使用 this 调用。</p>
+<p>如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function(content) &#123;</span><br><span class="line">  if (this.query.isAdd) &#123;</span><br><span class="line">    return content+&quot;isAdd&quot;;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return content;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="在-webpack-config-里怎么使用自定-loader"><a href="#在-webpack-config-里怎么使用自定-loader" class="headerlink" title="在 webpack config 里怎么使用自定 loader"></a>在 webpack config 里怎么使用自定 loader</h2><p>一般有三种方式:</p>
+<ol>
+<li>把编写好的 loader 模块发布到 npm 上或放到 package.json 能把包引入到 node_mudules 的地址上。</li>
+<li>npm link 方式关联起来。</li>
+<li>使用 require.resolve 或 path.resolve 方式引入。<br>如</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require.resolve(&quot;../loader/add-body-css-loader&quot;)</span><br><span class="line">----</span><br><span class="line">path.resolve(__dirname, &quot;../loader/add-body-css-loader&quot;)</span><br></pre></td></tr></table></figure>
+<p>而 loader 的加载调用顺序是自下而上或自右到左的方式，而 source 是一层层 loader 去处理的，就像加工厂一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test:  /\.module\.(scss|sass)$/,</span><br><span class="line">    use: [</span><br><span class="line">        require.resolve(&quot;style-loader&quot;),</span><br><span class="line">        require.resolve(&quot;postcss-loader&quot;),</span><br><span class="line">        require.resolve(&quot;../loader/add-body-css-loader&quot;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从 add-body-css-loader-&gt;postcss-loader-&gt;style-loader 然后输出到文件里。</p>
+<h2 id="用正确的姿势开发-Loader"><a href="#用正确的姿势开发-Loader" class="headerlink" title="用正确的姿势开发 Loader"></a>用正确的姿势开发 Loader</h2><ol>
+<li><p>单一职责<br>一个 loader 只做一件事，这样不仅可以让 loader 的维护变得简单，还能让 loader 以不同的串联方式组合出符合场景需求的搭配。</p>
+</li>
+<li><p>链式组合<br>这一点是第一点的延伸。好好利用 loader 的链式组合的特型，可以收获意想不到的效果。具体来说，写一个能一次干 5 件事情的 loader ，不如细分成 5 个只能干一件事情的 loader，也许其中几个能用在其他你暂时还没想到的场景。</p>
+</li>
+</ol>
+<h2 id="Loader-实用工具"><a href="#Loader-实用工具" class="headerlink" title="Loader 实用工具"></a>Loader 实用工具</h2><p><a href="https://juejin.im/post/5c9d8539f265da60d95fd590" target="_blank" rel="noopener">loader-utils</a><br><a href="https://www.npmjs.com/package/schema-utils" target="_blank" rel="noopener">schema-utils</a> 使用来校验 Options。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>sass、less 等简单的生成主题处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">const log4js = require(&quot;../config/log4js&quot;),</span><br><span class="line">  logger = log4js.getLogger(&quot;info&quot;);</span><br><span class="line"></span><br><span class="line">function replace(source) &#123;</span><br><span class="line">  const theme = this.query.theme;</span><br><span class="line">  let isBody = false;</span><br><span class="line">  let content = source;</span><br><span class="line">  let loader = this.query.loader;</span><br><span class="line">  Object.keys(theme).forEach(item =&gt; &#123;</span><br><span class="line">    Object.keys(theme[item]).forEach(item =&gt; &#123;</span><br><span class="line">      if (~source.indexOf(item)) &#123;</span><br><span class="line">        isBody = true;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  if (isBody) &#123;</span><br><span class="line">    if (~loader.indexOf(&quot;less&quot;)) &#123;</span><br><span class="line">      content = createThemeLessVar(theme, source, loader);</span><br><span class="line">    &#125; else if (~loader.indexOf(&quot;sass&quot;)) &#123;</span><br><span class="line">      content = createThemeSassVar(theme, source, loader);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return content;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function createThemeSassVar(theme, source, loader) &#123;</span><br><span class="line">  let prefix = &quot;$&quot;;</span><br><span class="line">  let reg = /(@import[^\n]*)/g;</span><br><span class="line">  let importCss = source.match(reg) || &quot;&quot;;</span><br><span class="line">  if (importCss) &#123;</span><br><span class="line">    importCss = importCss.join(&quot;\n&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  let newSource = source.replace(reg, &quot;&quot;);</span><br><span class="line">  let content = `$&#123;importCss&#125;`;</span><br><span class="line">  Object.keys(theme).forEach(item =&gt; &#123;</span><br><span class="line">    let allVar =</span><br><span class="line">      Object.entries(theme[item])</span><br><span class="line">        .map(item =&gt; &#123;</span><br><span class="line">          return prefix + item[0] + &quot;:&quot; + item[1];</span><br><span class="line">        &#125;)</span><br><span class="line">        .join(&quot;;&quot;) + &quot;;&quot;;</span><br><span class="line"></span><br><span class="line">    content += `</span><br><span class="line">      body[data-theme=&quot;$&#123;item&#125;&quot;]&#123;</span><br><span class="line">        $&#123;allVar&#125;</span><br><span class="line">        $&#123;newSource&#125;</span><br><span class="line">      &#125;</span><br><span class="line">    `;</span><br><span class="line">  &#125;);</span><br><span class="line">  return content;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function createThemeLessVar(theme, source, loader) &#123;</span><br><span class="line">  let prefix = &quot;@&quot;;</span><br><span class="line">  let reg = /(@import[^\n]*)/g;</span><br><span class="line">  let importCss = source.match(reg).join(&quot;\n&quot;);</span><br><span class="line">  let newSource = source.replace(reg, &quot;&quot;);</span><br><span class="line">  let content = `$&#123;importCss&#125;`;</span><br><span class="line"></span><br><span class="line">  Object.keys(theme).forEach(item =&gt; &#123;</span><br><span class="line">    let allVar =</span><br><span class="line">      Object.entries(theme[item])</span><br><span class="line">        .map(item =&gt; &#123;</span><br><span class="line">          return prefix + item[0] + &quot;:&quot; + item[1];</span><br><span class="line">        &#125;)</span><br><span class="line">        .join(&quot;;&quot;) + &quot;;&quot;;</span><br><span class="line">    let cssFn = `</span><br><span class="line">      .$&#123;item&#125;()&#123;</span><br><span class="line">        $&#123;allVar&#125;</span><br><span class="line">        $&#123;newSource&#125;</span><br><span class="line">      &#125;</span><br><span class="line">    `;</span><br><span class="line"></span><br><span class="line">    content += `</span><br><span class="line">      $&#123;cssFn&#125;</span><br><span class="line">      body[data-theme=&quot;$&#123;item&#125;&quot;]&#123;</span><br><span class="line">        .$&#123;item&#125;();</span><br><span class="line">      &#125;</span><br><span class="line">    `;</span><br><span class="line">  &#125;);</span><br><span class="line">  return content;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = function(content) &#123;</span><br><span class="line">  if (this.query.isAdd) &#123;</span><br><span class="line">    return replace.call(this, content);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return content;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当内部有异步处理时可以使用 this.async(),会返回一个 callback 函数，调用它，代表当前 loader 已经处理完，到下一个或结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import path from &apos;path&apos;;</span><br><span class="line"></span><br><span class="line">export default function(source) &#123;</span><br><span class="line">    var callback = this.async();</span><br><span class="line">    var headerPath = path.resolve(&apos;header.js&apos;);</span><br><span class="line"></span><br><span class="line">    this.addDependency(headerPath);</span><br><span class="line"></span><br><span class="line">    fs.readFile(headerPath, &apos;utf-8&apos;, function(err, header) &#123;</span><br><span class="line">        if(err) return callback(err);</span><br><span class="line">        //这里的 callback 相当于异步版的 return</span><br><span class="line">        callback(null, header + &quot;\n&quot; + source);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>async 返回的 callback 入参:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">this.callback(</span><br><span class="line">  err: Error | null,</span><br><span class="line">  content: string | Buffer,</span><br><span class="line">  sourceMap?: SourceMap,</span><br><span class="line">  meta?: any</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">第一个参数必须为Error或null</span><br><span class="line">第二个参数是string或Buffer,既处理后的内容。</span><br><span class="line">可选：第三个参数必须是可由此模块解析的源映射。</span><br><span class="line">可选：webpack忽略的第四个选项可以是任何内容（例如某些元数据）。</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/793338023/react-skin" target="_blank" rel="noopener">例子项目地址</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/09/14/create-react-app无法在IE下运行/">
+        <span class="nav-arrow">← </span>
+        
+          create-react-app无法在IE下运行
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#什么是-Loader"><span class="toc-nav-text">什么是 Loader</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#在-webpack-config-里怎么使用自定-loader"><span class="toc-nav-text">在 webpack config 里怎么使用自定 loader</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#用正确的姿势开发-Loader"><span class="toc-nav-text">用正确的姿势开发 Loader</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Loader-实用工具"><span class="toc-nav-text">Loader 实用工具</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#例子"><span class="toc-nav-text">例子</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/10/26/webpack之实现loader/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "webpack之实现loader",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/10/26/webpack之实现loader/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
