@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      微前端之systemJS与lerna | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>微前端之systemJS与lerna</h2>
+  <p class="post-date">2019-11-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>微前端架构是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。</p>
+<p>由此带来的变化是，这些前端应用可以独立运行、独立开发、独立部署。以及，它们应该可以在共享组件的同时进行并行开发——这些组件可以通过 NPM 或者 Git Tag、Git Submodule 来管理。</p>
+<p>可以解决的问题:拆分工程，解决打包速度的问题，减少一个工程太多人开发出现的互相冲突的问题，降低项目的复杂度，提高项目可维护性与修改性的问题，无论在管理上还是代码上都大大提高工作效率。</p>
+<p>这里只是描述一下微前端，最要还是 systemJS 与 lerna，因为他们在微前端上是核心。</p>
+<h2 id="微前端实现的方式"><a href="#微前端实现的方式" class="headerlink" title="微前端实现的方式"></a>微前端实现的方式</h2><ol>
+<li>使用 HTTP 服务器的路由来重定向多个应用</li>
+<li>在不同的框架之上设计通讯、加载机制，诸如 Mooa 和 Single-SPA</li>
+<li>通过组合多个独立应用、组件来构建一个单体应用</li>
+<li>iFrame。使用 iFrame 及自定义消息传递机制</li>
+<li>使用 Web Components 构建应用</li>
+</ol>
+<p>第一种是目前比较传统的方式，如 A 项目与 B 项目互相跳转，那么我们只要在 URL 上带上个项目需要参数即可，就是很简单的页面跳转方式，也是很通用的方式，就是会页面刷新并且互相之间不能嵌套或复用。</p>
+<p>第二种方式，是符合现在单页面应用的方式，而且可以互相复用，但需要基于 webpack 等打包工具。</p>
+<p>第三种其实就是一个应用，只是把它分开开发，所以必须使用同一个框架，统一依赖，规范应用的组件及路由，共享通用代码，制定代码规范，比如使用 lerna 管理项目。</p>
+<p>第四种 iFrame 其实与第一种差不多，只是它可以嵌套在别的项目里，实现互相嵌套的模式。</p>
+<p>第五种 Web Components 是一套不同的技术，允许您创建可重用的定制元素（它们的功能封装在您的代码之外）并且在您的 Web 应用中使用它们，它的引用方式与 iframe 类似，组件拥有自己独立的 Scripts 和 Styles，以及对应的用于单独部署组件的域名，但它不成熟，不过它很有可能是以后微前端的技术方向，因为它很适合，且将来浏览器应该都支持，而不需要构建工具，浏览器支持才是最 nice 的。</p>
+<h2 id="systemJS"><a href="#systemJS" class="headerlink" title="systemJS"></a>systemJS</h2><p>systemJS 其实就是一个模块化加载器，本意是解决项目在运行时加载模块的问题，因为 webpack 等打包工具都是编译好后再到客户端上，而想在客户端上加载时不可能的。<br>但 systemJS 无法直接使用 import 加载后使用，只能在 html 里 script 引入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.1.1/system.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.1.1/extras/amd.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.1.1/extras/named-exports.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.1.1/extras/named-register.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.1.1/extras/use-default.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  System.import(</span><br><span class="line">    &quot;http://localhost:8000/static/js/main-bundle-11a3188c.js&quot;</span><br><span class="line">  ).then(() =&gt; &#123;</span><br><span class="line">    // console.log($);</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>但可以 npm 安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i systemjs</span><br></pre></td></tr></table></figure>
+<p>webpack 打包的，要让 systemjs 可以加载，那么就要设置 libraryTarget 为 umd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: &quot;static/js/[name]-bundle-[hash:8].js&quot;,</span><br><span class="line">    library: &quot;app&quot;, //类库名称</span><br><span class="line">    libraryTarget: &quot;umd&quot; //类库加载方式</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>而微服务里比较流行的是 single-Spa，它其实就是一个顶级的路由，只是它是以项目为维度的，而且它兼容很多目前比较流行的技术的项目的路由，如 react，vue，angular 等等，他可以糅合它们，而且不需要前期考虑是否使用微前端，之后后期需要，就可以使用它进行重新改造，且付出代价也是最小的，可能就是需要修改一个路由的层级，因为一级路由以为项目使用。</p>
+<p><a href="https://www.npmjs.com/package/systemjs" target="_blank" rel="noopener">资料</a></p>
+<p><a href="https://www.cnblogs.com/xhy-steve/p/6655603.html" target="_blank" rel="noopener">基本使用</a></p>
+<p><a href="https://single-spa.js.org/docs/getting-started-overview/" target="_blank" rel="noopener">single-Spa</a></p>
+<p><a href="https://www.cnblogs.com/scdisplay/p/11648701.html" target="_blank" rel="noopener">single-Spa 使用</a></p>
+<h2 id="lerna"><a href="#lerna" class="headerlink" title="lerna"></a>lerna</h2><p>lerna 是 GitHub 上面开源的一款 js 代码库管理软件， 用来对一系列相互耦合比较大、又相互独立的 js git 库进行管理。解决各个库之间修改混乱、难以跟踪的问题。lerna 可以优化这种情形下的工作流。</p>
+<p>代码库结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">my-lerna-repo/</span><br><span class="line">  package.json</span><br><span class="line">  packages/</span><br><span class="line">    package-1/</span><br><span class="line">      package.json</span><br><span class="line">    package-2/</span><br><span class="line">      package.json</span><br></pre></td></tr></table></figure>
+<p>由于微前端也是多个项目模块，而且也会互相耦合且独立，所以使用 lerna 管理，在某些场景下，可能会出现意想不到的优势，比如个项目之间的依赖包统一，各项目之间依赖简单，且快速统一更新包等，且只要在外层就可管理到所有的项目。</p>
+<p>初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm i -g lerna</span><br><span class="line">mkdir lerna-repo</span><br><span class="line">cd ./lerna-repo</span><br><span class="line">lerna init</span><br></pre></td></tr></table></figure>
+<p>常用命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. 安装</span><br><span class="line">lerna bootstrap</span><br><span class="line">使用这个指令代替 npm install</span><br><span class="line">相当于在每个 package 下面执行 npm install</span><br><span class="line">根据各个 package 下 package.json 里面的 dependencies 和 devDependencies 配置，使用 symlink 在各个 package 的 node_modules 下面建立引用关系</span><br><span class="line"></span><br><span class="line">2. 添加依赖</span><br><span class="line">lerna add &lt;pkg&gt; [globs..]</span><br><span class="line"></span><br><span class="line">如给  package-1 添加 依赖 vue，scope后要跟package.json里面的名字，而不是文件夹名。如果全部安装，去掉scope即可。</span><br><span class="line"></span><br><span class="line">lerna add vue --scope=@abc/package-1</span><br><span class="line"></span><br><span class="line">3. 指定源</span><br><span class="line">例如使用yarn管理包 lerna bootstrap --npm-client=yarn</span><br><span class="line">例如使用cnpm发布包 lerna publish --npm-client=cnpm</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/8b7e6025354b" target="_blank" rel="noopener">lerna 的基础使用</a></p>
+<p><a href="https://www.jianshu.com/p/2f9c05b119c9" target="_blank" rel="noopener">lerna 项目中使用</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#js">
+    <span class="tag-code">js</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/10/26/webpack之实现loader/">
+        <span class="nav-arrow">← </span>
+        
+          webpack之实现loader
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#微前端实现的方式"><span class="toc-nav-text">微前端实现的方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#systemJS"><span class="toc-nav-text">systemJS</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#lerna"><span class="toc-nav-text">lerna</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/11/13/微前端之systemJS与lerna/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "微前端之systemJS与lerna",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/11/13/微前端之systemJS与lerna/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
