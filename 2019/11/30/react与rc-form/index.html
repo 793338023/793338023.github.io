@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      react与rc-form | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>react与rc-form</h2>
+  <p class="post-date">2019-11-30</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在选择使用 react 技术栈的时，往往都会选择一套成熟好用而且自己熟悉的 UI 框架，而我使用比较多的<a href="https://ant.design/index-cn" target="_blank" rel="noopener">ant Design</a>,这样可以减少开发成本与风险，因为自己开发的组件总会有考虑不周的 BUG，而 antd 里有很多优秀的组件，但我觉得在表单方面，antd 的这个组件做的很优秀，也很灵活，它的核心也在校验，这篇主要是 Form 校验。</p>
+<h2 id="表单作用"><a href="#表单作用" class="headerlink" title="表单作用"></a>表单作用</h2><p>真正需要表单的时候，一般都因为以下功能：</p>
+<ol>
+<li>收集各表单项的数据。</li>
+<li>按照要求，对表单项数据进行校验，并显示校验结果。</li>
+<li>最总获取所有的表单数据，并表单中所有数据进行校验。</li>
+</ol>
+<p>而这些功能 antd 都可以直接按官网案例使用，简单快速，但 antd 实现这些功能也是很简单的，主要是因为它把数据收集与校验都交给了 rc-form 去实现，剩下的 UI 展示才是 antd 实现的。</p>
+<h2 id="antd-的-Form-实现"><a href="#antd-的-Form-实现" class="headerlink" title="antd 的 Form 实现"></a>antd 的 Form 实现</h2><p>Form.tsx</p>
+<p>在 form 的 Form.tsx 只是简单的实现了 Form 的 UI 与 rc-form 的 create 表单，使用 createReactContext 传递了通用布局属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 此处为Form.create的实现，主要调用了createBaseForm</span><br><span class="line">// fieldMetaProp规定了重造组件里存储的表单规则，如校验等，fieldDataProp规定了表单的数据，所以获取到react组件，就可以知道表单属性设置与数据</span><br><span class="line"></span><br><span class="line">  static create = function create&lt;TOwnProps extends FormComponentProps&gt;(</span><br><span class="line">    options: FormCreateOption&lt;TOwnProps&gt; = &#123;&#125;,</span><br><span class="line">  ): FormWrappedProps&lt;TOwnProps&gt; &#123;</span><br><span class="line">    return createDOMForm(&#123;</span><br><span class="line">      fieldNameProp: &apos;id&apos;,</span><br><span class="line">      ...options,</span><br><span class="line">      fieldMetaProp: FIELD_META_PROP,</span><br><span class="line">      fieldDataProp: FIELD_DATA_PROP,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">// 创建表单与createReactContext传递UI布局属性</span><br><span class="line"></span><br><span class="line">   render() &#123;</span><br><span class="line">    const &#123; wrapperCol, labelAlign, labelCol, layout, colon &#125; = this.props;</span><br><span class="line">    return (</span><br><span class="line">      &lt;FormContext.Provider</span><br><span class="line">        value=&#123;&#123; wrapperCol, labelAlign, labelCol, vertical: layout === &apos;vertical&apos;, colon &#125;&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;ConfigConsumer&gt;&#123;this.renderForm&#125;&lt;/ConfigConsumer&gt;</span><br><span class="line">      &lt;/FormContext.Provider&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>FormItem.tsx</p>
+<p>实现了需要校验组件的布局与校验信息显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">// 通过这两个方法获取到组件上的所有表单信息，如值、校验信息，获取的方式就是在组件的props的FIELD_META_PROP与FIELD_DATA_PROP上。</span><br><span class="line"> getMeta() &#123;</span><br><span class="line">    return this.getChildProp(FIELD_META_PROP);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getField() &#123;</span><br><span class="line">    return this.getChildProp(FIELD_DATA_PROP);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">// 通过getValidateStatus获取校验的状态</span><br><span class="line"></span><br><span class="line">  getValidateStatus() &#123;</span><br><span class="line">    const onlyControl = this.getOnlyControl();</span><br><span class="line">    if (!onlyControl) &#123;</span><br><span class="line">      return &apos;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    const field = this.getField();</span><br><span class="line">    if (field.validating) &#123;</span><br><span class="line">      return &apos;validating&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    if (field.errors) &#123;</span><br><span class="line">      return &apos;error&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    const fieldValue = &apos;value&apos; in field ? field.value : this.getMeta().initialValue;</span><br><span class="line">    if (fieldValue !== undefined &amp;&amp; fieldValue !== null &amp;&amp; fieldValue !== &apos;&apos;) &#123;</span><br><span class="line">      return &apos;success&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    return &apos;&apos;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">// renderValidateWrapper根据校验状态，选择html结构与css类名，显示校验信息</span><br><span class="line"></span><br><span class="line">  renderValidateWrapper(</span><br><span class="line">    prefixCls: string,</span><br><span class="line">    c1: React.ReactNode,</span><br><span class="line">    c2: React.ReactNode,</span><br><span class="line">    c3: React.ReactNode,</span><br><span class="line">  ) &#123;</span><br><span class="line">    const &#123; props &#125; = this;</span><br><span class="line">    const onlyControl = this.getOnlyControl;</span><br><span class="line">    const validateStatus =</span><br><span class="line">      props.validateStatus === undefined &amp;&amp; onlyControl</span><br><span class="line">        ? this.getValidateStatus()</span><br><span class="line">        : props.validateStatus;</span><br><span class="line"></span><br><span class="line">    let classes = `$&#123;prefixCls&#125;-item-control`;</span><br><span class="line">    if (validateStatus) &#123;</span><br><span class="line">      classes = classNames(`$&#123;prefixCls&#125;-item-control`, &#123;</span><br><span class="line">        &apos;has-feedback&apos;: props.hasFeedback || validateStatus === &apos;validating&apos;,</span><br><span class="line">        &apos;has-success&apos;: validateStatus === &apos;success&apos;,</span><br><span class="line">        &apos;has-warning&apos;: validateStatus === &apos;warning&apos;,</span><br><span class="line">        &apos;has-error&apos;: validateStatus === &apos;error&apos;,</span><br><span class="line">        &apos;is-validating&apos;: validateStatus === &apos;validating&apos;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let iconType = &apos;&apos;;</span><br><span class="line">    switch (validateStatus) &#123;</span><br><span class="line">      case &apos;success&apos;:</span><br><span class="line">        iconType = &apos;check-circle&apos;;</span><br><span class="line">        break;</span><br><span class="line">      case &apos;warning&apos;:</span><br><span class="line">        iconType = &apos;exclamation-circle&apos;;</span><br><span class="line">        break;</span><br><span class="line">      case &apos;error&apos;:</span><br><span class="line">        iconType = &apos;close-circle&apos;;</span><br><span class="line">        break;</span><br><span class="line">      case &apos;validating&apos;:</span><br><span class="line">        iconType = &apos;loading&apos;;</span><br><span class="line">        break;</span><br><span class="line">      default:</span><br><span class="line">        iconType = &apos;&apos;;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const icon =</span><br><span class="line">      props.hasFeedback &amp;&amp; iconType ? (</span><br><span class="line">        &lt;span className=&#123;`$&#123;prefixCls&#125;-item-children-icon`&#125;&gt;</span><br><span class="line">          &lt;Icon type=&#123;iconType&#125; theme=&#123;iconType === &apos;loading&apos; ? &apos;outlined&apos; : &apos;filled&apos;&#125; /&gt;</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">      ) : null;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&#123;classes&#125;&gt;</span><br><span class="line">        &lt;span className=&#123;`$&#123;prefixCls&#125;-item-children`&#125;&gt;</span><br><span class="line">          &#123;c1&#125;</span><br><span class="line">          &#123;icon&#125;</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &#123;c2&#125;</span><br><span class="line">        &#123;c3&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>所以使用 antd Form 需要把组件放到 Form 与 FormItem 里,否则会出现 UI 问题。</p>
+<h2 id="rc-form"><a href="#rc-form" class="headerlink" title="rc-form"></a>rc-form</h2><p>rc-form 的实现是使用了高阶组件，这里不说高阶组件，然后利用闭包的收集数据，类似与全局变量，创建一个对象，根据 ID 收集放到对应的 ID 里，简单就是这样。<br>源码主要看 createBaseForm 与 createFieldsStore，createBaseForm 主要是实现功能，如校验，获取数据等等，而 createFieldsStore 主要实现数据收集与处理，然后让 createBaseForm 使用。</p>
+<p>createBaseForm 数据的更新是使用了 <a href="https://blog.csdn.net/milyoo/article/details/79068199" target="_blank" rel="noopener">forceUpdate</a>，这是 react 强制更新组件的方法，可以在没有触发 setState 时触发 render 来实现数据更新，它的实现与 setState 差不多。</p>
+<p>mapPropsToFields 的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 初始化</span><br><span class="line">getInitialState() &#123;</span><br><span class="line">        const fields = mapPropsToFields &amp;&amp; mapPropsToFields(this.props);</span><br><span class="line">        this.fieldsStore = createFieldsStore(fields || &#123;&#125;);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">// 父组件state变化</span><br><span class="line">componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">        if (mapPropsToFields) &#123;</span><br><span class="line">          this.fieldsStore.updateFields(mapPropsToFields(nextProps));</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>由于在创建组件时都用 Form 包含，所以组件之间需要经过 Form，那么就可以利用这个实现数据映射关系。</p>
+<p>所有的校验都会统一走 validateFieldsInternal 方法，而一般的回填与映射是不会触发校验的，只有符合事件的或手动调用校验才会触发校验，而校验使用的<a href="https://www.npmjs.com/package/async-validator" target="_blank" rel="noopener">async-validator</a>这个包。</p>
+<p>注意事项:</p>
+<ol>
+<li>由于 rc-form 的 ID 允许嵌套，所以 ID 避免实现”.”与[,如 abc.mm,abc[0]</li>
+<li>rc-form 校验的 type 为 Array 时，避免 ID 带数字，如 abc111m1</li>
+</ol>
+<p>具体实现可以查看<a href="https://blog.csdn.net/chencl1986/article/details/102326854" target="_blank" rel="noopener">资料</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#react">
+    <span class="tag-code">react</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/11/19/git提交前代码检查/">
+        <span class="nav-arrow">← </span>
+        
+          git提交前代码检查
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2019/12/07/koa例子/">
+        
+          koa例子
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表单作用"><span class="toc-nav-text">表单作用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#antd-的-Form-实现"><span class="toc-nav-text">antd 的 Form 实现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#rc-form"><span class="toc-nav-text">rc-form</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/11/30/react与rc-form/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "react与rc-form",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2019/11/30/react与rc-form/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
