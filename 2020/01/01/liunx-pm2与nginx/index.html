@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      liunx-pm2与nginx | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>liunx-pm2与nginx</h2>
+  <p class="post-date">2020-01-01</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="pm2"><a href="#pm2" class="headerlink" title="pm2"></a>pm2</h2><p>日志管理：应用程序日志保存在服务器的硬盘中~/.pm2/logs/</p>
+<p>负载均衡：PM2 可以通过创建共享同一服务器端口的多个子进程来扩展您的应用程序。这样做还允许您以零秒停机时间重新启动应用程序。</p>
+<p>终端监控：可以在终端中监控您的应用程序并检查应用程序运行状况（CPU 使用率，使用的内存，请求/分钟等）。</p>
+<p>SSH 部署：自动部署，避免逐个在所有服务器中进行 ssh。</p>
+<p>静态服务：支持静态服务器功能</p>
+<p>多平台支持：适用于 Linux（稳定）和 macOS（稳定）和 Windows（稳定）</p>
+<h3 id="pm2-安装"><a href="#pm2-安装" class="headerlink" title="pm2 安装"></a>pm2 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pm2 -g</span><br></pre></td></tr></table></figure>
+<p>创建软链,进入 node 的安装文件夹下，找到 bin，里面有 pm2 的软链，如果环境变量 path 上已经有 node 的配置，那么可以不创建软链，因为在/usr/local/bin/创建的软链就是为了全局调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 我的node文件目录</span><br><span class="line">ln -s /opt/nodeJs/bin/pm2 /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="pm2-使用"><a href="#pm2-使用" class="headerlink" title="pm2 使用"></a>pm2 使用</h3><p>在项目下使用 pm2 替代 node 启动项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js                //启动app.js应用</span><br><span class="line">pm2 start app.js --name demo    //启动应用并设置name</span><br><span class="line">pm2 start app.sh                //脚本启动</span><br><span class="line"></span><br><span class="line">pm2 stop all               //停止所有应用</span><br><span class="line">pm2 stop [AppName]        //根据应用名停止指定应用</span><br><span class="line">pm2 stop [ID]             //根据应用id停止指定应用</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pm2 delete all               //关闭并删除应用</span><br><span class="line">pm2 delete [AppName]        //根据应用名关闭并删除应用</span><br><span class="line">pm2 delete [ID]            //根据应用ID关闭并删除应用</span><br><span class="line"></span><br><span class="line">pm2 start app.js --watch    //当文件发生变化，自动重启</span><br><span class="line"></span><br><span class="line">//静态服务器</span><br><span class="line">pm2 serve ./dist 9090        //将目录dist作为静态服务器根目录，端口为9090</span><br><span class="line"></span><br><span class="line">pm2 reload app.js        //重新启动所有进程，始终保持至少一个进程在运行</span><br><span class="line">pm2 gracefulReload all   //优雅地以群集模式重新加载所有应用程序</span><br><span class="line"></span><br><span class="line">pm2 logs            //查看所有应用日志</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 查看进程</span><br><span class="line"></span><br><span class="line">pm2 ls</span><br><span class="line"></span><br><span class="line">┌─────┬────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐</span><br><span class="line">│ id  │ name   │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │</span><br><span class="line">├─────┼────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤</span><br><span class="line">│ 0   │ www    │ default     │ 0.1.0   │ fork    │ 2217     │ 89m    │ 0    │ online    │ 0.8%     │ 32.1mb   │ root     │ disabled │</span><br><span class="line">└─────┴────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘</span><br></pre></td></tr></table></figure>
+<p>pm2 还可以实现自动部署的能力，在文件下配置 ecosystem 即可。</p>
+<p>如: ecosystem.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    apps : [&#123;</span><br><span class="line">        name      : &apos;API&apos;,      //应用名</span><br><span class="line">        script    : &apos;app.js&apos;,   //应用文件位置</span><br><span class="line">        env: &#123;</span><br><span class="line">            PM2_SERVE_PATH: &quot;.&quot;,    //静态服务路径</span><br><span class="line">            PM2_SERVE_PORT: 8080,   //静态服务器访问端口</span><br><span class="line">            NODE_ENV: &apos;development&apos; //启动默认模式</span><br><span class="line">        &#125;,</span><br><span class="line">        env_production : &#123;</span><br><span class="line">            NODE_ENV: &apos;production&apos;  //使用production模式 pm2 start ecosystem.config.js --env production</span><br><span class="line">        &#125;,</span><br><span class="line">        instances:&quot;max&quot;,          //将应用程序分布在所有CPU核心上,可以是整数或负数</span><br><span class="line">        watch:true,               //监听模式</span><br><span class="line">        output: &apos;./out.log&apos;,      //指定日志标准输出文件及位置</span><br><span class="line">        error: &apos;./error.log&apos;,     //错误输出日志文件及位置，pm2 install pm2-logrotate进行日志文件拆分</span><br><span class="line">        merge_logs: true,         //集群情况下，可以合并日志</span><br><span class="line">        log_type:&quot;json&quot;,          //日志类型</span><br><span class="line">        log_date_format: &quot;DD-MM-YYYY&quot;,  //日志日期记录格式</span><br><span class="line">    &#125;],</span><br><span class="line">    deploy : &#123;</span><br><span class="line">        production : &#123;</span><br><span class="line">            user : &apos;node&apos;,                      //ssh 用户</span><br><span class="line">            host : &apos;212.83.163.1&apos;,              //ssh 地址</span><br><span class="line">            ref  : &apos;origin/master&apos;,             //GIT远程/分支</span><br><span class="line">            repo : &apos;git@github.com:repo.git&apos;,   //git地址</span><br><span class="line">            path : &apos;/var/www/production&apos;,       //服务器文件路径</span><br><span class="line">            post-deploy : &apos;npm install &amp;&amp; pm2 reload ecosystem.config.js --env production&apos;  //部署后的动作</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/cs380637384/article/details/82682799" target="_blank" rel="noopener">参考资料 01</a><br><a href="https://www.cnblogs.com/bjgua/p/7656833.html" target="_blank" rel="noopener">参考资料 02</a></p>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>nginx 是一款高性能的 http 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。</p>
+<p>作用：集群（提高吞吐量，减轻单台服务器压力），反向代理（不暴露真实 IP 地址），虚拟服务器，静态服务器（动静分离）。解决跨域问题，使用 nginx 搭建企业级 api 接口网关</p>
+<p><a href="https://www.jianshu.com/p/d8bd75c0fb1b" target="_blank" rel="noopener">nginx 的功能强大</a></p>
+<h3 id="nginx-安装"><a href="#nginx-安装" class="headerlink" title="nginx 安装"></a>nginx 安装</h3><ol>
+<li>安装依赖包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 一键安装上面四个依赖</span><br><span class="line">yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>下载并解压安装包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//创建一个文件夹</span><br><span class="line">cd /usr/local</span><br><span class="line">mkdir nginx</span><br><span class="line">cd nginx</span><br><span class="line">//下载tar包</span><br><span class="line">wget http://nginx.org/download/nginx-1.13.7.tar.gz</span><br><span class="line">tar -zxvf nginx-1.13.7.tar.gz</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装 nginx</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//进入nginx目录</span><br><span class="line">cd /usr/local/nginx</span><br><span class="line">//执行命令</span><br><span class="line">./configure</span><br><span class="line">//执行make命令</span><br><span class="line">make</span><br><span class="line">//执行make install命令</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置 nginx.conf</li>
+</ol>
+<p>进入配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>修改端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen  3100;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx: [alert] could not open error log file: open() &quot;/usr/local/nginx/logs/error.log&quot; failed (2: No such file or directory)</span><br><span class="line">2016/09/13 19:08:56 [emerg] 6996#0: open() &quot;/usr/local/nginx/logs/access.log&quot; failed (2: No such file or directory)</span><br><span class="line"></span><br><span class="line">在nginx/目录下没有logs文件夹</span><br><span class="line">解决方法：</span><br><span class="line">mkdir logs</span><br><span class="line">chmod 700 logs</span><br></pre></td></tr></table></figure>
+<p>创建软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/</span><br><span class="line"></span><br><span class="line">/usr/local/bin/就是环境变量目录</span><br></pre></td></tr></table></figure>
+<p>测试是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br><span class="line"></span><br><span class="line">正常情况的信息输出：</span><br><span class="line"></span><br><span class="line">nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">启动 nginx:</span><br><span class="line">nginx</span><br><span class="line"></span><br><span class="line">查看 nginx 进程：</span><br><span class="line">ps -ef | grep  nginx</span><br><span class="line"></span><br><span class="line">关闭：</span><br><span class="line">nginx  -s  stop</span><br><span class="line"></span><br><span class="line">配置文件修改重装载命令：</span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line">正常停止或关闭Nginx:</span><br><span class="line">nginx -s quit</span><br></pre></td></tr></table></figure>
+<h3 id="location-模块"><a href="#location-模块" class="headerlink" title="location 模块"></a>location 模块</h3><p>location 在 nginx 是比较常用的，所以需要有所了解。<br><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location" target="_blank" rel="noopener">官方文档</a></p>
+<p>location 分为两类 普通 location 和 正则 location<br>普通 location 既不带任何修饰符，如<code>/app</code>,它是前缀匹配，也在正则的范围内，但它是从根路径开始匹配的。</p>
+<p>正则 location 带[ = | ~ | ~ * | ^~ ]这些前缀的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">= 表示精确匹配，只有完全匹配上才能生效</span><br><span class="line">location = /uri</span><br><span class="line"></span><br><span class="line">^~ 开头对URL路径进行前缀匹配，并且在正则之前</span><br><span class="line">location ^~ /uri</span><br><span class="line"></span><br><span class="line">开头表示区分大小写的正则匹配</span><br><span class="line">location ~ pattern</span><br><span class="line"></span><br><span class="line">开头表示不区分大小写的正则匹配</span><br><span class="line">location ~* pattern</span><br><span class="line"></span><br><span class="line">不带任何修饰符，也表示前缀匹配，但是在正则匹配之后</span><br><span class="line">location /uri</span><br><span class="line"></span><br><span class="line">通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default</span><br><span class="line">location /</span><br></pre></td></tr></table></figure>
+<p>多个 location 配置的情况下匹配顺序为:</p>
+<ol>
+<li>首先精确匹配 =</li>
+<li>其次前缀匹配 如:^~</li>
+<li>其次是按文件中顺序的正则匹配</li>
+<li>然后匹配不带任何修饰的前缀匹配。</li>
+<li>最后是交给 / 通用匹配</li>
+<li>当有匹配成功时候，停止匹配，按当前匹配规则处理请求</li>
+</ol>
+<p>注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">前缀匹配，如果有包含关系时，按最大匹配原则进行匹配。比如在前缀匹配：</span><br><span class="line">location /app 与 location /app/goods</span><br><span class="line"></span><br><span class="line">如有请求</span><br><span class="line">http://localhost/app/goods/file</span><br><span class="line">将最终匹配到</span><br><span class="line">location /app/goods 这个location上</span><br><span class="line"></span><br><span class="line">如果在正则表达式里面有&#123;&#125;，这会与location模块的&#123;&#125;冲突，这时候需要将正则表达式用单引号或者双引号起来。</span><br><span class="line"></span><br><span class="line">如:</span><br><span class="line">location ~ &quot;/([\S]&#123;8&#125;)&quot; &#123;</span><br><span class="line">  proxy_pass http://127.0.0.1:3000/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><h4 id="加载静态资源"><a href="#加载静态资源" class="headerlink" title="加载静态资源"></a>加载静态资源</h4><p>配置 nginx 的静态文件有两个指令，一个 root 和一个 alias。</p>
+<p>root 是指定项目的根目录，适用与 server 和 location。可以指定多个，如果 locaiton 没有指定，会往其外层的 server 或 http 中寻找继承。</p>
+<p>如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /static &#123;</span><br><span class="line">    root   /root/webapp/sourceCode/sell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http://localhost:3100/static/aa.jpg</span><br><span class="line">经过nginx等于</span><br><span class="line">http://localhost:3100//root/webapp/sourceCode/sell/static/aa.jpg</span><br></pre></td></tr></table></figure>
+<p>alias 它并不是替换匹配后的 url 地址，而是替换匹配部分的 url。alias 指令也可以有多个。<br>如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /static &#123;</span><br><span class="line">    alias   /root/webapp/sourceCode/sell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http://localhost:3100/static/aa.jpg</span><br><span class="line">经过nginx等于</span><br><span class="line">http://localhost:3100/root/webapp/sourceCode/sell/aa.jpg</span><br></pre></td></tr></table></figure>
+<p>通常最佳实际是配置一个项目的根 root，其他的文件夹则使用 alias，毕竟 alias 更加灵活。</p>
+<h5 id="index-指令的作用"><a href="#index-指令的作用" class="headerlink" title="index 指令的作用"></a>index 指令的作用</h5><p>在前后端分离的基础上，通过 Nginx 配置，指定网站初始页。<br>该指令拥有默认值，index index.html ，即，如果没有给出 index，默认初始页为 index.html。</p>
+<p>在没有给出明确的文件名称，index 才会启动，index 的作用就是在你没有给出一个明确名称，会自动分配。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /root/webapp/sourceCode/sell;</span><br><span class="line">    index  index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="proxy-pass"><a href="#proxy-pass" class="headerlink" title="proxy_pass"></a>proxy_pass</h4><p>在 nginx 中配置 proxy_pass 代理转发时，如果在 proxy_pass 后面的 url 加/，表示绝对根路径；如果没有/，表示相对路径，把匹配的路径部分也加到代理路径上。</p>
+<p>如:<br><a href="http://localhost:3100/proxy/bb.html" target="_blank" rel="noopener">http://localhost:3100/proxy/bb.html</a> 进行访问。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">第一种：</span><br><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080/;</span><br><span class="line">&#125;</span><br><span class="line">代理到URL：http://localhost:8080/bb.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">第二种（相对于第一种，最后少一个 / ）</span><br><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080;</span><br><span class="line">&#125;</span><br><span class="line">代理到URL：http://localhost:8080/proxy/bb.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">第三种：</span><br><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080/aaa/;</span><br><span class="line">&#125;</span><br><span class="line">代理到URL：http://localhost:8080/aaa/bb.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">第四种（相对于第三种，最后少一个 / ）</span><br><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080/aaa;</span><br><span class="line">&#125;</span><br><span class="line">代理到URL：http://localhost:8080/aaabb.html</span><br></pre></td></tr></table></figure>
+<p>以上有四种情况，但实际就两种情况，第一种与其他三种，只是其他三种有点迷惑性，其实都是一种。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nginx实现反向代理，使用Module ngx_http_proxy_module模块，proxy_pass指令，设置请求头为真正的客户端地址proxy_set_header X-Real-IP $remote_addr;</span><br></pre></td></tr></table></figure>
+<p>报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [emerg] &quot;proxy_pass&quot; cannot have URI part in location given by regular expression</span><br></pre></td></tr></table></figure>
+<p>这是由于使用了正则 location，但 proxy_pass 的 ip+host 后面有路经，正则匹配后无法拼接上而报错。</p>
+<p>解决:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /proxy/aaa/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080;</span><br><span class="line">&#125;</span><br><span class="line">或</span><br><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass http://localhost:8080/aaa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然 nginx 还有很多配置使用，按照自己需要一点一点的查。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#liunx">
+    <span class="tag-code">liunx</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/12/25/npm与npx/">
+        <span class="nav-arrow">← </span>
+        
+          npm、nrm与npx
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#pm2"><span class="toc-nav-text">pm2</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#pm2-安装"><span class="toc-nav-text">pm2 安装</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#pm2-使用"><span class="toc-nav-text">pm2 使用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#nginx"><span class="toc-nav-text">nginx</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#nginx-安装"><span class="toc-nav-text">nginx 安装</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#location-模块"><span class="toc-nav-text">location 模块</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#简单使用"><span class="toc-nav-text">简单使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#加载静态资源"><span class="toc-nav-text">加载静态资源</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#index-指令的作用"><span class="toc-nav-text">index 指令的作用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#proxy-pass"><span class="toc-nav-text">proxy_pass</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/01/01/liunx-pm2与nginx/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "liunx-pm2与nginx",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/01/01/liunx-pm2与nginx/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
