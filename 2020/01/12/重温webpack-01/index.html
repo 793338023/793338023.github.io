@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      重温webpack-01 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>重温webpack-01</h2>
+  <p class="post-date">2020-01-12</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>webpack 当下最流行的前端架构工具。</p>
+<p>Webpack 是一个打包模块化 JavaScript 的工具，在 Webpack 里一切文件皆模块，通过 Loader 转换文件，通过 Plugin 注入钩子，最后输出由多个模块组合成的文件。Webpack 专注于构建模块化项目。</p>
+<p>一切文件：JavaScript、CSS、SCSS、图片、模板，在 Webpack 眼中都是一个个模块，这样的好处是能清晰的描述出各个模块之间的依赖关系，以方便 Webpack 对模块进行组合和打包。 经过 Webpack 的处理，最终会输出浏览器能使用的静态资源。</p>
+<p><img src="/2020/01/12/重温webpack-01/webpack.png" alt="webpack"></p>
+<h2 id="为什么需要模块化"><a href="#为什么需要模块化" class="headerlink" title="为什么需要模块化"></a>为什么需要模块化</h2><p>模块化是指把一个复杂的系统分解到多个模块以方便编码。<br>在没有出现模块化概念时，解决 js 代码组织问题，比较流行的是命名空间的方式，如 JQuery。<br>但无法解决以下问题:</p>
+<ol>
+<li>命名空间冲突，两个库可能会使用同一个名称，例如 Zepto 也被放在 window.\$ 下；</li>
+<li>无法合理地管理项目的依赖和版本；</li>
+<li>无法方便地控制依赖的加载顺序。</li>
+</ol>
+<p>当项目特别庞大并依赖特别多时，加载的类库就会显得特别笨重，在显示上会出现页面不流畅的情况，在代码上，会出现难以维护的现象。</p>
+<p>而技术的发展就是为了编写更好易懂的代码，减少人为规范，而出现模块化开发，象征的就是 requirejs、CommonJS、seaJs 等等，而后随着 js 发展，ECMA 提出的 JavaScript 模块化规范 <code>ES6 模块化</code>，它将逐渐取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。</p>
+<p>ES6 模块化例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 导出</span><br><span class="line">export const method = ()=&gt;&quot;ES6 模块化&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">    es6:&quot;es6 代码&quot;</span><br><span class="line">&#125;</span><br><span class="line">// 导入</span><br><span class="line">import React, &#123; useState &#125; from &quot;react&quot;;</span><br></pre></td></tr></table></figure>
+<p>ES6 模块化虽然是模块化解决方案，但浏览器支持力不高，所以需要架构工具帮助转义为浏览器可识别的代码。</p>
+<h2 id="工具对比"><a href="#工具对比" class="headerlink" title="工具对比"></a>工具对比</h2><h3 id="scripts"><a href="#scripts" class="headerlink" title="scripts"></a>scripts</h3><p>npm 是在安装 Node.js 时附带的包管理器,Npm Script 则是 Npm 内置的一个功能，允许在 package.json 文件里面使用 scripts 字段定义任务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;scripts&quot;:&#123;</span><br><span class="line">        &quot;dev&quot;: &quot;webpack-dev-server&quot;,</span><br><span class="line">        &quot;start&quot;:&quot;node script/index&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面的 scripts 字段是一个对象，每个属性对应一段 Shell 脚本，以上代码定义了两个任务 dev 和 pub。 其底层实现原理是通过调用 Shell 去运行脚本命令，如执行<code>npm run start</code>,执行的是<code>node script/index</code> node 程序，但这个功能很单一，没法使用与复杂场景。</p>
+<h3 id="Gulp"><a href="#Gulp" class="headerlink" title="Gulp"></a>Gulp</h3><p>Gulp 是一个基于流的自动化构建工具。 除了可以管理和执行任务，还支持监听文件、读写文件。Gulp 被设计得非常简单，只通过下面 5 个方法就可以胜任几乎所有构建场景：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">通过 gulp.task 注册一个任务；</span><br><span class="line">通过 gulp.run 执行任务；</span><br><span class="line">通过 gulp.watch 监听文件变化；</span><br><span class="line">通过 gulp.src 读取文件；</span><br><span class="line">通过 gulp.dest 写文件。</span><br></pre></td></tr></table></figure>
+<p>它的特点流的方式，而且使用也比较简单，把需要编译内容分成一个个任务<code>gulp.task</code>编写即可，而在任务中使用<code>gulp.src</code>读取文件，而它可以正则，使用方式如 <code>glob</code>,然后使用<code>pipe</code>传递加载到文件内容给插件，而 gulp 的插件编写也比较简单，基本上都是对 node 的使用，最后经过 pipe 传递给<code>gulp.dest</code>进行输出操作，这些是 gulp 基本操作，以下为一个例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// 引入 Gulp</span><br><span class="line">var gulp = require(&apos;gulp&apos;);</span><br><span class="line">// 引入插件</span><br><span class="line">var jshint = require(&apos;gulp-jshint&apos;);</span><br><span class="line">var sass = require(&apos;gulp-sass&apos;);</span><br><span class="line">var concat = require(&apos;gulp-concat&apos;);</span><br><span class="line">var uglify = require(&apos;gulp-uglify&apos;);</span><br><span class="line"></span><br><span class="line">// 编译 SCSS 任务</span><br><span class="line">gulp.task(&apos;sass&apos;, function() &#123;</span><br><span class="line">  // 读取文件通过管道传给插件</span><br><span class="line">  gulp.src(&apos;./scss/*.scss&apos;)</span><br><span class="line">    // SCSS 插件把 scss 文件编译成 CSS 文件</span><br><span class="line">    .pipe(sass())</span><br><span class="line">    // 输出文件</span><br><span class="line">    .pipe(gulp.dest(&apos;./css&apos;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 合并压缩 JS</span><br><span class="line">gulp.task(&apos;scripts&apos;, function() &#123;</span><br><span class="line">  gulp.src(&apos;./js/*.js&apos;)</span><br><span class="line">    .pipe(concat(&apos;all.js&apos;))</span><br><span class="line">    .pipe(uglify())</span><br><span class="line">    .pipe(gulp.dest(&apos;./dist&apos;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 监听文件变化</span><br><span class="line">gulp.task(&apos;watch&apos;, function()&#123;</span><br><span class="line">  // 当 scss 文件被编辑时执行 SCSS 任务</span><br><span class="line">  gulp.watch(&apos;./scss/*.scss&apos;, [&apos;sass&apos;]);</span><br><span class="line">  gulp.watch(&apos;./js/*.js&apos;, [&apos;scripts&apos;]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Gulp 的优点是好用又不失灵活，既可以单独完成构建也可以和其它工具搭配使用。其缺点是集成度不高，要写很多配置后才可以用，无法做到开箱即用。<br>还一点就是不会像 webpack 那样把所有文件看作模块打包成一个整体，它是把当前处理的文件看成一个整体，所以处理多少个文件就输入多少个文件。</p>
+<h3 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h3><p>Rollup 是一个和 Webpack 很类似但专注于 ES6 的模块打包工具。 Rollup 的亮点在于能针对 ES6 源码进行 Tree Shaking 以去除那些已被定义但没被使用的代码，以及 Scope Hoisting 以减小输出文件大小提升运行性能。 然而 Rollup 的这些亮点随后就被 Webpack 模仿和实现。 由于 Rollup 的使用和 Webpack 差不多，而它们的差别是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Rollup 是在 Webpack 流行后出现的替代品；</span><br><span class="line">Rollup 生态链还不完善，体验不如 Webpack；</span><br><span class="line">Rollup 功能不如 Webpack 完善，但其配置和使用更加简单；</span><br><span class="line">Rollup 不支持 Code Spliting，但好处是打包出来的代码中没有 Webpack 那段模块的加载、执行和缓存的代码。</span><br></pre></td></tr></table></figure>
+<p>Rollup 在用于打包 JavaScript 库时比 Webpack 更加有优势，因为其打包出来的代码更小更快。 但功能不够完善，很多场景都找不到现成的解决方案。</p>
+<h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><p>前言以对它进行简述了。<br>Webpack 的优点是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">专注于处理模块化的项目，能做到开箱即用一步到位；</span><br><span class="line">通过 Plugin 扩展，完整好用又不失灵活；</span><br><span class="line">使用场景不仅限于 Web 开发；</span><br><span class="line">社区庞大活跃，经常引入紧跟时代发展的新特性，能为大多数场景找到已有的开源扩展；</span><br><span class="line">良好的开发体验。</span><br></pre></td></tr></table></figure>
+<p>Webpack 的缺点是只能用于采用模块化开发的项目。</p>
+<h2 id="webpack-的简单使用"><a href="#webpack-的简单使用" class="headerlink" title="webpack 的简单使用"></a>webpack 的简单使用</h2><p>安装<br>webpack 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli -D</span><br></pre></td></tr></table></figure>
+<p>babel 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm i -D @babel/cli @babel/core babel-loader</span><br><span class="line"></span><br><span class="line">// babel 插件</span><br><span class="line">npm i -D @babel/plugin-transform-arrow-functions @babel/plugin-transform-arrow-functions</span><br><span class="line"></span><br><span class="line">// babel presets</span><br><span class="line">npm i -D @babel/preset-env @babel/preset-react</span><br></pre></td></tr></table></figure>
+<p>css 处理安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D css-loader postcss-loader postcss-normalize postcss-preset-env postcss-flexbugs-fixes mini-css-extract-plugin style-loader</span><br></pre></td></tr></table></figure>
+<p>当打包时使用 mini-css-extract-plugin 分离 css 为单独文件，而开发时使用 style-loader 在项目热加载模式下使用，因为 mini-css-extract-plugin 在热加载使用不了。</p>
+<p>html 处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D html-webpack-plugin</span><br></pre></td></tr></table></figure>
+<h4 id="完整-package-json"><a href="#完整-package-json" class="headerlink" title="完整 package.json"></a>完整 package.json</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;webpack01&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;w&quot;: &quot;webpack&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;@babel/cli&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;@babel/core&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;@babel/plugin-proposal-class-properties&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;@babel/plugin-transform-arrow-functions&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;@babel/preset-env&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;@babel/preset-react&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;babel-loader&quot;: &quot;^8.0.6&quot;,</span><br><span class="line">    &quot;css-loader&quot;: &quot;^3.4.2&quot;,</span><br><span class="line">    &quot;html-webpack-plugin&quot;: &quot;^3.2.0&quot;,</span><br><span class="line">    &quot;mini-css-extract-plugin&quot;: &quot;^0.9.0&quot;,</span><br><span class="line">    &quot;postcss-flexbugs-fixes&quot;: &quot;^4.1.0&quot;,</span><br><span class="line">    &quot;postcss-loader&quot;: &quot;^3.0.0&quot;,</span><br><span class="line">    &quot;postcss-normalize&quot;: &quot;^8.0.1&quot;,</span><br><span class="line">    &quot;postcss-preset-env&quot;: &quot;^6.7.0&quot;,</span><br><span class="line">    &quot;webpack&quot;: &quot;^4.41.5&quot;,</span><br><span class="line">    &quot;webpack-cli&quot;: &quot;^3.3.10&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;@babel/polyfill&quot;: &quot;^7.8.0&quot;,</span><br><span class="line">    &quot;react&quot;: &quot;^16.12.0&quot;,</span><br><span class="line">    &quot;react-dom&quot;: &quot;^16.12.0&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="完整-webpack-config-js"><a href="#完整-webpack-config-js" class="headerlink" title="完整 webpack.config.js"></a>完整 webpack.config.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);</span><br><span class="line">const postcssNormalize = require(&quot;postcss-normalize&quot;);</span><br><span class="line"></span><br><span class="line">const babel = require(&quot;./babel.config&quot;);</span><br><span class="line"></span><br><span class="line">const moduleFileExtensions = [</span><br><span class="line">  &quot;web.mjs&quot;,</span><br><span class="line">  &quot;mjs&quot;,</span><br><span class="line">  &quot;web.js&quot;,</span><br><span class="line">  &quot;js&quot;,</span><br><span class="line">  &quot;json&quot;,</span><br><span class="line">  &quot;web.jsx&quot;,</span><br><span class="line">  &quot;jsx&quot;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &quot;./src/index.jsx&quot;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    // path: &apos;/dist&apos;,</span><br><span class="line">    path: __dirname + &quot;/dist&quot;,</span><br><span class="line">    filename: &quot;bundle.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: moduleFileExtensions.map(ext =&gt; `.$&#123;ext&#125;`)</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.jsx$/,</span><br><span class="line">        exclude: /node_modules/,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: &quot;babel-loader&quot;,</span><br><span class="line">          options: &#123;</span><br><span class="line">            ...babel</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          MiniCssExtractPlugin.loader,</span><br><span class="line">          &quot;css-loader&quot;,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: require.resolve(&quot;postcss-loader&quot;),</span><br><span class="line">            options: &#123;</span><br><span class="line">              ident: &quot;postcss&quot;,</span><br><span class="line">              plugins: () =&gt; [</span><br><span class="line">                require(&quot;postcss-flexbugs-fixes&quot;),</span><br><span class="line">                require(&quot;postcss-preset-env&quot;)(&#123;</span><br><span class="line">                  autoprefixer: &#123;</span><br><span class="line">                    flexbox: &quot;no-2009&quot;</span><br><span class="line">                  &#125;,</span><br><span class="line">                  stage: 3</span><br><span class="line">                &#125;),</span><br><span class="line">                postcssNormalize()</span><br><span class="line">              ],</span><br><span class="line">              sourceMap: true</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new MiniCssExtractPlugin(&#123;</span><br><span class="line">      filename: &quot;[name].[chunkhash:8].css&quot;,</span><br><span class="line">      chunkFilename: &quot;[id].css&quot;</span><br><span class="line">    &#125;),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      inject: true,</span><br><span class="line">      template: &quot;public/index.html&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>babel.config.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const presets = [</span><br><span class="line">  &quot;@babel/preset-react&quot;,</span><br><span class="line">  [</span><br><span class="line">    &quot;@babel/preset-env&quot;,</span><br><span class="line">    &#123;</span><br><span class="line">      useBuiltIns: &quot;entry&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">];</span><br><span class="line">const plugins = [</span><br><span class="line">  &quot;@babel/plugin-transform-arrow-functions&quot;,</span><br><span class="line">  &quot;@babel/plugin-proposal-class-properties&quot;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">module.exports = &#123; presets, plugins &#125;;</span><br></pre></td></tr></table></figure>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/01/01/liunx-pm2与nginx/">
+        <span class="nav-arrow">← </span>
+        
+          liunx-pm2与nginx
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么需要模块化"><span class="toc-nav-text">为什么需要模块化</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#工具对比"><span class="toc-nav-text">工具对比</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#scripts"><span class="toc-nav-text">scripts</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Gulp"><span class="toc-nav-text">Gulp</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Rollup"><span class="toc-nav-text">Rollup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#webpack"><span class="toc-nav-text">webpack</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#webpack-的简单使用"><span class="toc-nav-text">webpack 的简单使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#完整-package-json"><span class="toc-nav-text">完整 package.json</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#完整-webpack-config-js"><span class="toc-nav-text">完整 webpack.config.js</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/01/12/重温webpack-01/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "重温webpack-01",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/01/12/重温webpack-01/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>

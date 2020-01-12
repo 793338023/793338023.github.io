@@ -147,6 +147,7 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h2 id="react-的安装"><a href="#react-的安装" class="headerlink" title="react 的安装"></a>react 的安装</h2><p>由于 react 的需要依赖一些的技术栈才能方便进行正常的开发，但这对学习它的成本会提高很多，如要需要会 webpack、gulp、Babel 等模块与构建工具，这样在没有开始就倒在了入门路上，而这些配置一般都可以是固定的，而使用脚手架，一行代码即可。</p>
+<p>但 react 脚手架过于复杂，对初学者来说，没有特殊要求可以不修改配置之类，不过一旦涉及这方面需求就懵逼了，因为 react 脚手架是 node 写的，webpack 只是它的一部分，也是核心部分，所以有 webpack 初步经验，为了更好的了解可以选择自己搭建。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 安装全局的create-react-app</span><br><span class="line">npm install --g create-react-app</span><br><span class="line"></span><br><span class="line">// 在指定目录创建react项目</span><br><span class="line">create-react-app 项目名</span><br><span class="line"></span><br><span class="line">// 进入项目</span><br><span class="line"><span class="built_in">cd</span> 项目名</span><br><span class="line"></span><br><span class="line">// 启动项目</span><br><span class="line">npm start</span><br><span class="line"></span><br><span class="line">// 对webpack进行操作，执行就无法逆转，如果有必要备份一份</span><br><span class="line">npm run eject</span><br></pre></td></tr></table></figure>
 <h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>JSX 是 JavaScript 的扩展语言，让 HTML 可以在 js 里编写，但使用模块一定要引入 react,而一般自定义的组件元素首字母都是大写，而这样区别 html 与 react 组件，而在 HTML 中大量的绑定事件是不规范的。<br>原因有以下:<br>2、如 onclick 添加的事件处理函数是在全局环境下执行的，这污染了全局环境，很容易产生意料不到的后果；<br>3、给很多 DOM 元素添加 onclick 事件，可能会影响网页的性能，毕竟，网页需要的事件处理函数越多，性能就会越低；<br>4、对于使用 onclick 的 DOM 元素，如果要动态地从 DOM 树中删掉的话，需要把对应的时间处理器注销，假如忘了注销，就可能造成内存泄露，这样的 bug 很难被发现。</p>
 <p>而以上的原因都是针对复杂的项目或单页面项目。</p>
@@ -189,6 +190,7 @@
 <p>由于 react 团队启用异步渲染方式，把一些长期被使用者不正当使用的生命周期钩子都准备弃用，以达到未来更新的版本更完善做准备。</p>
 <p><a href="https://zh-hans.reactjs.org/blog/2018/03/27/update-on-async-rendering.html" target="_blank" rel="noopener">资料</a></p>
 <p><a href="https://zh-hans.reactjs.org/docs/react-component.html#static-getderivedstatefromprops" target="_blank" rel="noopener">资料 2</a></p>
+<p><a href="https://github.com/793338023/react-antd-typescript" target="_blank" rel="noopener">例子项目</a></p>
 </section>
     <!-- Tags START -->
     
