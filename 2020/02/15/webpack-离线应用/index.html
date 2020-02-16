@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      webpack-离线应用 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>webpack-离线应用</h2>
+  <p class="post-date">2020-02-15</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>离线缓存应用，意思就是没有网络的情况下，被缓存的资源能从本地直接返回，让应用在一定范围内能正常运行。</p>
+<p>离线应用有以下优点：</p>
+<ol>
+<li>在没有网络的情况下也能打开网页。</li>
+<li>由于部分被缓存的资源直接从本地加载，对用户来说可以加速网页加载速度，对网站运营者来说可以减少服务器压力以及传输流量费用。</li>
+</ol>
+<p>实现离线缓存的技术有两种:</p>
+<ol>
+<li>AppCache 又叫 Application Cache，目前已经从 Web 标准中删除，请尽量不要使用它。</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers" target="_blank" rel="noopener">Service Workers</a> 是目前最新的离线缓存技术，是 Web Worker 的一部分。</li>
+</ol>
+<p>Service Workers 通过拦截网络请求实现离线缓存，比 AppCache 更加灵活。它也是构建 PWA 应用的关键技术之一。</p>
+<p>出于安全原因，Service Workers 要求必须在 HTTPS 下才能运行。</p>
+<p>在本地开发中，我们可以在启动 chrome 时让本地应用设置为安全，可以不使用 https，而使用 http，否则会报错。<br>如启动的本地应用地址为<code>http://localhost:8080/</code>;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 在终端启动chrome，chrome文件路径</span><br><span class="line">&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --unsafely-treat-insecure-origin-as-secure=http://localhost:8080/</span><br></pre></td></tr></table></figure>
+<h2 id="Service-Workers-兼容性"><a href="#Service-Workers-兼容性" class="headerlink" title="Service Workers 兼容性"></a>Service Workers 兼容性</h2><p>目前 Chrome、Firefox、Opera 都已经全面支持 Service Workers，但对于移动端浏览器就不太乐观了，只有高版本的 Android 支持。<br>由于 Service Workers 无法通过注入 polyfill 去实现兼容，所以在你打算使用它前请先调查清楚你的网页的运行场景。</p>
+<p>判断浏览器是否支持 Service Workers 的最简单的方法是通过以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 如果 navigator 对象上存在 serviceWorker 对象，就表示支持</span><br><span class="line">if (navigator.serviceWorker) &#123;</span><br><span class="line">  // 通过 navigator.serviceWorker 使用</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>要给网页接入 Service Workers，需要在网页加载后注册一个描述 Service Workers 逻辑的脚本。<br>所以编写一个 sw.js 专门包含 Service Workers 逻辑的脚本，比如缓存内容，sw.js 更新后重新加载缓存内容等等，而 sw.js 文件需要在应用入口文件加载注册。<br>如 main.js 为 webpack 的入口文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./main.css&apos;);</span><br><span class="line"></span><br><span class="line">if (navigator.serviceWorker) &#123;</span><br><span class="line">  window.addEventListener(&apos;DOMContentLoaded&apos;,function() &#123;</span><br><span class="line">    // 调用 serviceWorker.register 注册，参数 /sw.js 为脚本文件所在的 URL 路径</span><br><span class="line">    navigator.serviceWorker.register(&apos;sw.js&apos;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">window.document.getElementById(&apos;app&apos;).innerText = &apos;Hello,Webpack&apos;;</span><br></pre></td></tr></table></figure>
+<p>一旦这个脚本文件被加载，Service Workers 的安装就开始了。这个脚本被安装到浏览器中后，就算用户关闭了当前网页，它仍会存在。<br>也就是说第一次打开该网页时 Service Workers 的逻辑不会生效，因为脚本还没有被加载和注册，但是以后再次打开该网页时脚本里的逻辑将会生效。</p>
+<p>在 Chrome 中可以通过打开网址 chrome://inspect/#service-workers 来查看当前浏览器中所有注册了的 Service Workers。</p>
+<h2 id="使用-Service-Workers-实现离线缓存"><a href="#使用-Service-Workers-实现离线缓存" class="headerlink" title="使用 Service Workers 实现离线缓存"></a>使用 Service Workers 实现离线缓存</h2><p>Service Workers 在注册成功后会在其生命周期中派发出一些事件，通过监听对应的事件在特点的时间节点上做一些事情。</p>
+<p>在 Service Workers 脚本中，引入了新的关键字 self 代表当前的 Service Workers 实例。</p>
+<p>在 Service Workers 安装成功后会派发出 install 事件，需要在这个事件中执行缓存资源的逻辑，实现代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 当前缓存版本的唯一标识符，用当前时间代替</span><br><span class="line">var cacheKey = new Date().toISOString();</span><br><span class="line"></span><br><span class="line">// 需要被缓存的文件的 URL 列表</span><br><span class="line">var cacheFileList = [</span><br><span class="line">  &apos;/index.html&apos;,</span><br><span class="line">  &apos;/app.js&apos;,</span><br><span class="line">  &apos;/app.css&apos;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// 监听 install 事件</span><br><span class="line">self.addEventListener(&apos;install&apos;, function (event) &#123;</span><br><span class="line">  // 等待所有资源缓存完成时，才可以进行下一步</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(cacheKey).then(function (cache) &#123;</span><br><span class="line">      // 要缓存的文件 URL 列表</span><br><span class="line">      return cache.addAll(cacheFileList);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>接下来需要监听网络请求事件去拦截请求，复用缓存，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">self.addEventListener(&apos;fetch&apos;, function(event) &#123;</span><br><span class="line">  event.respondWith(</span><br><span class="line">    // 去缓存中查询对应的请求</span><br><span class="line">    caches.match(event.request).then(function(response) &#123;</span><br><span class="line">        // 如果命中本地缓存，就直接返回本地的资源</span><br><span class="line">        if (response) &#123;</span><br><span class="line">          return response;</span><br><span class="line">        &#125;</span><br><span class="line">        // 否则就去用 fetch 下载资源</span><br><span class="line">        return fetch(event.request);</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>以上就实现了离线缓存。</p>
+<h2 id="更新缓存"><a href="#更新缓存" class="headerlink" title="更新缓存"></a>更新缓存</h2><p>线上的代码有时需要更新和重新发布，如果这个文件被离线缓存了，那就需要 Service Workers 脚本中有对应的逻辑去更新缓存。<br>这可以通过更新 Service Workers 脚本文件做到。<br>浏览器针对 Service Workers 有如下机制：</p>
+<ol>
+<li>每次打开接入了 Service Workers 的网页时，浏览器都会去重新下载 Service Workers 脚本文件（所以要注意该脚本文件不能太大），如果发现和当前已经注册过的文件存在字节差异，就将其视为“新服务工作线程”。</li>
+<li>新 Service Workers 线程将会启动，且将会触发其 install 事件。</li>
+<li>当网站上当前打开的页面关闭时，旧 Service Workers 线程将会被终止，新 Service Workers 线程将会取得控制权。</li>
+<li>新 Service Workers 线程取得控制权后，将会触发其 activate 事件。</li>
+</ol>
+<p>新 Service Workers 线程中的 activate 事件就是最佳的清理旧缓存的时间点，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 当前缓存白名单，在新脚本的 install 事件里将使用白名单里的 key</span><br><span class="line">var cacheWhitelist = [cacheKey];</span><br><span class="line"></span><br><span class="line">self.addEventListener(&apos;activate&apos;, function(event) &#123;</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.keys().then(function(cacheNames) &#123;</span><br><span class="line">      return Promise.all(</span><br><span class="line">        cacheNames.map(function(cacheName) &#123;</span><br><span class="line">          // 不在白名单的缓存全部清理掉</span><br><span class="line">          if (cacheWhitelist.indexOf(cacheName) === -1) &#123;</span><br><span class="line">            // 删除缓存</span><br><span class="line">            return caches.delete(cacheName);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>sw.js 完整代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">// 当前缓存版本的唯一标识符，用当前时间代替</span><br><span class="line">var cacheKey = new Date().toISOString();</span><br><span class="line"></span><br><span class="line">// 当前缓存白名单，在新脚本的 install 事件里将使用白名单里的 key</span><br><span class="line">var cacheWhitelist = [cacheKey];</span><br><span class="line"></span><br><span class="line">// 需要被缓存的文件的 URL 列表</span><br><span class="line">var cacheFileList = [</span><br><span class="line">  &apos;/index.html&apos;,</span><br><span class="line">  &apos;app.js&apos;,</span><br><span class="line">  &apos;app.css&apos;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// 监听 install 事件</span><br><span class="line">self.addEventListener(&apos;install&apos;, function (event) &#123;</span><br><span class="line">  // 等待所有资源缓存完成时，才可以进行下一步</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(cacheKey).then(function (cache) &#123;</span><br><span class="line">      // 要缓存的文件 URL 列表</span><br><span class="line">      return cache.addAll(cacheFileList);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 拦截网络请求</span><br><span class="line">self.addEventListener(&apos;fetch&apos;, function (event) &#123;</span><br><span class="line">  event.respondWith(</span><br><span class="line">    // 去缓存中查询对应的请求</span><br><span class="line">    caches.match(event.request).then(function (response) &#123;</span><br><span class="line">        // 如果命中本地缓存，就直接返回本地的资源</span><br><span class="line">        if (response) &#123;</span><br><span class="line">          return response;</span><br><span class="line">        &#125;</span><br><span class="line">        // 否则就去用 fetch 下载资源</span><br><span class="line">        return fetch(event.request);</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 新 Service Workers 线程取得控制权后，将会触发其 activate 事件</span><br><span class="line">self.addEventListener(&apos;activate&apos;, function (event) &#123;</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.keys().then(function (cacheNames) &#123;</span><br><span class="line">      return Promise.all(</span><br><span class="line">        cacheNames.map(function (cacheName) &#123;</span><br><span class="line">          // 不在白名单的缓存全部清理掉</span><br><span class="line">          if (cacheWhitelist.indexOf(cacheName) === -1) &#123;</span><br><span class="line">            // 删除缓存</span><br><span class="line">            return caches.delete(cacheName);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>z 这些都是没有接入 webpack 时实现的。</p>
+<h2 id="接入-Webpack"><a href="#接入-Webpack" class="headerlink" title="接入 Webpack"></a>接入 Webpack</h2><p>使用 webpack 要使用<a href="https://github.com/oliviertassinari/serviceworker-webpack-plugin" target="_blank" rel="noopener">serviceworker-webpack-plugin</a>插件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D serviceworker-webpack-plugin webpack-dev-server</span><br></pre></td></tr></table></figure>
+<p>webpack 例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&quot;path&quot;);</span><br><span class="line">const ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);</span><br><span class="line">const &#123; WebPlugin &#125; = require(&quot;web-webpack-plugin&quot;);</span><br><span class="line">const ServiceWorkerWebpackPlugin = require(&quot;serviceworker-webpack-plugin&quot;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: &quot;./main.js&quot; // Chunk app 的 JS 执行入口文件</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &quot;[name].js&quot;,</span><br><span class="line">    publicPath: &quot;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css/, // 增加对 CSS 文件的支持</span><br><span class="line">        // 提取出 Chunk 中的 CSS 代码到单独的文件中</span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: [&quot;css-loader&quot;] // 压缩 CSS 代码</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // 一个 WebPlugin 对应一个 HTML 文件</span><br><span class="line">    new WebPlugin(&#123;</span><br><span class="line">      template: &quot;./template.html&quot;, // HTML 模版文件所在的文件路径</span><br><span class="line">      filename: &quot;index.html&quot; // 输出的 HTML 的文件名称</span><br><span class="line">    &#125;),</span><br><span class="line">    new ExtractTextPlugin(&#123;</span><br><span class="line">      filename: `[name].css` // 给输出的 CSS 文件名称加上 hash 值</span><br><span class="line">    &#125;),</span><br><span class="line">    new ServiceWorkerWebpackPlugin(&#123;</span><br><span class="line">      // 自定义的 sw.js 文件所在路径</span><br><span class="line">      // ServiceWorkerWebpackPlugin 会把文件列表注入到生成的 sw.js 中</span><br><span class="line">      entry: path.join(__dirname, &quot;sw.js&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    // Service Workers 依赖 HTTPS，使用 DevServer 提供的 HTTPS 功能。</span><br><span class="line">    // https: true,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>devServer 的 https 可以不开启，如果 chrome 启动设置不禁止 http；<br>使用了 ServiceWorkerWebpackPlugin 后可以在 sw.js 里 global.serviceWorkerOption 下获取 assets，里面包含了 webpack 输出的所有静态文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Version: webpack 3.12.0</span><br><span class="line">Time: 16ms</span><br><span class="line">     Asset       Size  Chunks             Chunk Names</span><br><span class="line">   app.css   21 bytes       0  [emitted]  app</span><br><span class="line">index.html  332 bytes          [emitted]</span><br><span class="line">     sw.js    7.13 kB          [emitted]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> global.serviceWorkerOption.assets --- [&quot;/app.js&quot;, &quot;/app.css&quot;, &quot;/index.html&quot;]</span><br></pre></td></tr></table></figure>
+<p>而 ServiceWorkerWebpackPlugin 内置了注册启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import runtime from &quot;serviceworker-webpack-plugin/lib/runtime&quot;;</span><br><span class="line">// 调用 serviceWorker.register 注册，参数 /sw.js 为脚本文件所在的 URL 路径</span><br><span class="line">var registration = runtime.register();</span><br></pre></td></tr></table></figure>
+<p>ServiceWorkerWebpackPlugin 事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import registerEvents from &quot;serviceworker-webpack-plugin/lib/browser/registerEvents&quot;;</span><br><span class="line">registerEvents(registration, &#123;</span><br><span class="line">      onInstalled: () =&gt; &#123;</span><br><span class="line">        pushLog(&quot;onInstalled&quot;);</span><br><span class="line">      &#125;,</span><br><span class="line">      onUpdateReady: () =&gt; &#123;</span><br><span class="line">        pushLog(&quot;onUpdateReady&quot;, true);</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      onUpdating: () =&gt; &#123;</span><br><span class="line">        pushLog(&quot;onUpdating&quot;);</span><br><span class="line">      &#125;,</span><br><span class="line">      onUpdateFailed: () =&gt; &#123;</span><br><span class="line">        pushLog(&quot;onUpdateFailed&quot;);</span><br><span class="line">      &#125;,</span><br><span class="line">      onUpdated: () =&gt; &#123;</span><br><span class="line">        pushLog(&quot;onUpdated&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>ServiceWorkerWebpackPlugin 更新后手动更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import applyUpdate from &quot;serviceworker-webpack-plugin/lib/browser/applyUpdate&quot;;</span><br><span class="line">// 当为onUpdateReady时，可以使用applyUpdate触发更新操作</span><br><span class="line">applyUpdate().then(() =&gt; &#123;</span><br><span class="line">    window.location.reload();</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>通过打开开发者工具的 Application-Service Workers 一栏，就能看到当前页面注册的 Service Workers，正常的效果如图：<br><img src="/2020/02/15/webpack-离线应用/01.png" alt="01"></p>
+<p>通过打开开发者工具的 Application-Cache-Cache Storage 一栏，能看到当前页面缓存的资源列表，正常的效果如图：<br><img src="/2020/02/15/webpack-离线应用/02.png" alt="02"></p>
+<p>为了验证网页在离线时能访问的能力，需要在开发者工具中的 Network 一栏中通过 Offline 选项禁用掉网络，再刷新页面能正常访问，并且网络请求的响应都来自 Service Workers，正常的效果如图：<br><img src="/2020/02/15/webpack-离线应用/03.png" alt="03"></p>
+<p>从图上可以看到红字的为没有缓存的，而有 ServiceWorker 的为有缓存的。</p>
+<h2 id="完整项目例子"><a href="#完整项目例子" class="headerlink" title="完整项目例子"></a><a href="https://github.com/793338023/ServiceWorker-demo" target="_blank" rel="noopener">完整项目例子</a></h2></section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/01/18/重温webpack-02/">
+        <span class="nav-arrow">← </span>
+        
+          重温webpack-02
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Service-Workers-兼容性"><span class="toc-nav-text">Service Workers 兼容性</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#注册"><span class="toc-nav-text">注册</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#使用-Service-Workers-实现离线缓存"><span class="toc-nav-text">使用 Service Workers 实现离线缓存</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#更新缓存"><span class="toc-nav-text">更新缓存</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#接入-Webpack"><span class="toc-nav-text">接入 Webpack</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#验证"><span class="toc-nav-text">验证</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#完整项目例子"><span class="toc-nav-text">完整项目例子</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/02/15/webpack-离线应用/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "webpack-离线应用",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/02/15/webpack-离线应用/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
