@@ -10,7 +10,7 @@
   
   <title>
     
-      npm进阶-node_modules与自动部署装包速度提升 | 张志成博客
+      install的坑 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>npm进阶-node_modules与自动部署装包速度提升</h2>
-  <p class="post-date">2020-03-03</p>
+  <h2>install的坑</h2>
+  <p class="post-date">2020-03-08</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,46 +146,33 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="自动部署装包速度提升"><a href="#自动部署装包速度提升" class="headerlink" title="自动部署装包速度提升"></a>自动部署装包速度提升</h2><p>现在程序的开发都提倡能用技术放开双手，那就要技术解决，所以现在无论是构建、代码检查、部署或者测试，这些都有一定程度的自动化过程，减少人为操作失误，而这的主题是 npm 装包耗时过长的优化方案。</p>
-<p>当我们本地使用 npm 装包时，因为在本地环境中安装依赖是有状态的，如 node_modules，~/.npmrc，~/.npm 一系列硬盘目录及文件，无不构成状态。而在生产环境中，往往结合 CICD 工具，每次分配的 Runner 不一定是一台服务器(容器)，往往被视为无状态，因而无法有效利用缓存而导致 CI 中部署用时过长。</p>
-<p>但也正因为 CICD Runner 的无状态化，这意味着你只要参考构建脚本，如 .gitlab-ci.yaml，.travis.yaml 或者 .github/workflows/deploy.yaml，就可以从零把项目跑起来，而避免过多在熟悉新项目时求助他人。</p>
-<p>那么我们应该怎么让 npm 在 CICD 上跑的更快呢？</p>
-<p>优化一:<br>使用 –production 可以只安装 package.json 中 dependencies 中的依赖项，只把要安装在 CI 中需要使用到的依赖。在生产环境部署时可以指定 –production。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --production</span><br></pre></td></tr></table></figure>
-<p>但这样以后装包要严格遵守装包的规则，项目使用到的都要装到 dependencies 里，这是一个缺点，会出现人为的失误导致的 BUG。</p>
-<p>优化二:<br>使用私有镜像仓库，既公司自己搭建 npm 仓库，然后包都从公司仓库拉取。<br>对于企业级项目的生产环境来说，在集群内部搭建私有仓库是一个更好的选择，也更能缩短时延。 流量能在局域网完成的，就不需要去互联网中溜圈了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如:</span><br><span class="line">npm config set registry https://registry-npm.sisis.tech/</span><br></pre></td></tr></table></figure>
-<p>优化三:<br>正如 http cache 一样，npm install 也可以充分利用缓存，npm 的缓存在 linux 系统中存在于以下路径:</p>
-<p>命令 npm cache verify 可以校验缓存，如下所示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm cache verify</span><br><span class="line">Cache verified and compressed (~/.npm/_cacache):</span><br><span class="line">Content verified: 4415 (156612117 bytes)</span><br><span class="line">Index entries: 6239</span><br><span class="line">Finished in 14.017s</span><br></pre></td></tr></table></figure>
-<p>结合 <code>npm install --prefer-offline</code> 缓存优先策略充分利用缓存</p>
-<p>既</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm cache verify</span><br><span class="line">npm install --prefer-offline</span><br></pre></td></tr></table></figure>
-<p>优化四:<br>使用<code>npm ci</code>装包<br>它安装依赖时，默认是缓存优先的，它会充分利用缓存，从而加速装包。<br><code>npm ci</code> 可以减少将近一半的的依赖安装时间。</p>
-<p>优化五:<br>每次对比上一次 MR 的 package.json 与这次 MR 的 package.json，筛选出不同的地方，如包的版本不一样，新增包等，然后只安装这部分的包</p>
-<h2 id="npm-进阶-node-modules"><a href="#npm-进阶-node-modules" class="headerlink" title="npm 进阶-node_modules"></a>npm 进阶-node_modules</h2><p>nodejs 中 package.json 中的依赖必须每个项目都有自己的 node_modules 文件夹，而无法在多个项目之间共用一套 node_modules（不像 Java 中的 Maven 那样共享一个全居仓库）。</p>
-<p>没法共用一个 node_modules 会导致互相依赖的项目当使用是同一个包时，但由于包保存了数据需要获取出来使用而导致的报错，因为它们不是依赖同一个包，如 redux，react-router-dom 等。</p>
-<p>依赖管理是每个现代语言的标配。在 Java 中，maven 同时兼具 依赖管理 和 打包 两大功能，而前段领域这两个功能是两种不同的工具分别提供：</p>
-<ol>
-<li>npm 负责依赖管理</li>
-<li>webpack 负责打包</li>
+    <section class="markdown-content"><h2 id="package"><a href="#package" class="headerlink" title="package"></a>package</h2><h4 id="package-有两种依赖"><a href="#package-有两种依赖" class="headerlink" title="package 有两种依赖"></a>package 有两种依赖</h4><ol>
+<li>dependencies —— 运行依赖，依赖的项该是正常运行该包时所需要的依赖项，就是开发的项目需要的包，如 ui 框架包，react 包之类的。</li>
+<li>devDependencies —— 开发依赖，开发的时候需要的依赖项，像一些进行单元测试之类的包或 webpack 打包需要的包。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">依赖管理最难解决的问题就是版本问题。库A依赖库B，库C也依赖库B，但是库A跟库C所依赖的库B不是同一版本，如果库B的这两个版本兼容还好，如果不兼容就坑大发了，这是无解的问题。</span><br></pre></td></tr></table></figure>
-<p>Java 中的 Maven 仓库在开发者电脑上是全局的，所有项目的依赖都集中存放在本地仓库中。每个项目都有 pom.xml 指明依赖本地仓库中的哪些库，如果本地仓库没有会从局域网仓库或网络仓库下载至本地仓库。<br>Node 中的依赖如果你不写 package.json，那么依赖的就是全局的库；如果写了 package.json，就会把所有依赖下载到 node_modules 文件夹</p>
-<p>Node 这种 node_modules 文件夹的方式有利有弊。</p>
-<p>好处:</p>
+<h4 id="package-版本号详解"><a href="#package-版本号详解" class="headerlink" title="package 版本号详解"></a>package 版本号详解</h4><p>在 npm 中安装固定的版本号 package，只需要在其后加 <code>@</code>版本号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i babel-core@7.0.0 -S</span><br></pre></td></tr></table></figure>
+<p>package.json 中库的版本号详解：</p>
 <ol>
-<li>使用 package.json 安装好之后，node_modules 文件夹中没有版本信息，从而 package.json 可以删掉了。</li>
-<li>移动/复制/打包项目比较简单，对于开发、部署都有好处</li>
-<li>对于设计 npm 的人来说，这是最省事的包依赖方法。这就好比 maven 安装依赖之后自动将 jar 包安装到项目的 lib 里面。</li>
-<li>随意改代码。安装在 node_modules 里面的东西，你可以随便改，无需担心对其它项目的影响。在 Java 中使用 maven 管理项目时，如果想要定制某个库，就需要更改这个库的源代码，这时就需要把这个库的源代码复制到项目中，跟 node_modules 是一个道理。npm 的设计者大概认为：前端都是经常修改库的源代码的。</li>
+<li><p><code>~</code> 匹配最近的小版本依赖包，比如~7.0.0 会匹配所有 7.0.x 版本，但是不包括 7.1.0，如果 7.0.x 最新的版本是 7.0.8，那么就会安装这个版本</p>
+</li>
+<li><p><code>^</code> 匹配最新的大版本依赖包，比如^7.0.0 会匹配所有 7.x.x 的包，包括 7.9.0，但是不包括 8.0.0，如 7.x.x 最新的版本是 7.8.7，那么就会安装这个版本</p>
+</li>
+<li><p><code>*</code> 意味着安装最新版本的依赖包</p>
+</li>
 </ol>
-<p>坏处:</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p>由于在 package.json 中依赖包大部分都是一个范围的版本，如<code>babel:^7.0.0</code>，那么每个从仓库拉下来的开发者都会遵循装包规则，安装这个范围版本最新的，那么就导致一个现象就是你与同事的依赖包不一致，而你的包有 BUG，但你同事没有，而导致有时难以确认问题所在，或者公司自己搭建了 npm 私仓，但最近在 npm 仓库上有新的包更新，但公司的私仓没有同步到位，导致装包时找不到包，但由于这个包是依赖包的包，导致你也不能固定它的版本而导致你无法正常下载包的问题。</p>
+<p>解决方法:</p>
 <ol>
-<li>每次都需要安装依赖，费流量，网速慢时很费时间</li>
-<li>浪费磁盘空间，每个 node_modules 中包含的工具很多，动辄 20M</li>
+<li>那么这些问题其实可以使用<code>package-lock.json</code>解决，因为它记录了整个 <code>node_modules</code> 文件夹的树状结构，甚至连模块的下载地址都记录了，<code>npm install</code>时会根据 <code>package-lock.json</code> 文件指定的结构来下载模块，并不会理会 <code>package.json</code> 文件，而它也提升了装包速度。</li>
 </ol>
-<p>但我觉得这些坏处都不是很大的问题，应该也就浪费一些流量和几十分钟的时间，而且也不是经常全量安装包，后续开发就会单独新增包，单独安装包是很快的，并且 npm 或 yarn 之类的工具都在不断的优化，装包只会越来越快，再不济也可以是使用国内镜像或公司搭建私仓下载，这也是对装包速度很大的提升。</p>
+<p>但以后修改 <code>package.json</code> 文件相应模块的版本号，再执行 <code>npm install</code> 不会更新了，只能手动 <code>npm install name@version</code> 指定版本号来安装。</p>
+<ol start="2">
+<li>若项目里没有<code>package-lock.json</code>，那么我们可以使用 yarn 去解决，因为 yarn 出现就是为了解决 npm 的一些缺陷，它与 npm 功能类似而且完全兼容，在项目中可以切换使用，它们都是一个对包操作的工具而已，而 yarn 对某些不存在的包版本但这个版本范围之类还是有包存在的会出现询问交互操作，那么我们就可以选定某个版本，而 npm 就不行，当版本不存在，它就会报错，让人无法安装包，然后 yarn 生成 yarn.lock，这个和<code>package.json</code>一样的，最早时 yarn 实现的，为了版本一致，提升速度。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yarn install --non-interactive</span><br><span class="line"></span><br><span class="line">禁用询问交互，比如当没有合适版本的依赖时</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yarn install --flat</span><br><span class="line"></span><br><span class="line">安装所有依赖，但每个依赖只允许有一个版本存在。 第一次运行这个命令时，会提示你在每个依赖包的多个版本范围中选择一个版本。 这会被添加到你的 package.json 文件的 resolutions 字段。</span><br><span class="line"></span><br><span class="line">&quot;resolutions&quot;: &#123;</span><br><span class="line">  &quot;package-a&quot;: &quot;2.0.0&quot;,</span><br><span class="line">  &quot;package-b&quot;: &quot;5.0.0&quot;,</span><br><span class="line">  &quot;package-c&quot;: &quot;1.5.2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 将准确地安装yarn.lock中的内容。不更新锁定</span><br><span class="line">yarn install --frozen-lockfile</span><br><span class="line"></span><br><span class="line">不生成 yarn.lock 锁文件，并且，如果需要更新则会报错。</span><br><span class="line"></span><br><span class="line">如果需要可重现的依赖环境（比如在持续集成系统中），应该传入 --frozen-lockfile 标志。</span><br></pre></td></tr></table></figure>
 </section>
     <!-- Tags START -->
     
@@ -204,20 +191,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/03/02/react-微前端/">
+      <a class="nav-left" href="/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/">
         <span class="nav-arrow">← </span>
         
-          react-微前端
+          npm进阶-node_modules与自动部署装包速度提升
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/03/08/install的坑/">
-        
-          install的坑
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -263,7 +243,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#自动部署装包速度提升"><span class="toc-nav-text">自动部署装包速度提升</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#npm-进阶-node-modules"><span class="toc-nav-text">npm 进阶-node_modules</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#package"><span class="toc-nav-text">package</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#package-有两种依赖"><span class="toc-nav-text">package 有两种依赖</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#package-版本号详解"><span class="toc-nav-text">package 版本号详解</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#坑"><span class="toc-nav-text">坑</span></a></li></ol></li></ol>
     
   </div>
 </aside>
@@ -273,7 +253,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/';
+    var url = 'http://yoursite.com/2020/03/08/install的坑/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -329,7 +309,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "npm进阶-node_modules与自动部署装包速度提升",
+        id: "install的坑",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -357,7 +337,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/';
+  var disqus_url = 'http://yoursite.com/2020/03/08/install的坑/';
   
   (function(){
     var dsq = document.createElement('script');
