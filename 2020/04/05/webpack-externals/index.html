@@ -10,7 +10,7 @@
   
   <title>
     
-      超简单的搭建功能完善的组件开发库 | 张志成博客
+      webpack-externals | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>超简单的搭建功能完善的组件开发库</h2>
-  <p class="post-date">2020-04-04</p>
+  <h2>webpack-externals</h2>
+  <p class="post-date">2020-04-05</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,20 +146,42 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>搭建组件开发库，往往要有很多打包工具知识，从中选择符合当前需求的，如要有 webpack、rollup、gulp、单元测试、eslint、typescript 等等知识，如果想搭建一个理想好用的，还要会使用 node 写命令或脚手架。</p>
-<p>但阿里的前端工具生态已经有很好用工具可开箱即可，免去入门门槛，dumi。</p>
-<p><strong><a href="https://github.com/793338023/components-lib" target="_blank" rel="noopener">详细文档请移步 github 查看，里面有个例子项目</a></strong></p>
-<p><strong>2020/4/4 清明-全国哀悼</strong><br><strong>首先默哀三分钟</strong></p>
-<p>今天看到网站都是灰色的，怎么做到了，使用了 filter 的 grayscale 实现的，只要在顶层 html 使用 filter，就实现了整个网站灰色</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">html &#123;</span><br><span class="line">    -webkit-filter: grayscale(100%);</span><br><span class="line">    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>webpack5 出了 federated-modules，对于对微前端有需求的项目来说，无疑是一个好消息，因为它解决跨应用之间的共享模块。<br>而这也是微前端的核心功能之一。</p>
+<p><a href="https://github.com/sorrycc/test-federated-modules" target="_blank" rel="noopener">github 例子</a><br><a href="https://zhuanlan.zhihu.com/p/117252835" target="_blank" rel="noopener">federated-modules 资料</a></p>
+<p>而这个功能还在试行阶段，在这之前一般都是使用 externals 解决这种跨应用问题，当然 externals 不止这些作用，还可以优化编译速度。</p>
+<h2 id="externals"><a href="#externals" class="headerlink" title="externals"></a>externals</h2><p>externals 是 webpack 的外部扩展，例如我们想引用一个库，但是又不想让 webpack 打包，并且又不影响我们在程序中以 CMD、AMD 或者 window/global 全局等方式进行使用，那就可以通过配置 externals。这个功能主要是用在创建一个库的时候用的，但是也可以在我们项目开发中充分使用，从中可知完全符合微前端糅合项目。</p>
+<p>当然它在优化方面是很棒的。<br>如我们在使用 js 库如 react-dom 或者 react 等的时候，webpack 会将他们一起打包，react 和 react-dom 文件就好几百 k，全部打包成一个文件，可想而知，这个文件会很大，用户在首次打开时往往会出现白屏等待时间过长的问题，这时，我们就需要将这类文件抽离出来，那么我们就可以 externals 的方式引入。也就是说，自己的库本身不打包这个 react-dom、react，需要用户环境提供，也优化了开发与打包的编译速度。</p>
+<ol>
+<li>项目中正常使用</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;;</span><br><span class="line">import ReactDOM from &quot;react-dom&quot;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>webpack 配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">externals: &#123;</span><br><span class="line">      react: &quot;React&quot;,</span><br><span class="line">      &quot;react-dom&quot;: &quot;ReactDOM&quot;,</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>需要 html 引入 js</li>
+</ol>
+<p>直接 index.html 引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>html-webpack-plugin 方式引入，因为 html-webpack-plugin 可以使用 ejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    //...</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">            filename: &apos;index.html&apos;,</span><br><span class="line">            template: `/public/template.ejs`,</span><br><span class="line">            //...</span><br><span class="line">            // 添加参数SCRIPTS，后面母版页会使用</span><br><span class="line">            SCRIPTS: [</span><br><span class="line">https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js,</span><br><span class="line">https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js</span><br><span class="line">            ],</span><br><span class="line">        &#125;),</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+<p>template.ejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% htmlWebpackPlugin.options.SCRIPTS.forEach(function(url)) &#123; %&gt;</span><br><span class="line">&lt;script src=&quot;&lt;%=url %&gt;&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;% &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+<p>如果你写的库要支持各种环境，你需要设置 output 中的 libraryTarget 为 umd，也就是将打包的文件，生成为 umd 规范，适用于各种环境。libraryTarget 和 externals 关系紧密，如果出现不符合的，你可以使用 webpack 打包为 umd，webpack 打包出的名称与 externals 的 value 保持一致。</p>
+<p>externals 配置一般都是使用 object，如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">externals: &#123;</span><br><span class="line">  &quot;lodash&quot;: &#123;</span><br><span class="line">        commonjs: &quot;lodash&quot;,//如果我们的库运行在Node.js环境中，import _ from &apos;lodash&apos;等价于const _ = require(&apos;lodash&apos;)</span><br><span class="line">        commonjs2: &quot;lodash&quot;,//同上</span><br><span class="line">        amd: &quot;lodash&quot;,//如果我们的库使用require.js等加载,等价于 define([&quot;lodash&quot;], factory);</span><br><span class="line">        root: &quot;_&quot;//如果我们的库在浏览器中使用，需要提供一个全局的变量‘_’，等价于 var _ = (window._) or (_);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line">externals: &#123;</span><br><span class="line">  react: &quot;React&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="externals-详细资料"><a href="#externals-详细资料" class="headerlink" title="externals 详细资料"></a><a href="https://www.tangshuang.net/3343.html" target="_blank" rel="noopener">externals 详细资料</a></h4><p>externals 是需要网络环境的支持的，如果一定要本地就支持，可以使用 <a href="https://segmentfault.com/a/1190000016567986" target="_blank" rel="noopener">DllPlugin</a><br>只是 DllPlugin 需要在项目里配置符合它的打包配置，项目内有一个专门打包静态不常变的配置与存放它的文件，因为与项目打包文件夹在每次打包都要被删除的，所以不能放在那。</p>
+<h4 id="ProvidePlugin"><a href="#ProvidePlugin" class="headerlink" title="ProvidePlugin"></a>ProvidePlugin</h4><p>webpack 配置 ProvidePlugin 后，在使用时将不再需要 import 和 require 进行引入，直接使用即可。<br>既配置它后我们可以直接在 window 上获取到方法，不用模块导入。</p>
+<p><a href="https://www.webpackjs.com/plugins/provide-plugin/" target="_blank" rel="noopener">webpack ProvidePlugin</a><br><a href="https://www.cnblogs.com/dora-zc/p/10066932.html" target="_blank" rel="noopener">ProvidePlugin 资料</a></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
   </a>
 
       </div>
@@ -170,20 +192,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/04/01/职责链模式/">
+      <a class="nav-left" href="/2020/04/04/超简单的搭建功能完善的组件开发库/">
         <span class="nav-arrow">← </span>
         
-          职责链模式
+          超简单的搭建功能完善的组件开发库
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/04/05/webpack-externals/">
-        
-          webpack-externals
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -229,7 +244,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#externals"><span class="toc-nav-text">externals</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#externals-详细资料"><span class="toc-nav-text">externals 详细资料</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#ProvidePlugin"><span class="toc-nav-text">ProvidePlugin</span></a></li></ol></li></ol>
     
   </div>
 </aside>
@@ -239,7 +254,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/04/04/超简单的搭建功能完善的组件开发库/';
+    var url = 'http://yoursite.com/2020/04/05/webpack-externals/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -295,7 +310,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "超简单的搭建功能完善的组件开发库",
+        id: "webpack-externals",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -323,7 +338,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/04/04/超简单的搭建功能完善的组件开发库/';
+  var disqus_url = 'http://yoursite.com/2020/04/05/webpack-externals/';
   
   (function(){
     var dsq = document.createElement('script');
