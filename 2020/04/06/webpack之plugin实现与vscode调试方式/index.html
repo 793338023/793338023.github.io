@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      webpack之plugin实现与vscode调试方式 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>webpack之plugin实现与vscode调试方式</h2>
+  <p class="post-date">2020-04-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h2><p>由于 loader 作用范围是很明显的，所以就有了它的边界，那么超出这个边界的事情我们就可以使用 Plugin 去实现，这样 webpack 就可以适用用各种各样的场景，如 loader 很困难直接对多种规则的内容进行最后的整合然后输出，而且 loader 之间有顺序规则之类，如果规则与规则之间有关联且要按某种顺序进行执行，那么就很难实现，而这是使用 Plugin 实现是最好的。</p>
+<p>Webpack 通过 Plugin 机制让其更加灵活，以适应各种应用场景。</p>
+<p>一旦我们打开了 webpack 编译器和每个单独编译的大门，我们可以使用引擎做的事情是无限可能的。我们可以重新格式化存在的文件、创建派生文件、完全伪造一个新文件。</p>
+<h4 id="编一个-Plugin"><a href="#编一个-Plugin" class="headerlink" title="编一个 Plugin"></a>编一个 Plugin</h4><p>TestPlugin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class TestPlugin &#123;</span><br><span class="line">  constructor(doneCallback, failCallback) &#123;</span><br><span class="line">    this.doneCallback = doneCallback;</span><br><span class="line">    this.failCallback = failCallback;</span><br><span class="line">  &#125;</span><br><span class="line">  apply(compiler) &#123;</span><br><span class="line">    compiler.hooks.emit.tapAsync(&quot;生成md&quot;, (compilation, callback) =&gt; &#123;</span><br><span class="line">      var filelist = &quot;构成生成的文件:\n\n&quot;;</span><br><span class="line">      for (var filename in compilation.assets) &#123;</span><br><span class="line">        filelist += &quot;- &quot; + filename + &quot;\n&quot;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      compilation.assets[&quot;filelist.md&quot;] = &#123;</span><br><span class="line">        source: function () &#123;</span><br><span class="line">          return filelist;</span><br><span class="line">        &#125;,</span><br><span class="line">        size: function () &#123;</span><br><span class="line">          return filelist.length;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      callback();</span><br><span class="line">    &#125;);</span><br><span class="line">    compiler.hooks.done.tap(&quot;完成成功&quot;, (stats) =&gt; &#123;</span><br><span class="line">      this.doneCallback(stats);</span><br><span class="line">    &#125;);</span><br><span class="line">    compiler.hooks.failed.tap(&quot;完成失败&quot;, (err) =&gt; &#123;</span><br><span class="line">      this.failCallback(err);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = TestPlugin;</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">  new TestPlugin(</span><br><span class="line">    (p) =&gt; &#123;</span><br><span class="line">      console.log(&quot;w完成-&quot;, p);</span><br><span class="line">    &#125;,</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">        console.log(&quot;w失败-&quot;, p);</span><br><span class="line">    &#125;</span><br><span class="line">  ),</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>Webpack 启动后，在读取配置的过程中会先执行 new TestPlugin(options) 初始化一个 TestPlugin 获得其实例。<br>在初始化 compiler 对象后，再调用 TestPlugin.apply(compiler) 给插件实例传入 compiler 对象。<br>插件实例在获取到 compiler 对象后，就可以通过 compiler.plugin(事件名称, 回调函数) 监听到 Webpack 广播出来的事件。<br>并且可以通过 compiler 对象去操作 Webpack。<br>但 Compiler 和 Compilation 都继承自 Tapable，所以我们可以使用 compilation.hooks.someHook.tap(…)等监听到广播出来的事件。<br>但 apply 与 plugin 自定义比较简单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 广播出事件</span><br><span class="line">* event-name 为事件名称，注意不要和现有的事件重名</span><br><span class="line">* params 为附带的参数</span><br><span class="line">*/</span><br><span class="line">compiler.apply(&apos;event-name&apos;,params);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 监听名称为 event-name 的事件，当 event-name 事件发生时，函数就会被执行。</span><br><span class="line">* 同时函数中的 params 参数为广播事件时附带的参数。</span><br><span class="line">*/</span><br><span class="line">compiler.plugin(&apos;event-name&apos;,function(params) &#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>不管是 npm 还是 webpack 都是基于 nodejs 的工具。所以最终是调试 node。</p>
+<h3 id="npm-方式调试"><a href="#npm-方式调试" class="headerlink" title="npm 方式调试"></a>npm 方式调试</h3><p>package.json 文件 scripts 项中添加一个 key 为 debug 的配置，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;debug&quot;: &quot;node --inspect-brk=5858 ./node_modules/webpack/bin/webpack&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>vscode <code>Ctrl+shift+D</code>切换为调试，选择<code>Add Configuration</code>。vscode 会自动生成一个 launch.json 文件，将文件的内容调整为以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // Use IntelliSense to learn about possible attributes.</span><br><span class="line">  // Hover to view descriptions of existing attributes.</span><br><span class="line">  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span><br><span class="line">  &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">  &quot;configurations&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;node&quot;,</span><br><span class="line">      &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;build&quot;,</span><br><span class="line">      &quot;stopOnEntry&quot;: false,</span><br><span class="line">      &quot;runtimeExecutable&quot;: &quot;npm&quot;,</span><br><span class="line">      &quot;runtimeArgs&quot;: [&quot;run&quot;, &quot;debug&quot;],</span><br><span class="line">      &quot;port&quot;: 5858</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>runtimeExecutable 要运行的 shell,runtimeArgs shell 运行时需要的的参数，这个类似 Node.js 的 <a href="https://iojs.org/api/child_process.html" target="_blank" rel="noopener">child_process</a> 模块的 spawn。</p>
+<p>其中端口 port 配置需要和 inspect-brk 配置的端口保持一致。stopOnEntry 为 true 表示在运行的第一行代码中添加断点,点击开始调试按钮，即可进入如下界面</p>
+<p>然后我们就可以在代码的行数上点击出现小红点，就为打上断点了。</p>
+<h3 id="运行-node-调试"><a href="#运行-node-调试" class="headerlink" title="运行 node 调试"></a>运行 node 调试</h3><p>由于上面的调试方式需要在 package 里配置，program 将要进行调试的程序的路径，但 program 可以把运行路径写入，那么就可以直接触发 webpack 而进入调试，不用在项目加入任何配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // Use IntelliSense to learn about possible attributes.</span><br><span class="line">  // Hover to view descriptions of existing attributes.</span><br><span class="line">  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span><br><span class="line">  &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">  &quot;configurations&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;node&quot;,</span><br><span class="line">      &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;webpack&quot;,</span><br><span class="line">      &quot;stopOnEntry&quot;: false,</span><br><span class="line">      &quot;program&quot;: &quot;$&#123;workspaceFolder&#125;/node_modules/webpack/bin/webpack&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然我们还可以把调试放到 chrome 里，这个就不在这里配置了。</p>
+<p>所谓的调试都是在 node 上进行了，而已都需要 <code>--inspect-brk</code>开启出一个调试服务。</p>
+<h3 id="一些常用配置说明"><a href="#一些常用配置说明" class="headerlink" title="一些常用配置说明"></a>一些常用配置说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 配置名称，将会在启动配置的下拉菜单中显示</span><br><span class="line">    &quot;name&quot;: &quot;C++ Launch (GDB)&quot;,</span><br><span class="line">    // 配置类型，这里只能为cppdbg</span><br><span class="line">    &quot;type&quot;: &quot;cppdbg&quot;,</span><br><span class="line">    // 请求配置类型，可以为launch（启动）或attach（附加）</span><br><span class="line">    &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">    // 调试器启动类型，这里只能为Local</span><br><span class="line">    &quot;launchOptionType&quot;: &quot;Local&quot;,</span><br><span class="line">    // 生成目标架构，一般为x86或x64,</span><br><span class="line">    // 可以为x86, arm, arm64, mips, x64, amd64, x86_64</span><br><span class="line">    &quot;targetArchitecture&quot;: &quot;x86&quot;,</span><br><span class="line">        // 将要进行调试的程序的路径</span><br><span class="line">    &quot;program&quot;: &quot;$&#123;workspaceRoot&#125;&quot;,</span><br><span class="line">    // miDebugger的路径，注意这里要与MinGw的路径对应</span><br><span class="line">    &quot;miDebuggerPath&quot;:&quot;D:\\mingw\\bin\\gdb.exe&quot;,</span><br><span class="line">    // 程序调试时传递给程序的命令行参数，一般设为空即可</span><br><span class="line">    &quot;args&quot;: [],</span><br><span class="line">    // 设为true时程序将暂停在程序入口处，一般设置为false</span><br><span class="line">    &quot;stopAtEntry&quot;: false,</span><br><span class="line">    // 调试程序时的工作目录，一般为$&#123;workspaceRoot&#125;即代码所在目录</span><br><span class="line">    &quot;cwd&quot;: &quot;$&#123;workspaceRoot&#125;&quot;,</span><br><span class="line">    // 调试时是否显示控制台窗口，一般设置为true显示控制台</span><br><span class="line">    &quot;externalConsole&quot;: true,</span><br><span class="line">    // 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc</span><br><span class="line">    &quot;preLaunchTask&quot;: &quot;g++&quot;　　</span><br><span class="line">    //传递给运行时可执行文件的可选参数。</span><br><span class="line">    &quot;runtimeArgs&quot;:[]</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$&#123;workspaceRoot&#125; VS Code当前打开的文件夹</span><br><span class="line"></span><br><span class="line">$&#123;file&#125; 当前打开的文件</span><br><span class="line"></span><br><span class="line">$&#123;relativeFile&#125; 相对于workspaceRoot的相对路径</span><br><span class="line"></span><br><span class="line">$&#123;fileBasename&#125; 当前打开文件的文件名</span><br><span class="line"></span><br><span class="line">$&#123;fileDirname&#125; 所在的文件夹，是绝对路径</span><br><span class="line"></span><br><span class="line">$&#123;fileExtname&#125; 当前打开文件的拓展名，如.json</span><br></pre></td></tr></table></figure>
+<h2 id="github-例子"><a href="#github-例子" class="headerlink" title="github 例子"></a><a href="https://github.com/793338023/webpack-plugin-test" target="_blank" rel="noopener">github 例子</a></h2><h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li>这篇资料讲的很详细，上面就不进行详细了。<br><a href="https://segmentfault.com/a/1190000012840742" target="_blank" rel="noopener">Webpack 原理-编写 Plugin</a></li>
+</ol>
+<p><a href="https://github.com/xiaoxiangdaiyu/w-loader/blob/master/plugin/DOC.md" target="_blank" rel="noopener">如何开发一个 plugin 例子</a></p>
+<ol start="2">
+<li><p>以下都是钩子的 API，不懂的可以进行查询<br><a href="https://www.webpackjs.com/api/plugins/#tapable" target="_blank" rel="noopener">webpack 官网-Tapable</a><br><a href="https://www.webpackjs.com/api/compiler-hooks/" target="_blank" rel="noopener">webpack 官网-compiler API</a><br><a href="https://www.webpackjs.com/api/compilation-hooks/" target="_blank" rel="noopener">webpack 官网-compilation API</a></p>
+</li>
+<li><p>以下都是 vscode 调试相关的，比如怎么调试 webpack 插件或 loader<br><a href="https://www.bbsmax.com/A/D854PWOY5E/" target="_blank" rel="noopener">vscode 调试 webpack</a><br><a href="https://blog.csdn.net/ustczhng2012/article/details/102579346" target="_blank" rel="noopener">vscode 中 launch.json 部分配置项解释</a><br><a href="https://code.visualstudio.com/docs/editor/debugging#_launch-configurations" target="_blank" rel="noopener">VS Code 调试</a></p>
+</li>
+</ol>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack">
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/04/05/webpack-externals/">
+        <span class="nav-arrow">← </span>
+        
+          webpack-externals
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Plugin"><span class="toc-nav-text">Plugin</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#编一个-Plugin"><span class="toc-nav-text">编一个 Plugin</span></a></li></ol></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#调试"><span class="toc-nav-text">调试</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#npm-方式调试"><span class="toc-nav-text">npm 方式调试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运行-node-调试"><span class="toc-nav-text">运行 node 调试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一些常用配置说明"><span class="toc-nav-text">一些常用配置说明</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#github-例子"><span class="toc-nav-text">github 例子</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#资料"><span class="toc-nav-text">资料</span></a></li>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/04/06/webpack之plugin实现与vscode调试方式/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "webpack之plugin实现与vscode调试方式",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/04/06/webpack之plugin实现与vscode调试方式/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
