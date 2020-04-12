@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      npm安装机制 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>npm安装机制</h2>
+  <p class="post-date">2020-04-11</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="从输入-npm-install-后"><a href="#从输入-npm-install-后" class="headerlink" title="从输入 npm install 后"></a>从输入 npm install 后</h2><ol>
+<li><p>项目下有 package.json，输入<code>npm i</code>,查询 node_modules 是否存在，不存在新增，存在在此下安装模块。</p>
+</li>
+<li><p>根据 package.json 的依赖模块，查询 node_modules 目录之中是否已经存在指定模块，若存在，不再重新安装，若不存在， npm 向 registry 查询模块压缩包的网址，下载压缩包，存放在本地的缓存目录里，解压压缩包到当前项目的 node_modules 目录。</p>
+<p>这个缓存目录，在 Linux 或 Mac 默认是用户主目录下的.npm 目录，在 Windows 默认是%AppData%/npm-cache。通过配置命令，可以查看这个目录的具体位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get cache</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取模块，根据 dependencies 和 devDependencies 属性中的模块，递归获取，既工程本身是整棵依赖树的根节点(首层)，每个首层依赖模块都是根节点下面的一棵子树，npm 会开启多进程从每个首层依赖模块开始逐步寻找更深层级的节点。</p>
+<ol>
+<li><p>获取模块信息。在下载一个模块之前，首先要确定其版本，这是因为 package.json 中往往是 semantic version（semver，语义化版本）。此时如果版本描述文件（npm-shrinkwrap.json 或 package-lock.json）中有该模块信息直接拿即可，如果没有则从仓库获取。如 package.json 中某个包的版本是 ^1.1.0，npm 就会去仓库中获取符合 1.x.x 形式的最新版本。</p>
+</li>
+<li><p>获取模块实体。上一步会获取到模块的压缩包地址（resolved 字段），npm 会用此地址检查本地缓存，缓存中有就直接拿，如果没有则从仓库下载。</p>
+</li>
+<li><p>查找该模块依赖，如果有依赖则回到第 1 步，如果没有则停止。</p>
+</li>
+</ol>
+</li>
+<li><p>当前 npm 工程如果定义了钩子此时会被执行（按照 preinstall、install、postinstall、prepublish、prepare 的顺序），最后一步是生成或更新版本描述文件<code>package-lock.json</code>，npm install 过程完成。</p>
+</li>
+</ol>
+<h2 id="缓存目录"><a href="#缓存目录" class="headerlink" title="缓存目录"></a>缓存目录</h2><p><code>npm install</code>或<code>npm update</code>命令，从 registry 下载压缩包之后，都存放在本地的缓存目录。</p>
+<p>这个缓存目录，在 Linux 或 Mac 默认是用户主目录下的.npm 目录，在 Windows 默认是%AppData%/npm-cache。通过配置命令，可以查看这个目录的具体位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get cache</span><br></pre></td></tr></table></figure>
+<p>缓存目录可以加速某些操作如<code>npm search或npm view</code>都会先去缓存目录里查询，然后查询不符合条件的情况下才会请求远程仓库。</p>
+<p>由于缓存目录的存在，我们可以使用 npm 的下载缓存包来实现离线下载的功能，这个就不描述。</p>
+<p>但由于有了<code>package-lock.json</code>后，我们会经常遇到一些由于缓存问题而无法下载包的问题，因为<code>npm install</code>之后会计算每个包的 sha1 值，然后将包与他的 sha1 值关联保存在 <code>package-lock.json</code> 里面,下次 <code>npm install</code> 的时候会根据 <code>package-lock.json</code> 里面保存的 sha1 值去文件夹 %AppData%/npm-cache 里面寻找包文件，如果存在，就不用再次从远程仓库下载。</p>
+<p>因为 npm 不同版本算出来的 sha1 有可能不完全一样，所以 npm 升级了，直接用不同版本 npm 生成的<code>package-lock.json</code>会报 sha1 不匹配的 error。</p>
+<h4 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h4><p><code>npm cache verify</code><br>重新计算%AppData%/npm-cache 下的文件是否与 sha1 值匹配，如果不匹配可能删除。</p>
+<p><code>npm cache clean --force</code><br>删除所有缓存文件</p>
+<p><strong>注意:</strong><br>npm 5 使用了新的包管理模式，所以在升级之后，请先清空一下本地缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm cache clean --force</span><br><span class="line"></span><br><span class="line">// 清除失败，使用这个</span><br><span class="line">npm cache clear --force &amp;&amp; npm install --no-shrinkwrap --update-binary</span><br></pre></td></tr></table></figure>
+<h2 id="模块扁平化"><a href="#模块扁平化" class="headerlink" title="模块扁平化"></a>模块扁平化</h2><p>由于 npm2 安装多级的依赖模块采用嵌套的安装方式，可能造成相同模块大量冗余的问题。<br>所以 npm3 后会<strong>尽量</strong>把逻辑上某个层级的模块在物理结构上<strong>全部</strong>放在项目的第一层级(首层)里。</p>
+<p>具体概括为以下三种情况：</p>
+<ol>
+<li>在安装某个二级模块时，若发现第一层级还没有相同名称的模块，便把这第二层级的模块放在第一层级</li>
+<li>在安装某个二级模块时，若发现第一层级有相同名称，相同版本的模块，便直接复用那个模块</li>
+<li>在安装某个二级模块时，若发现第一层级有相同名称，但版本不同的模块，便只能嵌套在自身的父模块下方，既在当前二级模块下生成一个 node_modules 存放依赖模块。</li>
+</ol>
+<p><img src="/2020/04/11/npm安装机制/2.png" alt="2"></p>
+<p>实际上：npm3 后 仍然可能出现模块冗余的情况，如因为一级目录下已经有 v1.0 的 C 模块了，所以所有的 v2.0 只能作为二级依赖模块被安装，这样你就会看到如下的情况</p>
+<p><img src="/2020/04/11/npm安装机制/1.png" alt="1"></p>
+<p>而这种怎么解决了，我们要把依赖 v1.0 的模块更新到 v2.0，然后<code>npm dedupe</code>把 v2.0 放置到一个目录里，去除冗余模块<br><img src="/2020/04/11/npm安装机制/3.png" alt="3"></p>
+<h4 id="重复模块定义"><a href="#重复模块定义" class="headerlink" title="重复模块定义"></a>重复模块定义</h4><p>它指的是模块名相同且 semver 兼容。每个 semver 都对应一段版本允许范围，如果两个模块的版本允许范围存在交集，那么就可以得到一个兼容版本，而不必版本号完全一致，这可以使更多冗余模块在 dedupe 过程中被去掉。<br>因为<code>package.json</code>里的依赖包默认情况下使用<code>^</code>,这只能确定大版本相同，而这也导致每次根据<code>package.json</code>安装依赖时依赖包有版本偏差的问题，如作者修改一个 BUG，发布了个小版本，而你刚刚好又重新安装了，然后你没有问题，而你同事没有安装，出现 BUG，但从<code>package.json</code>上是无法体现的，在不了解<code>^</code>的情况下是很难排查的，但你可以根据<code>package-lock.json</code>知道你那个包更新了、和你同事不一致或在项目下载依赖时都根据<code>package-lock.json</code>去下载。</p>
+<h2 id="npm-ci"><a href="#npm-ci" class="headerlink" title="npm ci"></a>npm ci</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm ci</span><br></pre></td></tr></table></figure>
+<p>该命令与相似 npm-install，不同之处在于它用于自动化环境（例如测试平台，持续集成和部署），或者在任何情况下都要确保干净安装依赖项。通过跳过某些面向用户的功能，它可以比常规的 npm 安装快得多。它也比常规安装更加严格，这可以帮助捕获大多数 npm 用户增量安装的本地环境引起的错误或不一致。</p>
+<p>简而言之，使用 npm install 和之间的主要区别 npm ci 是：</p>
+<ol>
+<li>该项目必须具有现有的 package-lock.json 或 npm-shrinkwrap.json。</li>
+<li>如果程序包锁中的依赖项与中的不匹配 package.json，npm ci 则将退出并显示错误，而不是更新程序包锁。</li>
+<li>npm ci 一次只能安装整个项目：不能使用此命令添加单个依赖项。</li>
+<li>如果 node_modules 已经存在，它将在 npm ci 开始安装之前自动删除。</li>
+<li>它将永远不会写入 package.json 或执行任何软件包锁：安装实际上是冻结的。</li>
+</ol>
+<p><a href="http://www.ruanyifeng.com/blog/2016/01/npm-install.html" target="_blank" rel="noopener">npm 模块安装机制简介</a><br><a href="https://www.zhihu.com/question/66629910" target="_blank" rel="noopener">npm install 的实现原理</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#npm">
+    <span class="tag-code">npm</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/04/06/webpack之plugin实现与vscode调试方式/">
+        <span class="nav-arrow">← </span>
+        
+          webpack之plugin实现与vscode调试方式
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#从输入-npm-install-后"><span class="toc-nav-text">从输入 npm install 后</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#缓存目录"><span class="toc-nav-text">缓存目录</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#清除缓存"><span class="toc-nav-text">清除缓存</span></a></li></ol></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#模块扁平化"><span class="toc-nav-text">模块扁平化</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#重复模块定义"><span class="toc-nav-text">重复模块定义</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#npm-ci"><span class="toc-nav-text">npm ci</span></a></li>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/04/11/npm安装机制/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "npm安装机制",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/04/11/npm安装机制/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
