@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      React16/fiber | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>React16/fiber</h2>
+  <p class="post-date">2020-04-28</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>react 在进行组件渲染时，从 setState 开始到渲染完成整个过程是同步的（“一气呵成”）。如果需要渲染的组件比较庞大，js 执行会占据主线程时间较长，会导致页面响应度变差，使得 react 在动画、手势等应用中效果比较差。</p>
+<p>所以在 react v15 之前使用它做一些动画效果或大数据量处理渲染之类的都可能会出现卡顿等性能问题。</p>
+<p>react v15 是函数调用栈，递归的方式，从父节点（Virtual DOM）开始遍历，以找出不同。将所有的 Virtual DOM 遍历完成后，reconciler 才能给出当前需要修改真实 DOM 的信息，并传递给 renderer，进行渲染，然后屏幕上才会显示此次更新内容。对于特别庞大的 vDOM 树来说，reconciliation 过程会很长(大于浏览器渲染帧的时间 16ms)，在这期间，主线程是被 js 占用的，因此任何交互、布局、渲染都会停止，给用户的感觉就是页面被卡住了。</p>
+<p>破解 JavaScript 中同步操作时间过长的方法其实很简单——分片。<br>把一个耗时长的任务分成很多小片，每一个小片的运行时间很短，虽然总时间依然很长，但是在每个小片执行完之后，都给其他任务一个执行的机会，这样唯一的线程就不会被独占，其他任务依然有运行的机会。<br>React Fiber 把更新过程碎片化，每执行完一段更新过程，就把控制权交还给 React 负责任务协调的模块，看看有没有其他紧急任务要做，如果没有就继续去更新，如果有紧急任务，那就去做紧急任务。<br>维护每一个分片的数据结构，就是 Fiber。</p>
+<h2 id="React-Fiber"><a href="#React-Fiber" class="headerlink" title="React Fiber"></a>React Fiber</h2><p>在 React Fiber 中，一次更新过程会分成多个分片完成，所以完全有可能一个更新任务还没有完成，就被另一个更高优先级的更新过程打断，这时候，优先级高的更新任务会优先处理完，而低优先级更新任务所做的工作则会完全作废，然后等待机会重头再来。</p>
+<p>因为一个更新过程可能被打断，所以 React Fiber 一个更新过程被分为两个阶段(Phase)：第一个阶段 协调阶段 和第二阶段 提交阶段。</p>
+<p>在第一阶段协调阶段，React Fiber 会找出需要更新哪些 DOM，这个阶段是可以被打断的；但是到了第二阶段 提交阶段，那就一鼓作气把 DOM 更新完，绝不会被打断。</p>
+<p>这两个阶段大部分工作都是 React Fiber 做，和我们相关的也就是生命周期函数。</p>
+<p>以 render 函数为界，第一阶段可能会调用下面这些生命周期函数，说是“可能会调用”是因为不同生命周期调用的函数不同。</p>
+<blockquote>
+<blockquote>
+<p>第一阶段:<br>componentWillMount<br>componentWillReceiveProps<br>shouldComponentUpdate<br>componentWillUpdate</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>第二阶段:<br>componentDidMount<br>componentDidUpdate<br>componentWillUnmount</p>
+</blockquote>
+</blockquote>
+<p>因为第一阶段的过程会被打断而且“重头再来”，就会造成意想不到的情况。</p>
+<p>例如已经执行到某个 Fiber 内的生命周期函数 componentWillUpdate，但由于已经到了一个渲染帧的时间，需要把控制权让出，让浏览器查看是否有任务需要执行，若有则废弃当前 Fiber，执行浏览器的任务，等浏览器让出控制权后重新执行这个 Fiber，所以才会出现二次执行生命周期 componentWillUpdate 的情况。</p>
+<p>因此第一阶段中的生命周期函数在一次加载和更新过程中可能会被多次调用！</p>
+<p>但某些使用者在使用生命周期函数时会做一些奇怪的操作上，既违背这个生命周期提供的意义，如果出现二次调用就会出现各种 BUG，所以 react 把某些生命周期在过渡版本提示为废弃钩子，componentWillMount，componentWillReceiveProps，componentWillUpdate。</p>
+<h2 id="fiber-执行单元"><a href="#fiber-执行单元" class="headerlink" title="fiber 执行单元"></a>fiber 执行单元</h2><p>fiber 的实现方式为<strong>时间分片 + 链表结构</strong>，一个组件实例对应有一个 fiber fiber 其实就是虚拟 Dom。</p>
+<p>fiber 维护了一个分片的数据结构，就是可终止可恢复的链表式数据结构。</p>
+<p>如一个<code>&lt;Card /&gt;</code>组件的 fiber:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FiberNode 结构如下：</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 定义fiber节点类型，类组件指向构造函数，dom元素指向标签名称</span></span><br><span class="line">    type: Card,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Fiber类型，将React Element映射成对应的Fiber类型，用于说明协调过程中需要完成的工作</span></span><br><span class="line">    <span class="comment">// HostRoot|HostComponent|ClassComponent|FunctionComponent...</span></span><br><span class="line">    tag: <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不同tag代表不同类型的副作用</span></span><br><span class="line">    effectTag: <span class="number">1</span>,</span><br><span class="line">    firstEffect: <span class="literal">null</span>,</span><br><span class="line">    lastEffect: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 单链表结构，方便遍历fiber树上有副作用的节点</span></span><br><span class="line">    nextEffect: FiberNode|<span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第一个子fiber</span></span><br><span class="line">    child: FiberNode|<span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向父fiber，表示当前节点处理完毕后，应该向谁提交自己的结果effect list</span></span><br><span class="line">    <span class="keyword">return</span>: FiberNode|<span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 兄弟fiber</span></span><br><span class="line">    slibing: FiberNode|<span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前父fiber中的位置</span></span><br><span class="line">    index: <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fiber实例对象，指向当前组件实例</span></span><br><span class="line">    stateNode: Card,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// setState待更新状态，回调，DOM更新的队列</span></span><br><span class="line">    updateQueue: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前UI的状态，反映了UI当前在屏幕上的表现状态</span></span><br><span class="line">    memoizedState: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前次渲染中用于决定UI的props</span></span><br><span class="line">    memoizedProps: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 即将应用于下一次渲染更新的props</span></span><br><span class="line">    pendingProps: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 和组件Element中的key,ref一致</span></span><br><span class="line">    key: <span class="literal">null</span>,</span><br><span class="line">    ref: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fiber更新时基于当前fiber克隆出的镜像，更新时记录两个fiber diff的变化；更新结束后alternate替换之前的fiber成为新的fiber节点</span></span><br><span class="line">    alternate: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 标记子树上待更新任务的优先级 （最新版的react做了变更，改由过期时间实现，时间越大，setState越频繁，优先级就越高）</span></span><br><span class="line">    pendingWorkPriority: number</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过 child, slibing, return 的结构关联，可知它是一个单链表结构。</p>
+<h2 id="时间分片"><a href="#时间分片" class="headerlink" title="时间分片"></a>时间分片</h2><p>实现时间分片的目的只是为了在做一些大批量 DOM 渲染时，让客户端不要给客户出现卡顿的不流畅现象。</p>
+<p>而使用浏览器提供的 API 是最好的，<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback" target="_blank" rel="noopener">requestIdleCallback</a> 和 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame" target="_blank" rel="noopener">requestAnimationFrame</a>，如果需要兼容低版本浏览器，可以使用 setTimeout 模拟，但可能会出现一瞬间的白屏情况。</p>
+<h3 id="setTimeout-闪屏现象"><a href="#setTimeout-闪屏现象" class="headerlink" title="setTimeout 闪屏现象"></a>setTimeout 闪屏现象</h3><p>在 js 引擎里，setTimeout 的事件处理函数会先等待到目标时间后执行，然后进入事件队列里等待主线程的空闲，因此 setTimeout 的实际执行时间可能会比其设定的时间晚一些。</p>
+<p>那么我们在 setTimeout 设置的时间与浏览器的渲染时间很大可能是不一致的，而且很大可能是 setTimeout 被主线程处理比渲染要晚一些，导致 setTimeout 里的渲染内容只能在下一帧渲染时被渲染，这是丢帧现象。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ol>
+<li>没有用时间分片</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记录任务开始时间</span></span><br><span class="line"><span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"><span class="comment">// 插入十万条数据</span></span><br><span class="line"><span class="keyword">const</span> total = <span class="number">100000</span>;</span><br><span class="line"><span class="comment">// 获取容器</span></span><br><span class="line"><span class="keyword">let</span> ul = <span class="built_in">document</span>.getElementById(<span class="string">"app"</span>);</span><br><span class="line"><span class="comment">// 将数据插入容器中</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; total; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> li = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">  li.innerText = ~~(<span class="built_in">Math</span>.random() * total);</span><br><span class="line">  ul.appendChild(li);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"JS运行时间："</span>, <span class="built_in">Date</span>.now() - now);</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"总运行时间："</span>, <span class="built_in">Date</span>.now() - now);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>十万条数据渲染时会出现很明显的卡顿白屏等现象。</p>
+<ol start="2">
+<li>requestAnimationFrame 实现时间分片</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要插入的容器</span></span><br><span class="line"><span class="keyword">let</span> ul = <span class="built_in">document</span>.getElementById(<span class="string">"app"</span>);</span><br><span class="line"><span class="comment">// 插入十万条数据</span></span><br><span class="line"><span class="keyword">let</span> total = <span class="number">100000</span>;</span><br><span class="line"><span class="comment">// 一次插入 20 条</span></span><br><span class="line"><span class="keyword">let</span> once = <span class="number">20</span>;</span><br><span class="line"><span class="comment">//总页数</span></span><br><span class="line"><span class="keyword">let</span> page = total / once;</span><br><span class="line"><span class="comment">//每条记录的索引</span></span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//循环加载数据</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loop</span>(<span class="params">curTotal, curIndex</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (curTotal &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//每页多少条</span></span><br><span class="line">  <span class="keyword">let</span> pageCount = <span class="built_in">Math</span>.min(curTotal, once);</span><br><span class="line">  <span class="built_in">window</span>.requestAnimationFrame(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; pageCount; i++) &#123;</span><br><span class="line">      <span class="keyword">let</span> li = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">      li.innerText = curIndex + i + <span class="string">" : "</span> + ~~(<span class="built_in">Math</span>.random() * total);</span><br><span class="line">      ul.appendChild(li);</span><br><span class="line">    &#125;</span><br><span class="line">    loop(curTotal - pageCount, curIndex + pageCount);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">loop(total, index);</span><br></pre></td></tr></table></figure>
+<p>在操作时很顺畅，体验很好。</p>
+<h2 id="宝藏资料"><a href="#宝藏资料" class="headerlink" title="宝藏资料"></a>宝藏资料</h2><p><a href="https://juejin.im/post/5dadc6045188255a270a0f85#%E7%AB%99%E5%9C%A8%E5%B7%A8%E4%BA%BA%E7%9A%84%E8%82%A9%E8%86%80%E4%B8%8A" target="_blank" rel="noopener">这可能是最通俗的 React Fiber(时间分片) 打开方式</a><br><a href="https://juejin.im/post/5ab7b3a2f265da2378403e57" target="_blank" rel="noopener">React Fiber</a><br><a href="https://zhuanlan.zhihu.com/p/26027085" target="_blank" rel="noopener">React Fiber 是什么</a><br><a href="https://blog.csdn.net/sinat_17775997/article/details/93774887" target="_blank" rel="noopener">fiber</a><br><a href="https://yq.aliyun.com/articles/610024" target="_blank" rel="noopener">React Fiber 初探</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#react">
+    <span class="tag-code">react</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/04/25/LRU算法/">
+        <span class="nav-arrow">← </span>
+        
+          LRU算法
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#React-Fiber"><span class="toc-nav-text">React Fiber</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#fiber-执行单元"><span class="toc-nav-text">fiber 执行单元</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#时间分片"><span class="toc-nav-text">时间分片</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#setTimeout-闪屏现象"><span class="toc-nav-text">setTimeout 闪屏现象</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#例子"><span class="toc-nav-text">例子</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#宝藏资料"><span class="toc-nav-text">宝藏资料</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/04/28/React16-fiber/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "React16/fiber",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/04/28/React16-fiber/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
