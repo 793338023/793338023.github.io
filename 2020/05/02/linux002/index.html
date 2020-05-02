@@ -10,7 +10,7 @@
   
   <title>
     
-      gulp底层vinyl-fs | 张志成博客
+      linux002 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,7 +137,7 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>gulp底层vinyl-fs</h2>
+  <h2>linux002</h2>
   <p class="post-date">2020-05-02</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -146,17 +146,61 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="vinyl-fs"><a href="#vinyl-fs" class="headerlink" title="vinyl-fs"></a>vinyl-fs</h2><p>当你只想处理文件到文件的文件处理场景时可以使用<code>vinyl-fs</code>,而不必使用 gulp，因为 gulp 的 src、pipe、dest 的实现，就是使用了它。<br>而 webpack\rollup 都是模块化打包工具，这里模块一般都是把文件当成一个模块，然后处理完之后把所有模块整合，所以有时不符合场景，当然也是用 babel 的 cli，但它的处理可能会出现一些小问题，如目录里是单目录时输出的结构不符合等情况，所以结合总总的还是使用 vinyl-fs 进行文件流的处理比较简单方便且可以直接使用围绕 gulp 生态的包与使用 node 编程，完美。</p>
-<p>当然 webpack\rollup tree-shaking 加模块化打包机制，可以解决很多场景问题，所以推荐尽量使用 webpack\rollup。</p>
-<p><strong><a href="https://github.com/793338023/vinyl-demo" target="_blank" rel="noopener">请查看 github</a></strong></p>
+    <section class="markdown-content"><p><strong>平时使用，记事内容</strong></p>
+<p>惯用账号密码:<br>root<br>admin123</p>
+<p>virtualbox 虚拟机的使用-关于没有 IP 地址<br><a href="https://www.cnblogs.com/caizhw3/articles/virtualbox_net_surfingInternetBasic.html" target="_blank" rel="noopener">https://www.cnblogs.com/caizhw3/articles/virtualbox_net_surfingInternetBasic.html</a></p>
+<p>msconfig</p>
+<ul>
+<li><p>递归创建目录<br>mkdir -p zz/xx/cc</p>
+</li>
+<li><p>删除非空目录<br>rm -rf zz</p>
+</li>
+<li><p>创建空文件<br>touch aa.js bb.js</p>
+</li>
+<li><p>copy 文件<br>cp aa.txt /bb</p>
+</li>
+<li><p>整个文件夹<br>cp -r aa /bb copy</p>
+</li>
+<li><p>移动文件<br>mv 重命名\移动目录或文件</p>
+</li>
+<li><p>只读文件内容<br>cat -n 只读</p>
+</li>
+</ul>
+<p><code>ls &gt;&gt;a.txt</code><br>当 a.txt 不存在，创建，存在覆盖，把指令的内容追加输出 a.txt<br>ls &gt; a.txt<br>如上，但是是覆盖</p>
+<p>指令<br><code>&gt;&gt;</code>追加<br><code>&gt;</code>覆盖</p>
+<p><code>echo aaabbb &gt;&gt; a.txt</code></p>
+<p>cal 时间</p>
+<p>head -n 行数 文件<br>查看前几行<br>tail -f 文件<br>实时监听尾部几行</p>
+<p>tail -100f 文件<br>尾部 100 行</p>
+<p>查看历史记录<br>history [n]</p>
+<p>history 10 查看最近十次的指令</p>
+<p>find 查看<br>指定目录下查找文件或目录</p>
+<p>find [搜索·范围][选项]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find / -name \*.txt 按文件名查找</span><br><span class="line">find / -size +20M 大于 20M 的文件</span><br><span class="line">find / -size -20M 小于</span><br><span class="line">find / -size 20M 等于</span><br><span class="line">20k</span><br></pre></td></tr></table></figure>
+<p>grep 管道符号|</p>
+<p><code>grep [选项] 查找内容 源文件</code></p>
+<p>-n 显示行号<br>-i 忽略大小写</p>
+<p><code>##文件名+内容</code><br>grep -r “查询内容” 文件目录</p>
+<p><code>##只显示包含内容的文件名</code><br>grep -r -l “查询内容” 文件目录</p>
+<p><code>##文件名+内容</code><br>find 文件目录 -type f |xargs grep “查询内容”;</p>
+<p><code>grep -r -l zhangzhi ./</code></p>
+<p>zip/unzip</p>
+<p><code>zip -r my.zip /home</code><br>-r 专门压缩目录的，压缩后文件名称 压缩文件路径</p>
+<p><code>unzip -d /opt/temp/ my.zip</code></p>
+<p>-d 解压到的目录， 解压后目录 解压的文件路径</p>
+<p>tar<br>解压<br><code>tar -zxvf aa.tar.gz</code><br>压缩，指定压缩文件名称，可以多个文件，<br><code>tar -zcvf aa.tar.gz a.txt b.txt</code></p>
+<p>关机<br>halt -p</p>
+<p>wifi 查看<br>netsh wlan show profiles<br>查看某个 wifi 的密码<br>netsh wlan show profiles 名称 key=clear</p>
+<p>临时关闭防火墙<br>/etc/init.d/iptables stop<br>查看关闭后的状态<br>/etc/init.d/iptables status</p>
+<p>iptables: Firewall is not running.</p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#gulp">
-    <span class="tag-code">gulp</span>
+  <a href="/tags#linux">
+    <span class="tag-code">linux</span>
   </a>
 
       </div>
@@ -167,20 +211,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/05/01/使用chrome排查内存泄露/">
+      <a class="nav-left" href="/2020/05/02/gulp底层vinyl-fs/">
         <span class="nav-arrow">← </span>
         
-          使用chrome排查内存泄露
+          gulp底层vinyl-fs
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/05/02/linux002/">
-        
-          linux002
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -226,7 +263,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#vinyl-fs"><span class="toc-nav-text">vinyl-fs</span></a></li></ol>
+      <ol class="nav">none</ol>
     
   </div>
 </aside>
@@ -236,7 +273,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/05/02/gulp底层vinyl-fs/';
+    var url = 'http://yoursite.com/2020/05/02/linux002/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -292,7 +329,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "gulp底层vinyl-fs",
+        id: "linux002",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -320,7 +357,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/05/02/gulp底层vinyl-fs/';
+  var disqus_url = 'http://yoursite.com/2020/05/02/linux002/';
   
   (function(){
     var dsq = document.createElement('script');
