@@ -10,7 +10,7 @@
   
   <title>
     
-      职责链模式 | 张志成博客
+      gulp底层vinyl-fs | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>职责链模式</h2>
-  <p class="post-date">2020-04-01</p>
+  <h2>gulp底层vinyl-fs</h2>
+  <p class="post-date">2020-05-02</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,20 +146,17 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="职责链的定义"><a href="#职责链的定义" class="headerlink" title="职责链的定义"></a>职责链的定义</h2><p>使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。</p>
-<h2 id="在以下场景中可以考虑使用责任链模式"><a href="#在以下场景中可以考虑使用责任链模式" class="headerlink" title="在以下场景中可以考虑使用责任链模式"></a>在以下场景中可以考虑使用责任链模式</h2><ol>
-<li>一个系统的审批需要多个对象才能完成处理的情况下，例如报销系统等。</li>
-<li>代码中存在多个 if-else 语句的情况下，此时可以考虑使用责任链模式来对代码进行重构。</li>
-</ol>
-<h2 id="代码例子"><a href="#代码例子" class="headerlink" title="代码例子"></a>代码例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">export class Stack &#123;</span><br><span class="line">  next: any = null;</span><br><span class="line">  fn: Function | any = null;</span><br><span class="line">  constructor(fn: Function) &#123;</span><br><span class="line">    this.fn = fn;</span><br><span class="line">  &#125;</span><br><span class="line">  setNextStack = (stack: any) =&gt; &#123;</span><br><span class="line">    this.next = stack;</span><br><span class="line">  &#125;;</span><br><span class="line">  passRequest = (...args: any[]) =&gt; &#123;</span><br><span class="line">    const [status, ret] = this.fn(...args);</span><br><span class="line">    if (typeof status === &quot;boolean&quot; &amp;&amp; status) &#123;</span><br><span class="line">      if (this.next) &#123;</span><br><span class="line">        if (Array.isArray(ret)) &#123;</span><br><span class="line">          this.next.passRequest(...ret);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          this.next.passRequest(ret);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">---------------------</span><br><span class="line"></span><br><span class="line">function coupon100(pay: number, num: number) &#123;</span><br><span class="line">  if (pay * num &gt; 100) &#123;</span><br><span class="line">    console.log(`已经优惠了100，实付$&#123;pay * num - 100&#125;`);</span><br><span class="line">    return [false, `已经优惠了100，实付$&#123;pay * num - 100&#125;`];</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return [true, [pay, num]];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function coupon50(pay: number, num: number) &#123;</span><br><span class="line">  if (pay * num &gt; 50) &#123;</span><br><span class="line">    console.log(`已经优惠了50，实付$&#123;pay * num - 50&#125;`);</span><br><span class="line">    return [false, `已经优惠了50，实付$&#123;pay * num - 50&#125;`];</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return [true, [pay, num]];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function coupon200(pay: number, num: number) &#123;</span><br><span class="line">  if (pay * num &gt; 200) &#123;</span><br><span class="line">    console.log(`已经优惠了200，实付$&#123;pay * num - 200&#125;`);</span><br><span class="line">    return [false, `已经优惠了200，实付$&#123;pay * num - 200&#125;`];</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return [true, [pay, num]];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const stack200 = new Stack(coupon200);</span><br><span class="line">const stack100 = new Stack(coupon100);</span><br><span class="line">const stack50 = new Stack(coupon50);</span><br><span class="line"></span><br><span class="line">stack200.setNextStack(stack100);</span><br><span class="line">stack100.setNextStack(stack50);</span><br><span class="line"></span><br><span class="line">stack200.passRequest(43, 2);</span><br></pre></td></tr></table></figure>
+    <section class="markdown-content"><h2 id="vinyl-fs"><a href="#vinyl-fs" class="headerlink" title="vinyl-fs"></a>vinyl-fs</h2><p>当你只想处理文件到文件的文件处理场景时可以使用<code>vinyl-fs</code>,而不必使用 gulp，因为 gulp 的 src、pipe、dest 的实现，就是使用了它。<br>而 webpack\rollup 都是模块化打包工具，这里模块一般都是把文件当成一个模块，然后处理完之后把所有模块整合，所以有时不符合场景，当然也是用 babel 的 cli，但它的处理可能会出现一些小问题，如目录里是单目录时输出的结构不符合等情况，所以结合总总的还是使用 vinyl-fs 进行文件流的处理比较简单方便且可以直接使用围绕 gulp 生态的包与使用 node 编程，完美。</p>
+<p>当然 webpack\rollup tree-shaking 加模块化打包机制，可以解决很多场景问题，所以推荐尽量使用 webpack\rollup。</p>
+<p><strong><a href="https://github.com/793338023/vinyl-demo" target="_blank" rel="noopener">请查看 github</a></strong></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#设计模式">
-    <span class="tag-code">设计模式</span>
+  <a href="/tags#gulp">
+    <span class="tag-code">gulp</span>
   </a>
 
       </div>
@@ -170,20 +167,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/03/29/chrome插件开发与为什么数据埋点请求使用图片/">
+      <a class="nav-left" href="/2020/05/01/使用chrome排查内存泄露/">
         <span class="nav-arrow">← </span>
         
-          chrome插件开发与为什么数据埋点请求使用图片
+          使用chrome排查内存泄露
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/04/04/超简单的搭建功能完善的组件开发库/">
-        
-          超简单的搭建功能完善的组件开发库
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -229,7 +219,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#职责链的定义"><span class="toc-nav-text">职责链的定义</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#在以下场景中可以考虑使用责任链模式"><span class="toc-nav-text">在以下场景中可以考虑使用责任链模式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#代码例子"><span class="toc-nav-text">代码例子</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#vinyl-fs"><span class="toc-nav-text">vinyl-fs</span></a></li></ol>
     
   </div>
 </aside>
@@ -239,7 +229,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/04/01/职责链模式/';
+    var url = 'http://yoursite.com/2020/05/02/gulp底层vinyl-fs/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -295,7 +285,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "职责链模式",
+        id: "gulp底层vinyl-fs",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -323,7 +313,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/04/01/职责链模式/';
+  var disqus_url = 'http://yoursite.com/2020/05/02/gulp底层vinyl-fs/';
   
   (function(){
     var dsq = document.createElement('script');
