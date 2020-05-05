@@ -10,7 +10,7 @@
   
   <title>
     
-      qiankun微前端爽一把 | 张志成博客
+      react-组件缓存的方式 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>qiankun微前端爽一把</h2>
-  <p class="post-date">2020-05-03</p>
+  <h2>react-组件缓存的方式</h2>
+  <p class="post-date">2020-05-05</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,18 +146,40 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><p><a href="https://www.yuque.com/kuitos/gky7yw/gesexv" target="_blank" rel="noopener">为什么不使用 Iframe</a></p>
-<p>微前端现在越来越火，因为大家尝到微服务的甜头，而前端行业，都是别人好的东西往家里搬，所以大家都纷纷搭建属于自己的那个微前端架子，那么最好的方式当然开箱即用，所以就有了 qiankun，qiankun 在使用者推动下会越来越符合大众的微前端方案。</p>
-<p><strong><a href="https://github.com/793338023/qiankun-packages" target="_blank" rel="noopener">qiankun 微前端 Demo 与文档</a></strong></p>
-<p>例子使用了 react 脚手架与 vue 脚手架</p>
+    <section class="markdown-content"><h1 id="缓存方式"><a href="#缓存方式" class="headerlink" title="缓存方式"></a>缓存方式</h1><ol>
+<li>数据缓存，把组件的数据保持起来</li>
+<li>从显示上实现，样式上的显示隐藏方式，如<code>display:none</code></li>
+<li>伪造组件，然后把真实所需的组件移位，渲染到 HTML 的节点保持与伪造组件一致</li>
+</ol>
+<h2 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h2><p>这是最常用的缓存方式，而且也是最符合 react 的，因为 react 就是为了 UI 层实现的，从数据到数据被直观的显示。<br>react 是一个面向数据的，所以我们可以把所有的内容保存为一份数据，然后当我们需要这份数据时让它经过 react 转换为<br>我们显示的页面。</p>
+<p>但这种方式实现缓存也是最辛苦的，首先我们要把界面上操作的信息保存为数据，然后我们还要对浏览器操作的行为也转换为数据，如滚动高度，<br>而且需要每个需要缓存的页面都进行这样的操作，这个工作量是很大的，并且还需要考虑性能问题，定制缓存策略，否则一些数据量的页面保存<br>那么几份就可以把客户端玩崩。</p>
+<p>数据缓存的方式:</p>
+<ul>
+<li><p>redux<br>这也是最好的方式</p>
+</li>
+<li><p>本地缓存<br>如果数据需要跨客户端 Tabs 或缓存时效，那么这也是比较好的方式，只是它的存储量有限</p>
+</li>
+<li><p>利用模块化的闭包<br>如果对 redux 操作觉得很麻烦，而且会触发状态更新，那么可以新建一个文件进行数据保存</p>
+</li>
+<li><p>利用上层组件状态机保存数据<br>如果缓存的数据只想在某个组件没有被卸载时进行缓存操作，也可以使用上层数据进行数据保存</p>
+</li>
+</ul>
+<h2 id="从显示上实现"><a href="#从显示上实现" class="headerlink" title="从显示上实现"></a>从显示上实现</h2><p>对组件添加<code>display:none</code>。</p>
+<p>简单粗暴，因为没有卸载组件，所以可以不用管页面的数据状态的保存情况。只需要管理好恢复显示、隐藏与正常 re-render，再恢复滚动位置即可。</p>
+<h2 id="伪造组件"><a href="#伪造组件" class="headerlink" title="伪造组件"></a>伪造组件</h2><p>伪造组件的实现思路是利用包囊组件 children 方式把 children 传递出现，在一个缓存组件区内被渲染，而当前组件正常卸载重载，并且卸载这个组件也把它传递出去的 children 的 DOM 节点 remove 了，而重新加载这个组件时由于虚拟 DOM 的部分已经缓存了，还有 DOM 节点的 node 也保存了一份，而使用 react，最重要的就是虚拟 DOM 这部分了(既 FiberNode)，因为组件的实例就在这里，而数据就在实例里，而 react 就是根据最后处理出的虚拟 DOM 的结构来进行渲染的，所以只要虚拟 DOM 不被卸载，那么组件其实就存在，只是 DOM 节点被删除了，所以当伪造组件被加载后重新把保存的 node 节点 append 到 HTML 结构上那么就能在当前页面正常显示了，这样在 HTML 结构查看时就和正常的组件一模一样，只是使用 react 的工具查看结构时才会发现缓存组件区里的组件实例是没有卸载的，FiberNode 还是存在的。</p>
+<h3 id="伪造组件例子"><a href="#伪造组件例子" class="headerlink" title="伪造组件例子"></a>伪造组件例子</h3><p>伪造组件启发是来源这个 github <a href="https://github.com/CJY0208/react-activation" target="_blank" rel="noopener">react-activation</a>，react 的实现真的很大层度给予开发最大灵活性</p>
+<p>而目前来看我觉得<code>react-activation</code>的缓存实现是入侵性最小的，不像别的组件缓存，都把 react-router 包都替换了，因为是个人开发的，如果有一天不维护了或你使用它出现很大 BUG，作者不能及时修复，又或者跟不上 react-router 的更新，那么我觉得它就是一个大坑。</p>
+<p>还有别的零散的组件缓存包，但我觉得大同小异，但<code>react-activation</code>实现与使用都是比它们好一些的，而且如果出现的 BUG，作者不及时修改，我们也可以快速去除它，及时止损，因为一般使用缓存都是前进后退这样的，所以对项目来说还是可以接受的范围，如果与核心功能有关，去除后影响很大，那也可以使用<code>display:none</code>替换为方案，只是要干掉路由，所以从耦合性比较，<code>react-activation</code>还是值得使用的，而且只要你了解它的源码，出问题后也可以自行修复。</p>
+<p><a href="https://github.com/793338023/single-demo/tree/master/packages/my-demo" target="_blank" rel="noopener">使用 react-activation 例子</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上的就是组件的缓存方式的思路，因为 react 的机制问题，react 没有实现缓存，路由没有实现缓存，因为 react 给我们最大权限去操作代码，所以 API 方面会很少，而且如果没有良好缓存策略，会导致很严重的性能问题，而 vue 的 keep-alive 使用了 LRU 算法限制缓存数量来让缓存占用内存限制一个区间内。</p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#微前端">
-    <span class="tag-code">微前端</span>
+  <a href="/tags#react">
+    <span class="tag-code">react</span>
   </a>
 
       </div>
@@ -168,20 +190,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/05/02/react-hooks之二/">
+      <a class="nav-left" href="/2020/05/03/qiankun微前端爽一把/">
         <span class="nav-arrow">← </span>
         
-          react/hooks之二
+          qiankun微前端爽一把
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/05/05/react-组件缓存的方式/">
-        
-          react-组件缓存的方式
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -227,7 +242,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="nav">none</ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#缓存方式"><span class="toc-nav-text">缓存方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数据缓存"><span class="toc-nav-text">数据缓存</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#从显示上实现"><span class="toc-nav-text">从显示上实现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#伪造组件"><span class="toc-nav-text">伪造组件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#伪造组件例子"><span class="toc-nav-text">伪造组件例子</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-text">总结</span></a></li></ol></li></ol>
     
   </div>
 </aside>
@@ -237,7 +252,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/05/03/qiankun微前端爽一把/';
+    var url = 'http://yoursite.com/2020/05/05/react-组件缓存的方式/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -293,7 +308,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "qiankun微前端爽一把",
+        id: "react-组件缓存的方式",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -321,7 +336,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/05/03/qiankun微前端爽一把/';
+  var disqus_url = 'http://yoursite.com/2020/05/05/react-组件缓存的方式/';
   
   (function(){
     var dsq = document.createElement('script');
