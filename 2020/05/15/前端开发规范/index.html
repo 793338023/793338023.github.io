@@ -10,7 +10,7 @@
   
   <title>
     
-      代码规范eslint | 张志成博客
+      前端开发规范 | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>代码规范eslint</h2>
-  <p class="post-date">2020-05-08</p>
+  <h2>前端开发规范</h2>
+  <p class="post-date">2020-05-15</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,52 +146,8 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h2><p>ESLint 是一个 Javascript Linter，帮助我们规范代码质量，提高团队开发效率。</p>
-<p>现在搭建项目一般都是使用现有的脚手架然后进行调整。</p>
-<p>而且 typescript 的代码 lint 检查也转战为 eslint 了，tslint 已经是历史了。</p>
-<p>eslint 带来的好处:</p>
-<ul>
-<li>避免代码错误</li>
-<li>写出最佳实践的代码</li>
-<li>规范变量使用方式</li>
-<li>规范代码格式</li>
-<li>更好的使用新的语法</li>
-</ul>
-<p>现在大家比较认可的代码规范:</p>
-<ul>
-<li><a href="https://standardjs.com/readme-zhcn.html" target="_blank" rel="noopener">standardjs</a></li>
-<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="noopener">airbnb</a></li>
-</ul>
-<p>ESLint 的规则已经完全插件化了。每一个规则都是一个插件并且你自由的添加修改规则。</p>
-<p><a href="http://eslint.cn/" target="_blank" rel="noopener">ESLint 中文官网</a></p>
-<h3 id="Prettier"><a href="#Prettier" class="headerlink" title="Prettier"></a>Prettier</h3><p>eslint 虽然能帮助我们提高代码质量，但并不能完全统一编码风格，因为这些代码规范的重点并不在代码风格上，虽然有一定的限制。</p>
-<p>prettier 是一个能够统一团队编码风格的工具，能够极大的提高团队执行效率，统一的编码风格能很好的保证代码的可读性。</p>
-<p>而且我们能把 Prettier 集成到 eslint 里。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ol>
-<li>安装初始项目</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app eslint-demo --typescript</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装 ESLint 解析 TypeScript 的依赖</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin -D</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>初始配置</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx eslint --init</span><br></pre></td></tr></table></figure>
-<p>根据需要选择需要的配置，然后安装初始需要的包，最后会生成一个<code>.eslintrc.js</code>，里面已经初始化好一些配置了。</p>
-<p>我们把由<code>Create React App</code>团队提供的规则<code>&quot;react-app&quot;</code>添加进去。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">...</span><br><span class="line">  extends: [&quot;plugin:@typescript-eslint/recommended&quot;, &quot;react-app&quot;],</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>我们对 TypeScript 和 React 进行了 规范，此时需要选择一种代码格式化程序。前面提到的 Prettier 将是首选工具，因为它在检测和修复样式错误方面做的很出色，并且和 ESLint 有很好的集成。</p>
-<ol start="4">
-<li>安装 prettier 依赖</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add prettier eslint-config-prettier eslint-plugin-prettier -D</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">...</span><br><span class="line">  extends: [&quot;plugin:@typescript-eslint/recommended&quot;, &quot;react-app&quot;,&quot;plugin:prettier/recommended&quot;],</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>最后添加提交检测<br><a href="https://793338023.github.io/2019/11/19/git%E6%8F%90%E4%BA%A4%E5%89%8D%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5/" target="_blank" rel="noopener">具体操作查看</a></p>
-<p>具体参考，可查看 GitHub 例子的配置<br><a href="https://github.com/793338023/react-standard" target="_blank" rel="noopener">github 的 Demo 例子</a></p>
-<p>由于这种方式是不是在开发热更新报错，若需要这方面的，需要另外设置</p>
-<h4 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h4><p><a href="https://zhuanlan.zhihu.com/p/62401626?from_voters_page=true" target="_blank" rel="noopener">使用 ESLint+Prettier 规范 React+Typescript 项目</a><br><a href="https://www.cnblogs.com/ssw-men/p/11155699.html" target="_blank" rel="noopener">自搭 react+webpack 的 ESlint</a></p>
+    <section class="markdown-content"><p><a href="http://note.youdao.com/noteshare?id=efe43926d29cf8508b9efd4eda35b316" target="_blank" rel="noopener">前端开发规范</a></p>
+<p><a href="https://note.youdao.com/ynoteshare1/index.html?id=a3a2d139fc417746ecdf11f7d478655c&amp;type=note" target="_blank" rel="noopener">git 提交规范</a></p>
 </section>
     <!-- Tags START -->
     
@@ -210,17 +166,17 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/05/05/react-组件缓存的方式/">
+      <a class="nav-left" href="/2020/05/08/代码规范eslint与stylelint/">
         <span class="nav-arrow">← </span>
         
-          react-组件缓存的方式
+          代码规范eslint
         
       </a>
     
     
-      <a class="nav-right" href="/2020/05/15/前端开发规范/">
+      <a class="nav-right" href="/2020/05/16/np与组件模板生成/">
         
-          前端开发规范
+          np与组件模板生成
         
         <span class="nav-arrow"> →</span>
       </a>
@@ -269,7 +225,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#eslint"><span class="toc-nav-text">eslint</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Prettier"><span class="toc-nav-text">Prettier</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使用"><span class="toc-nav-text">使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#资料"><span class="toc-nav-text">资料</span></a></li></ol></li></ol></li></ol>
+      <ol class="nav">none</ol>
     
   </div>
 </aside>
@@ -279,7 +235,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/05/08/代码规范eslint与stylelint/';
+    var url = 'http://yoursite.com/2020/05/15/前端开发规范/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -335,7 +291,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "代码规范eslint",
+        id: "前端开发规范",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -363,7 +319,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/05/08/代码规范eslint与stylelint/';
+  var disqus_url = 'http://yoursite.com/2020/05/15/前端开发规范/';
   
   (function(){
     var dsq = document.createElement('script');
