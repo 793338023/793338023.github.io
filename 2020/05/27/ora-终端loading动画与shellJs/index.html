@@ -10,7 +10,7 @@
   
   <title>
     
-      umi体验 | 张志成博客
+      ora-终端loading动画与shellJs | 张志成博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -137,8 +137,8 @@
   </div>
 </header>
  <div id="article-banner">
-  <h2>umi体验</h2>
-  <p class="post-date">2020-05-18</p>
+  <h2>ora-终端loading动画与shellJs</h2>
+  <p class="post-date">2020-05-27</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -146,15 +146,38 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><p><a href="http://note.youdao.com/noteshare?id=3a4d41c50723e5863e3bf447acf48e8b" target="_blank" rel="noopener">umi 体验</a></p>
+    <section class="markdown-content"><h2 id="ora"><a href="#ora" class="headerlink" title="ora"></a>ora</h2><p>如果有深入进行过前端构建的，一定会遇到除了 webpack 等构建工具之外的实现前端自动化的过程，比如编译、git 提交、发布一步完成，无需开发者进行多次的指令操作等，那么一般当我们合并这些流程后等待时由于命令行界面就只有我们输入的内容外没有任何的提示而卡在这等待会感觉体验特别差，而 ora 就是为了解决这个问题的，就是我们在客户端界面上发送请求后需要一个 loadding 的动画一样，而 ora 就是让命令行界面有一个<code>spinner</code>旋转动画的效果。</p>
+<p>使用方式例子:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ora = <span class="built_in">require</span>(<span class="string">"ora"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> spinner = ora(<span class="string">"npm publish ."</span>).start();</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  spinner.succeed(<span class="string">"成功"</span>);</span><br><span class="line">  <span class="comment">// 或</span></span><br><span class="line">  <span class="comment">// spinner.fail("失败");</span></span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>ora 方法的入参为开始显示的内容，成功或失败后的入参为结果的内容。</p>
+<p>如果没有特殊要求就是那么简单，而且操作的体验效果也很棒。</p>
+<p>以下是<code>ora</code>的官方例子</p>
+<p><a href="https://github.com/sindresorhus/ora/blob/master/example.js" target="_blank" rel="noopener">ora 的例子代码</a></p>
+<h2 id="shellJs"><a href="#shellJs" class="headerlink" title="shellJs"></a>shellJs</h2><p>就是让我们可以使用 node 的方式，写 shell 脚本，就像平时操作 Linux 上的 shell 一样，</p>
+<p>比如 Linux 上，在 temp 目录下生成 test.js 文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch temp/test.js</span><br></pre></td></tr></table></figure>
+<p>而使用 ShellJs 也可以实现，而且不需要考虑操作系统的问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shell = <span class="built_in">require</span>(<span class="string">"shelljs"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; touch &#125; = shell;</span><br><span class="line">touch(<span class="string">"temp/test.js"</span>);</span><br></pre></td></tr></table></figure>
+<p>效果是一样的</p>
+<p>使用 sed 添加 package 版本号</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sed(</span><br><span class="line">  <span class="string">"-i"</span>,</span><br><span class="line">  /(version.*:[\W]*)\d+\.\d+\.[\w-]+<span class="regexp">/,</span></span><br><span class="line"><span class="regexp">  "$10.1.190",</span></span><br><span class="line"><span class="regexp">  path.resolve(__dirname, "../</span>../package.json<span class="string">")</span></span><br><span class="line"><span class="string">);</span></span><br></pre></td></tr></table></figure>
+<p><code>$1</code> 为匹配中的第一组内容，那么我们可以使用匹配中的组加上替换的版本号，就可以直接对 package.json 的版本进行替换</p>
+<p>而 shellJs 中<code>exec</code>是我觉得最有用的方法，因为它可以进行执行的指令，如<code>npm run build</code></p>
+<p>如:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shell = <span class="built_in">require</span>(<span class="string">"shelljs"</span>);</span><br><span class="line"><span class="keyword">const</span> chalk = <span class="built_in">require</span>(<span class="string">"chalk"</span>);</span><br><span class="line"><span class="keyword">const</span> ora = <span class="built_in">require</span>(<span class="string">"ora"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; which, exec &#125; = shell;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">installYalc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">res, rej</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`全局安装: <span class="subst">$&#123;chalk.green(<span class="string">"yalc"</span>)&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">const</span> spinner = ora(<span class="string">"install yalc"</span>).start();</span><br><span class="line">    exec(<span class="string">"npm i -g yalc"</span>, &#123; <span class="attr">silent</span>: <span class="literal">true</span> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">code, stdout</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (code !== <span class="number">0</span>) &#123;</span><br><span class="line">        spinner.fail(stdout);</span><br><span class="line">        rej();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        spinner.succeed(stdout);</span><br><span class="line">        res();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">hasYalc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!which(<span class="string">"yalc"</span>)) &#123;</span><br><span class="line">    <span class="keyword">await</span> installYalc();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = hasYalc;</span><br></pre></td></tr></table></figure>
+<p>而 exec 最好是使用异步，否则会卡着终端。</p>
+<p><a href="https://github.com/793338023/components-lib/tree/master/config" target="_blank" rel="noopener">shell 例子</a></p>
+<h2 id="yalc"><a href="#yalc" class="headerlink" title="yalc"></a>yalc</h2><p>最好的 link 方法</p>
+<p>它的使用很简单，就是全局安装，然后当前项目发布，联调项目 add 就行了，联调完后<code>yalc remove --all</code></p>
+<p><a href="https://www.kutu66.com//GitHub/article_154781" target="_blank" rel="noopener">参考资料</a><br><a href="https://github.com/whitecolor/yalc" target="_blank" rel="noopener">yalc github</a></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
+  <a href="/tags#node">
+    <span class="tag-code">node</span>
   </a>
 
       </div>
@@ -165,20 +188,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2020/05/16/np与组件模板生成/">
+      <a class="nav-left" href="/2020/05/18/umi体验/">
         <span class="nav-arrow">← </span>
         
-          np与组件模板生成
+          umi体验
         
       </a>
     
-    
-      <a class="nav-right" href="/2020/05/27/ora-终端loading动画与shellJs/">
-        
-          ora-终端loading动画与shellJs
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -224,7 +240,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="nav">none</ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ora"><span class="toc-nav-text">ora</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#shellJs"><span class="toc-nav-text">shellJs</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#yalc"><span class="toc-nav-text">yalc</span></a></li></ol>
     
   </div>
 </aside>
@@ -234,7 +250,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2020/05/18/umi体验/';
+    var url = 'http://yoursite.com/2020/05/27/ora-终端loading动画与shellJs/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -290,7 +306,7 @@
     var gitmentConfig = "yanm1ng";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "umi体验",
+        id: "ora-终端loading动画与shellJs",
         owner: "yanm1ng",
         repo: "yanm1ng.github.io",
         oauth: {
@@ -318,7 +334,7 @@
 <script>
   var disqus_shortname = '';
   
-  var disqus_url = 'http://yoursite.com/2020/05/18/umi体验/';
+  var disqus_url = 'http://yoursite.com/2020/05/27/ora-终端loading动画与shellJs/';
   
   (function(){
     var dsq = document.createElement('script');
