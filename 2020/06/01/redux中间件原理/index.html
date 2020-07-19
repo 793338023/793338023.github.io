@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="zhangzhicheng&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      redux中间件原理 | 张志成博客
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>张志成博客</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+ <div id="article-banner">
+  <h2>redux中间件原理</h2>
+  <p class="post-date">2020-06-01</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>redux 中间件设计的代码，简洁到极致，它的代码量很少，但却满足 redux 设计中间件的要求，柯里化的特性也在这里完美的体现。</p>
+<h2 id="涉及的代码"><a href="#涉及的代码" class="headerlink" title="涉及的代码"></a>涉及的代码</h2><p>createStore.ts、compose.ts、applyMiddleware.ts</p>
+<p>createStore 所有 store 集中所在，这里包括了监听变化，数据存储、替换 reducer、中间件等处理逻辑。</p>
+<p>compose 使用数组 reduce 的特性，让数组内的函数从左到右层层向内嵌套，并使用柯里化，把真实的 args 实参传递给最里面的函数。</p>
+<p>applyMiddleware 给每一层的中间件函数传递 getState 与改造的 dispatch，而真实的 dispatch 使用 compose 传递给最里面一层的中间件，其他层的 dispatch 都是使用 compose 的第二调用的函数，因此中间件的要使用多层函数而最里层的函数接受 compose 的第三调用的函数的入参，既 action 数据。</p>
+<h2 id="compose-实现"><a href="#compose-实现" class="headerlink" title="compose 实现"></a>compose 实现</h2><p>在 redux 中 compose 的实现很简洁，但又比较难吃透，因为对数组的 reduce 与闭包结合的理解不够</p>
+<p>以下为它的源码:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs: <span class="built_in">Function</span>[]</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;T&gt;<span class="function">(<span class="params">arg: T</span>) =&gt;</span> arg;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> (...args: <span class="built_in">any</span>) =&gt; a(b(...args)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当一次调用 compose 时，compose 接受多个函数形参，使用扩展扩展运算符获取把所有函数入参以数组的形式获取到，然后当函数个数为 0 时返回一个空数组，当函数个数为 1 时直接返回当前函数，而大于 1 时，使用 reduce 累计函数，让函数之间形成嵌套关系，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compose(fn1, fn2, fn3);</span><br><span class="line"><span class="comment">// === 等价于</span></span><br><span class="line">fn1(fn2(fn3(...args)));</span><br></pre></td></tr></table></figure>
+<p>由于 funcs.reduce 里面使用了箭头函数，理解起来会有点困难，所以转化为以下的:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">funcs.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...args: any</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a(b(...args));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>而当使用 reduce 累计函数时,如累计 fn1、fn2、fn3，由于 reduce 没有使用默认值，所以第一次遍历的 a、b 分别为 fn1、fn2,而第二次遍历为 reduce 返回的函数与 fn3，累计结束。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一次遍历</span></span><br><span class="line">a = fn1;</span><br><span class="line">b = fn2;</span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">...args: any</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn1(fn2(...args));</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二次遍历</span></span><br><span class="line"></span><br><span class="line">a = <span class="function"><span class="keyword">function</span> (<span class="params">...args: any</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn1(fn2(...args));</span><br><span class="line">  &#125;;</span><br><span class="line">b = fn3;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最后累计出来的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">...args: any</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn1(fn2(...args));</span><br><span class="line">  &#125;)(fn3(...args));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当我们调用最后累计出来的函数(既第二次调用 compose)时，就会先调用 fn3、fn2、fn1 这样的顺序去执行，但从源码中是把 store.dispatch 为参数传入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch = compose&lt;<span class="keyword">typeof</span> dispatch&gt;(...chain)(store.dispatch)</span><br></pre></td></tr></table></figure>
+<p>而我们每个 fn 都是嵌套函数，如:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params">next: any</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">targs1: any</span>) </span>&#123;</span><br><span class="line">    next(targs1);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们 compose 第二次调用完后返回的 fn1 的内层函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">targs1: any</span>)</span>&#123;</span><br><span class="line">    next(targs1);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>然后当我们第三次调用 compose 时就会执行 fn1 内层函数，而 next 是 fn2 的内层函数，所以执行顺序为 fn1、fn2、fn3 的内层函数，并把 fn1 的 targs1 一层层传递下去，让每一层对其进行改造或获取处理等然后继续传递下去，直到遇到真正的 dispatch,既 store.dispatch,最后触发 redux 数据更新。</p>
+<ul>
+<li>总结:<br><code>compose(funcs)(dispatch)(action)</code>,首先会把函数数组改造成嵌套数组，然后第二次调用 dispatch，第三次传入需要修改的数据 action<br>执行顺序为</li>
+</ul>
+<p><code>*</code>代表内层函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fn1(fn2(fn3(dispatch)))</span><br><span class="line"></span><br><span class="line">fn3-&gt;fn2-&gt;fn1-&gt;fn1*-&gt;fn2*-&gt;fn3*</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/01/redux中间件原理/1.png" alt="洋葱模型"></p>
+<h2 id="applyMiddleware-实现"><a href="#applyMiddleware-实现" class="headerlink" title="applyMiddleware 实现"></a>applyMiddleware 实现</h2><p>源码:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  ...middlewares: Middleware[]</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">StoreEnhancer</span>&lt;<span class="title">any</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">createStore: StoreCreator</span>) =&gt;</span> &lt;S, A extends AnyAction&gt;(</span><br><span class="line">    reducer: Reducer&lt;S, A&gt;,</span><br><span class="line">    ...args: any[]</span><br><span class="line">  ) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> store = createStore(reducer, ...args)</span><br><span class="line">    <span class="keyword">let</span> dispatch: Dispatch = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">        <span class="string">'Dispatching while constructing your middleware is not allowed. '</span> +</span><br><span class="line">          <span class="string">'Other middleware would not be applied to this dispatch.'</span></span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> middlewareAPI: MiddlewareAPI = &#123;</span><br><span class="line">      getState: store.getState,</span><br><span class="line">      dispatch: <span class="function">(<span class="params">action, ...args</span>) =&gt;</span> dispatch(action, ...args)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(middlewareAPI))</span><br><span class="line">    dispatch = compose&lt;<span class="keyword">typeof</span> dispatch&gt;(...chain)(store.dispatch)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      ...store,</span><br><span class="line">      dispatch</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>applyMiddleware 是三层，第一次调用传递中间件数组 middlewares，而第二次调用 applyMiddleware 传递 createStore 创建 Store 的，第三次调用传递 reduces 与初始化 State(preloadedState)。</p>
+<p>而 applyMiddleware 调用二三次都在<code>createStore.ts</code>里</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> enhancer(createStore)(</span><br><span class="line">      reducer,</span><br><span class="line">      preloadedState <span class="keyword">as</span> PreloadedState&lt;S&gt;</span><br><span class="line">    ) <span class="keyword">as</span> Store&lt;ExtendState&lt;S, StateExt&gt;, A, StateExt, Ext&gt; &amp; Ext</span><br></pre></td></tr></table></figure>
+<p>然后中间件需要编写三层函数，第一层是为了传递<code>getState</code>与改造的<code>dispatch</code>的，二三层是为了 compose 实现的，而改造的 dispatch 是如上的<code>fn1*</code>，这样只要不是调用到真正的 dispatch，那么 dispatch 后都会把所有的中间件都走一遍并把数据 action 也传递进去了，那样中间就可以灵活的处理数据。</p>
+<h2 id="thunk-实现"><a href="#thunk-实现" class="headerlink" title="thunk 实现"></a>thunk 实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createThunkMiddleware</span>(<span class="params">extraArgument</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">&#123; dispatch, getState &#125;</span>) =&gt;</span> (next) =&gt; <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> action === <span class="string">"function"</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> action(dispatch, getState, extraArgument);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> next(action);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> thunk = createThunkMiddleware();</span><br><span class="line">thunk.withExtraArgument = createThunkMiddleware;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> thunk;</span><br></pre></td></tr></table></figure>
+<p>thunk 也是先接受改造的 dispatch 与 getState，然后接受 next，从上可知 next 最后一个就是真实的 dispatch，而 thunk 为了实现异步，判断了 action 是否为函数，如果是函数就把改造的 dispatch 与 getState，这样就简单的实现了 redux 只是异步的操作。</p>
+<p>而中间件的实现最少要三层函数，因为第一层是给 applyMiddleware 内把改造的 dispatch 与 getState 传入的，而第二三层是给 compose 使用的，因为 compose 调用中间件函数的第一次传入 next(下一次函数)或 dispatch，第二次传入 action 数据，而 action 数据也是 redux 需要的数据，用过 redux 的都知道 reduce 的 action，而这个 action 与这里的是一样的。</p>
+<p>从 redux 实现的中间件机制可知，只要我们明确功能是干什么的，核心是什么，那么我们就可以从核心内容在合理的范围内进行实现可预测的扩展机制，从而使功能尽量可面对未来的各种变化而进行扩展适配来符合变化，而 redux 的核心就是变化的数据与触发数据变化的方法，所以我们可以从这方面下手。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#redux">
+    <span class="tag-code">redux</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2020/05/30/了解react-router的实现/">
+        <span class="nav-arrow">← </span>
+        
+          了解react-router的实现
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2020/07/19/探讨react的核心原理/">
+        
+          探讨react的核心原理
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#涉及的代码"><span class="toc-nav-text">涉及的代码</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#compose-实现"><span class="toc-nav-text">compose 实现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#applyMiddleware-实现"><span class="toc-nav-text">applyMiddleware 实现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#thunk-实现"><span class="toc-nav-text">thunk 实现</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2020/06/01/redux中间件原理/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "yanm1ng";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "redux中间件原理",
+        owner: "yanm1ng",
+        repo: "yanm1ng.github.io",
+        oauth: {
+          client_id: "0f87e490e00ee3fd87ef",
+          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/2020/06/01/redux中间件原理/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+ <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
