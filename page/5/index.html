@@ -1,397 +1,743 @@
 <!DOCTYPE html>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="zhangzhicheng&#39;s blog">
-  <meta name="keyword" content="hexo-theme, vuejs">
-  
-    <link rel="shortcut icon" href="/css/images/logo.png">
-  
-  <title>
+<head><meta name="generator" content="Hexo 3.8.0">
     
-      张志成博客
+
     
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
-  
-  
-    <!-- MathJax support START -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
-  
+    
 
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>张志成博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="张志成博客">
+<meta property="og:url" content="https://793338023.github.io/page/5/index.html">
+<meta property="og:site_name" content="张志成博客">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="张志成博客">
+    
+        <link rel="alternate" type="application/atom+xml" title="张志成博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
 
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>张志成博客</span>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
     </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link active">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/a.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zhangzhicheng</h5>
+          <a href="mailto:793338023@qq.com" title="793338023@qq.com" class="mail">793338023@qq.com</a>
+        </hgroup>
+      </div>
     </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link mobile-active">Home</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/793338023" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
         
       </ul>
     </div>
   </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">张志成博客</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
 </header>
- <main class="app-body">
-  <div class="zzc-total">总共74篇</div>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">张志成博客</h1>
+        <h5 class="subtitle">
+            
+                
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-react与rc-form" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-30 16:00:58" datetime="2019-11-30T08:00:58.000Z" itemprop="datePublished">2019-11-30</time>
+
+        
+
+
+    </div>
+
+    
+
 
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/11/30/react与rc-form/">
-        react与rc-form 
-      </a>
-    </h2>
-    <p class="article-date">2019-11-30</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       前言在选择使用 react 技术栈的时，往往都会选择一套成熟好用而且自己熟悉的 UI 框架，而我使用比较多的ant Design,这样可以减少开发成本与风险，因为自己开发的组件总会有考虑不周的 BUG，而 antd 里有很多优秀的组件，但我觉得在表单方面，antd 的这个组件做的很优秀，也很 ...
-      
-    </div>
-    <a class="more" href="/2019/11/30/react与rc-form/">Read more</a>
-  </article>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/30/react与rc-form/">react与rc-form</a>
+    </h3>
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/11/19/git提交前代码检查/">
-        git提交前代码检查 
-      </a>
-    </h2>
-    <p class="article-date">2019-11-19</p>
-     
-  <a href="/tags#代码规范">
-    <span class="tag-code">代码规范</span>
-  </a>
- 
-    <div class="article-summary">
-       前言当项目在团队上开发时，总要遵循一些规范，就算使用了 tslint 或 eslint 等，但上交代码时由于没有禁止不良代码，有些人在不遵守规范时，还是会提交那么很坑的代码，让我们的项目挂了，这个时候，所以一切的代码在不经过检查，都不能信任，而这一层的把关，我交给 git 的钩子。
-原理当我 ...
-      
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言在选择使用 react 技术栈的时，往往都会选择一套成熟好用而且自己熟悉的 UI 框架，而我使用比较多的ant Design,这样可以减少开发成本与风险，因为自己开发的组件总会有考虑不周的 BUG，而 antd 里有很多优秀的组件，但我觉得在表单方面，antd 的这个组件做的很优秀，也很灵活，它的核心也在校验，这篇主要是 Form 校验。
+表单作用真正需要表单的时候，一般都因为以下功能：...
+    
+
+        <a href="/2019/11/30/react与rc-form/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2019/11/19/git提交前代码检查/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/11/13/微前端之systemJS与lerna/">
-        微前端之systemJS与lerna 
-      </a>
-    </h2>
-    <p class="article-date">2019-11-13</p>
-     
-  <a href="/tags#js">
-    <span class="tag-code">js</span>
-  </a>
- 
-    <div class="article-summary">
-       前言微前端架构是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。
-由此带来的变化是，这些前端应用可以独立运行、独立开发、独立部署。以及，它们应该可以在共享组件的同时进行并行开发——这些组件可以通过 NPM 或者  ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
     </div>
-    <a class="more" href="/2019/11/13/微前端之systemJS与lerna/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/10/26/webpack之实现loader/">
-        webpack之实现loader 
-      </a>
-    </h2>
-    <p class="article-date">2019-10-26</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       前言在使用 webpack 时，我们一般都会知道 loader 与 plugin,因为在使用 webpack 时，必不可少，而这边主要了解和知道怎么实现 loader。loader 是一种对指定内容的打包方案，如在 webpack 中的 rules 某一条配置的规则 test 是匹配 css ...
-      
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-git提交前代码检查" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-19 21:19:24" datetime="2019-11-19T13:19:24.000Z" itemprop="datePublished">2019-11-19</time>
+
+        
+
+
     </div>
-    <a class="more" href="/2019/10/26/webpack之实现loader/">Read more</a>
-  </article>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/09/14/create-react-app无法在IE下运行/">
-        create-react-app无法在IE下运行 
-      </a>
-    </h2>
-    <p class="article-date">2019-09-14</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       由于 ie 浏览器需要兼容的需求在现在已经越来越少了，所以 react 脚手架对这部分不进行兼容了，但我们可以安装 polyfill 解决。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/19/git提交前代码检查/">git提交前代码检查</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言当项目在团队上开发时，总要遵循一些规范，就算使用了 tslint 或 eslint 等，但上交代码时由于没有禁止不良代码，有些人在不遵守规范时，还是会提交那么很坑的代码，让我们的项目挂了，这个时候，所以一切的代码在不经过检查，都不能信任，而这一层的把关，我交给 git 的钩子。
+原理当我们使用 git 时，都会有一个.git 的文件夹，而它底下有所有的钩子，在 hooks 目录下，我们可...
+    
+
+        <a href="/2019/11/19/git提交前代码检查/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码规范/">代码规范</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-微前端之systemJS与lerna" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-13 23:06:29" datetime="2019-11-13T15:06:29.000Z" itemprop="datePublished">2019-11-13</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/13/微前端之systemJS与lerna/">微前端之systemJS与lerna</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言微前端架构是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。
+由此带来的变化是，这些前端应用可以独立运行、独立开发、独立部署。以及，它们应该可以在共享组件的同时进行并行开发——这些组件可以通过 NPM 或者 Git Tag、Git Submodule 来管理。
+可以解决的问题:拆分工程，解决打包速度的问题，减...
+    
+
+        <a href="/2019/11/13/微前端之systemJS与lerna/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-webpack之实现loader" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-10-26 11:59:30" datetime="2019-10-26T03:59:30.000Z" itemprop="datePublished">2019-10-26</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/10/26/webpack之实现loader/">webpack之实现loader</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言在使用 webpack 时，我们一般都会知道 loader 与 plugin,因为在使用 webpack 时，必不可少，而这边主要了解和知道怎么实现 loader。loader 是一种对指定内容的打包方案，如在 webpack 中的 rules 某一条配置的规则 test 是匹配 css 类的文件，当遇到这类 css 格式文件，webpack 就会执行这条 rules 里的 loader...
+    
+
+        <a href="/2019/10/26/webpack之实现loader/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-create-react-app无法在IE下运行" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-09-14 20:49:26" datetime="2019-09-14T12:49:26.000Z" itemprop="datePublished">2019-09-14</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/09/14/create-react-app无法在IE下运行/">create-react-app无法在IE下运行</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        由于 ie 浏览器需要兼容的需求在现在已经越来越少了，所以 react 脚手架对这部分不进行兼容了，但我们可以安装 polyfill 解决。
 而目前解决方法就是安装 create-react-app，然后使用。
 1npm install react-app-polyfill
-然后src/in ...
-      
+然后src/index.js里添加
+123// 注意一定要在最顶部添加，否则无效import &apos;react-...
+    
+
+        <a href="/2019/09/14/create-react-app无法在IE下运行/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2019/09/14/create-react-app无法在IE下运行/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/08/28/react与typescript/">
-        react与typescript 
-      </a>
-    </h2>
-    <p class="article-date">2019-08-28</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       前言TypeScript 是 JS 类型的超集，并支持了泛型、类型、命名空间、枚举等特性，弥补了 JS 在大型应用开发中的不足。使用 TypeScript 的编程体验最直观的是当在键盘上敲下 . 时，后面这一大串的提示真的是很方便，代码质量和效率提升十分明显，习惯后真的会使用不惯 JavaS ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
     </div>
-    <a class="more" href="/2019/08/28/react与typescript/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/07/10/使用gulp制作组件化工具/">
-        使用gulp制作组件化工具 
-      </a>
-    </h2>
-    <p class="article-date">2019-07-10</p>
-     
-  <a href="/tags#gulp">
-    <span class="tag-code">gulp</span>
-  </a>
- 
-    <div class="article-summary">
-       前言现在组件化是流行的一种方式，但一般我们都是只是制作适用于当前项目的组件，如使用 react、vue、angular 等前端架构项目，然后把当前复用性比较高的功能抽取出来封装成组件，然后组件有可能是可以使用到另外一个类似项目中去，但目前我们抽取的组件只是限制于在当前项目中，别的项目是没有办 ...
-      
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-react与typescript" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-08-28 23:15:52" datetime="2019-08-28T15:15:52.000Z" itemprop="datePublished">2019-08-28</time>
+
+        
+
+
     </div>
-    <a class="more" href="/2019/07/10/使用gulp制作组件化工具/">Read more</a>
-  </article>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/06/29/linux001/">
-        linux001 
-      </a>
-    </h2>
-    <p class="article-date">2019-06-29</p>
-     
-  <a href="/tags#linux">
-    <span class="tag-code">linux</span>
-  </a>
- 
-    <div class="article-summary">
-       前言linux的软件使用安装VMware,配置虚拟机，加载镜像，使用NAT网络链接，安装VMTOOls，这样就是使用共享文件夹。远程登陆，安装xshell与xftp，xshell操作命令，xftp传输文件，使用sftp。sshd:守护进程，端口号为22一般ftp与远程登陆xshell都使用s ...
-      
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/08/28/react与typescript/">react与typescript</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言TypeScript 是 JS 类型的超集，并支持了泛型、类型、命名空间、枚举等特性，弥补了 JS 在大型应用开发中的不足。使用 TypeScript 的编程体验最直观的是当在键盘上敲下 . 时，后面这一大串的提示真的是很方便，代码质量和效率提升十分明显，习惯后真的会使用不惯 JavaScript。但是 TypeScript 和一些框架结合使用的话坑还是比较多的，例如使用 antd 框架...
+    
+
+        <a href="/2019/08/28/react与typescript/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2019/06/29/linux001/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/06/05/IOS对FormData、File兼容性/">
-        IOS对FormData、File兼容性 
-      </a>
-    </h2>
-    <p class="article-date">2019-06-05</p>
-     
-  <a href="/tags#js">
-    <span class="tag-code">js</span>
-  </a>
- 
-    <div class="article-summary">
-       前言IOS对FormData、File兼容性都不是很好，比如IOS8、9就不支持，但按市场的占比来说，可以忽略这部分，但能处理还是要处理的。
-FormDataFormData主要是模拟表单数据，以便用XMLHttpRequest来发送数据，而FormData下有几个方法调用，如添加数据，设置 ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
     </div>
-    <a class="more" href="/2019/06/05/IOS对FormData、File兼容性/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/06/01/移动端调试/">
-        移动端调试 
-      </a>
-    </h2>
-    <p class="article-date">2019-06-01</p>
-     
-  <a href="/tags#调试">
-    <span class="tag-code">调试</span>
-  </a>
- 
-    <div class="article-summary">
-       前言大前端时代，移动互联网是大趋势，而偏向移动开发，但前端开发的功能在移动上调试是比较困难的，因为无法像PC浏览器那样有各种各样的内置调试工具，而出现问题时只从页面上效果判断具体问题，这是不太可能的，如样式，在IOS和安卓上展示的效果不一致，而在开发浏览器上一点问题都没有，这就只能猜测和不断 ...
-      
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-使用gulp制作组件化工具" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-07-10 22:22:57" datetime="2019-07-10T14:22:57.000Z" itemprop="datePublished">2019-07-10</time>
+
+        
+
+
     </div>
-    <a class="more" href="/2019/06/01/移动端调试/">Read more</a>
-  </article>
-    <div class="guide-pager">
+
+    
+
+
   
-    <a href="/page/4/"><span class="page-arrow">← </span>Prev</a>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/07/10/使用gulp制作组件化工具/">使用gulp制作组件化工具</a>
+    </h3>
   
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言现在组件化是流行的一种方式，但一般我们都是只是制作适用于当前项目的组件，如使用 react、vue、angular 等前端架构项目，然后把当前复用性比较高的功能抽取出来封装成组件，然后组件有可能是可以使用到另外一个类似项目中去，但目前我们抽取的组件只是限制于在当前项目中，别的项目是没有办法引用这个组件的，那么另外的项目就要重新开发这部分的组件，那么就会做了重复工作了，而且以后同步更新也要...
+    
+
+        <a href="/2019/07/10/使用gulp制作组件化工具/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gulp/">gulp</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-linux001" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-06-29 15:29:33" datetime="2019-06-29T07:29:33.000Z" itemprop="datePublished">2019-06-29</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-    <a href="/page/6/">Next<span class="page-arrow"> →</span></a>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/06/29/linux001/">linux001</a>
+    </h3>
   
-</div> 
-</main>
- <div class="scroll-top">
-  <span class="arrow-icon"></span>
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言linux的软件使用安装VMware,配置虚拟机，加载镜像，使用NAT网络链接，安装VMTOOls，这样就是使用共享文件夹。远程登陆，安装xshell与xftp，xshell操作命令，xftp传输文件，使用sftp。sshd:守护进程，端口号为22一般ftp与远程登陆xshell都使用sshd的端口号22如果出现登陆不了远程的linux，可以查看一下sshd是否开启，命令setup，网络...
+    
+
+        <a href="/2019/06/29/linux001/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-IOS对FormData、File兼容性" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-06-05 23:09:32" datetime="2019-06-05T15:09:32.000Z" itemprop="datePublished">2019-06-05</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/06/05/IOS对FormData、File兼容性/">IOS对FormData、File兼容性</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言IOS对FormData、File兼容性都不是很好，比如IOS8、9就不支持，但按市场的占比来说，可以忽略这部分，但能处理还是要处理的。
+FormDataFormData主要是模拟表单数据，以便用XMLHttpRequest来发送数据，而FormData下有几个方法调用，如添加数据，设置数据，获取数据等，但它们有很一部分在IOS上是不兼容的，而append()这个方法一定是兼容的，其他A...
+    
+
+        <a href="/2019/06/05/IOS对FormData、File兼容性/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-移动端调试" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-06-01 11:28:05" datetime="2019-06-01T03:28:05.000Z" itemprop="datePublished">2019-06-01</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/06/01/移动端调试/">移动端调试</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言大前端时代，移动互联网是大趋势，而偏向移动开发，但前端开发的功能在移动上调试是比较困难的，因为无法像 PC 浏览器那样有各种各样的内置调试工具，而出现问题时只从页面上效果判断具体问题，这是不太可能的，如样式，在 IOS 和安卓上展示的效果不一致，而在开发浏览器上一点问题都没有，这就只能猜测和不断尝试，但如果对需要部署的环境且频繁拜托别人部署是很浪费时间，效率也低下，还要看别人是否愿意陪你...
+    
+
+        <a href="/2019/06/01/移动端调试/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/调试/">调试</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">下一页</a>
+    </div>
+</nav>
+
+
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
-  </p>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zhangzhicheng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/page/5/&title=张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/page/5/&title=张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/page/5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=张志成博客&url=https://793338023.github.io/page/5/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/page/5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://793338023.github.io/page/5/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
 <script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '欸，你怎么走了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '你是木头啊!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  })
+})();
 </script>
-<!-- Baidu Tongji -->
 
-<script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+
+</body>
 </html>

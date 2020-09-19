@@ -1,247 +1,370 @@
 <!DOCTYPE html>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="zhangzhicheng&#39;s blog">
-  <meta name="keyword" content="hexo-theme, vuejs">
-  
-    <link rel="shortcut icon" href="/css/images/logo.png">
-  
-  <title>
+<head><meta name="generator" content="Hexo 3.8.0">
     
-      张志成博客
+
     
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
-  
-  
-    <!-- MathJax support START -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
-  
+    
 
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>张志成博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="张志成博客">
+<meta property="og:url" content="https://793338023.github.io/page/2/index.html">
+<meta property="og:site_name" content="张志成博客">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="张志成博客">
+    
+        <link rel="alternate" type="application/atom+xml" title="张志成博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
 
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>张志成博客</span>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
     </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link active">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/a.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zhangzhicheng</h5>
+          <a href="mailto:793338023@qq.com" title="793338023@qq.com" class="mail">793338023@qq.com</a>
+        </hgroup>
+      </div>
     </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link mobile-active">Home</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/793338023" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
         
       </ul>
     </div>
   </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">张志成博客</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
 </header>
- <main class="app-body">
-  <div class="zzc-total">总共74篇</div>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">张志成博客</h1>
+        <h5 class="subtitle">
+            
+                
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-前端开发规范" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-15 23:39:07" datetime="2020-05-15T15:39:07.000Z" itemprop="datePublished">2020-05-15</time>
+
+        
+
+
+    </div>
+
+    
+
 
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/15/前端开发规范/">
-        前端开发规范 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-15</p>
-     
-  <a href="/tags#代码规范">
-    <span class="tag-code">代码规范</span>
-  </a>
- 
-    <div class="article-summary">
-       前端开发规范
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/15/前端开发规范/">前端开发规范</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前端开发规范
 git 提交规范
 
-      
+    
+
+        <a href="/2020/05/15/前端开发规范/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/05/15/前端开发规范/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码规范/">代码规范</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-代码规范eslint与stylelint" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-08 23:27:44" datetime="2020-05-08T15:27:44.000Z" itemprop="datePublished">2020-05-08</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/08/代码规范eslint与stylelint/">
-        代码规范eslint 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-08</p>
-     
-  <a href="/tags#代码规范">
-    <span class="tag-code">代码规范</span>
-  </a>
- 
-    <div class="article-summary">
-       eslintESLint 是一个 Javascript Linter，帮助我们规范代码质量，提高团队开发效率。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/08/代码规范eslint与stylelint/">代码规范eslint</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        eslintESLint 是一个 Javascript Linter，帮助我们规范代码质量，提高团队开发效率。
 现在搭建项目一般都是使用现有的脚手架然后进行调整。
 而且 typescript 的代码 lint 检查也转战为 eslint 了，tslint 已经是历史了。
-eslint 带来的 ...
-      
+eslint 带来的好处:
+
+避免代码错误
+写出最佳实践的代码
+规范变量使用方式
+规范代码格式
+更好的使用新的语法
+
+现在...
+    
+
+        <a href="/2020/05/08/代码规范eslint与stylelint/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/05/08/代码规范eslint与stylelint/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码规范/">代码规范</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-react-组件缓存的方式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-05 17:02:14" datetime="2020-05-05T09:02:14.000Z" itemprop="datePublished">2020-05-05</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/05/react-组件缓存的方式/">
-        react-组件缓存的方式 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-05</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       缓存方式
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/05/react-组件缓存的方式/">react-组件缓存的方式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        缓存方式
 数据缓存，把组件的数据保持起来
 从显示上实现，样式上的显示隐藏方式，如display:none
 伪造组件，然后把真实所需的组件移位，渲染到 HTML 的节点保持与伪造组件一致
 
-数据缓存这是最常用的缓存方式，而且也是最符合 react 的，因为 react 就是为了 UI 层实现的 ...
-      
+数据缓存这是最常用的缓存方式，而且也是最符合 react 的，因为 react 就是为了 UI 层实现的，从数据到数据被直观的显示。react 是一个面向数据的，所以我们可以把所有的内容保存为一份数据，然后...
+    
+
+        <a href="/2020/05/05/react-组件缓存的方式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/05/05/react-组件缓存的方式/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-qiankun微前端爽一把" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-03 16:07:44" datetime="2020-05-03T08:07:44.000Z" itemprop="datePublished">2020-05-03</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/03/qiankun微前端爽一把/">
-        qiankun微前端爽一把 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-03</p>
-     
-  <a href="/tags#微前端">
-    <span class="tag-code">微前端</span>
-  </a>
- 
-    <div class="article-summary">
-       为什么不使用 Iframe
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/03/qiankun微前端爽一把/">qiankun微前端爽一把</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        为什么不使用 Iframe
 微前端现在越来越火，因为大家尝到微服务的甜头，而前端行业，都是别人好的东西往家里搬，所以大家都纷纷搭建属于自己的那个微前端架子，那么最好的方式当然开箱即用，所以就有了 qiankun，qiankun 在使用者推动下会越来越符合大众的微前端方案。
-qiankun 微 ...
-      
+qiankun 微前端 Demo 与文档
+例子使用了 react 脚手架与 vue 脚手架
+
+    
+
+        <a href="/2020/05/03/qiankun微前端爽一把/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/05/03/qiankun微前端爽一把/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微前端/">微前端</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-react-hooks之二" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-02 22:24:20" datetime="2020-05-02T14:24:20.000Z" itemprop="datePublished">2020-05-02</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/02/react-hooks之二/">
-        react/hooks之二 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-02</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       动机使用 hooks 的动机:
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/02/react-hooks之二/">react/hooks之二</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        动机使用 hooks 的动机:
 
 在组件之间复用状态逻辑很难；
 
@@ -249,169 +372,406 @@ class 组件要实现复用逻辑，通常会以高阶组件的形式实现或re
 
 复杂组件变得难以理解；
 
-当一个简单的组件，由于需要的迭 ...
-      
+当一个简单的组件，由于需要的迭代，组件间的状态散布到生命周期的各个时期里，而状态之间既互相关联又互相不影响，导致代码拆分困难，组件的...
+    
+
+        <a href="/2020/05/02/react-hooks之二/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/05/02/react-hooks之二/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-linux002" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-02 14:59:42" datetime="2020-05-02T06:59:42.000Z" itemprop="datePublished">2020-05-02</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/02/linux002/">
-        linux002 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-02</p>
-     
-  <a href="/tags#linux">
-    <span class="tag-code">linux</span>
-  </a>
- 
-    <div class="article-summary">
-       平时使用，记事内容
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/02/linux002/">linux002</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        平时使用，记事内容
 惯用账号密码:rootadmin123
 virtualbox 虚拟机的使用-关于没有 IP 地址https://www.cnblogs.com/caizhw3/articles/virtualbox_net_surfingInternetBasic.html
-msconf ...
-      
-    </div>
-    <a class="more" href="/2020/05/02/linux002/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/02/gulp底层vinyl-fs/">
-        gulp底层vinyl-fs 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-02</p>
-     
-  <a href="/tags#gulp">
-    <span class="tag-code">gulp</span>
-  </a>
- 
-    <div class="article-summary">
-       vinyl-fs当你只想处理文件到文件的文件处理场景时可以使用vinyl-fs,而不必使用 gulp，因为 gulp 的 src、pipe、dest 的实现，就是使用了它。而 webpack\rollup 都是模块化打包工具，这里模块一般都是把文件当成一个模块，然后处理完之后把所有模块整合， ...
-      
-    </div>
-    <a class="more" href="/2020/05/02/gulp底层vinyl-fs/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/05/01/使用chrome排查内存泄露/">
-        使用chrome排查内存泄露 
-      </a>
-    </h2>
-    <p class="article-date">2020-05-01</p>
-     
-  <a href="/tags#chrome">
-    <span class="tag-code">chrome</span>
-  </a>
- 
-    <div class="article-summary">
-       使用 chrome 排查内存泄露内存分析使用的工具包括 chrome 任务管理器、chrome 时间轴（低版本是 Timeline，高版本对应 performance）、chrome memory（低版本是 chrome profiles，主要用 JS 堆快照、JS 堆动态分配时间轴）
-ch ...
-      
-    </div>
-    <a class="more" href="/2020/05/01/使用chrome排查内存泄露/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/28/React16-fiber/">
-        React16/fiber 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-28</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       前言react 在进行组件渲染时，从 setState 开始到渲染完成整个过程是同步的（“一气呵成”）。如果需要渲染的组件比较庞大，js 执行会占据主线程时间较长，会导致页面响应度变差，使得 react 在动画、手势等应用中效果比较差。
-所以在 react v15 之前使用它做一些动画效果或 ...
-      
-    </div>
-    <a class="more" href="/2020/04/28/React16-fiber/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/25/LRU算法/">
-        LRU算法 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-25</p>
-     
-  <a href="/tags#算法">
-    <span class="tag-code">算法</span>
-  </a>
- 
-    <div class="article-summary">
-       LRU 算法
+msconfig
 
-      
+递归创建目录mkdir -p zz/xx/cc
+
+删除非空目录rm -rf zz
+
+创建空文件...
+    
+
+        <a href="/2020/05/02/linux002/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/04/25/LRU算法/">Read more</a>
-  </article>
-    <div class="guide-pager">
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-gulp底层vinyl-fs" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-02 10:52:30" datetime="2020-05-02T02:52:30.000Z" itemprop="datePublished">2020-05-02</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-    <a href="/"><span class="page-arrow">← </span>Prev</a>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/02/gulp底层vinyl-fs/">gulp底层vinyl-fs</a>
+    </h3>
   
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        vinyl-fs当你只想处理文件到文件的文件处理场景时可以使用vinyl-fs,而不必使用 gulp，因为 gulp 的 src、pipe、dest 的实现，就是使用了它。而 webpack\rollup 都是模块化打包工具，这里模块一般都是把文件当成一个模块，然后处理完之后把所有模块整合，所以有时不符合场景，当然也是用 babel 的 cli，但它的处理可能会出现一些小问题，如目录里是单目...
+    
+
+        <a href="/2020/05/02/gulp底层vinyl-fs/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gulp/">gulp</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-使用chrome排查内存泄露" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-05-01 14:09:14" datetime="2020-05-01T06:09:14.000Z" itemprop="datePublished">2020-05-01</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-    <a href="/page/3/">Next<span class="page-arrow"> →</span></a>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/05/01/使用chrome排查内存泄露/">使用chrome排查内存泄露</a>
+    </h3>
   
-</div> 
-</main>
- <div class="scroll-top">
-  <span class="arrow-icon"></span>
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        使用 chrome 排查内存泄露内存分析使用的工具包括 chrome 任务管理器、chrome 时间轴（低版本是 Timeline，高版本对应 performance）、chrome memory（低版本是 chrome profiles，主要用 JS 堆快照、JS 堆动态分配时间轴）
+chrome 的工具里提供了很多种方式去排查明确内存情况，但我觉得会其中的一些就够了，就好像使用 js A...
+    
+
+        <a href="/2020/05/01/使用chrome排查内存泄露/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chrome/">chrome</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-React16-fiber" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-28 22:41:51" datetime="2020-04-28T14:41:51.000Z" itemprop="datePublished">2020-04-28</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/28/React16-fiber/">React16/fiber</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言react 在进行组件渲染时，从 setState 开始到渲染完成整个过程是同步的（“一气呵成”）。如果需要渲染的组件比较庞大，js 执行会占据主线程时间较长，会导致页面响应度变差，使得 react 在动画、手势等应用中效果比较差。
+所以在 react v15 之前使用它做一些动画效果或大数据量处理渲染之类的都可能会出现卡顿等性能问题。
+react v15 是函数调用栈，递归的方式，从父...
+    
+
+        <a href="/2020/04/28/React16-fiber/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-LRU算法" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-25 22:00:24" datetime="2020-04-25T14:00:24.000Z" itemprop="datePublished">2020-04-25</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/25/LRU算法/">LRU算法</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        LRU 算法
+
+    
+
+        <a href="/2020/04/25/LRU算法/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    </div>
+</nav>
+
+
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
-  </p>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zhangzhicheng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/page/2/&title=张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/page/2/&title=张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/page/2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=张志成博客&url=https://793338023.github.io/page/2/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/page/2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://793338023.github.io/page/2/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
 <script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '欸，你怎么走了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '你是木头啊!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  })
+})();
 </script>
-<!-- Baidu Tongji -->
 
-<script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+
+</body>
 </html>

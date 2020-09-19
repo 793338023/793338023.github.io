@@ -1,412 +1,766 @@
 <!DOCTYPE html>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="zhangzhicheng&#39;s blog">
-  <meta name="keyword" content="hexo-theme, vuejs">
-  
-    <link rel="shortcut icon" href="/css/images/logo.png">
-  
-  <title>
+<head><meta name="generator" content="Hexo 3.8.0">
     
-      张志成博客
+
     
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
-  
-  
-    <!-- MathJax support START -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
-  
+    
 
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>张志成博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="张志成博客">
+<meta property="og:url" content="https://793338023.github.io/page/3/index.html">
+<meta property="og:site_name" content="张志成博客">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="张志成博客">
+    
+        <link rel="alternate" type="application/atom+xml" title="张志成博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
 
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>张志成博客</span>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
     </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link active">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/a.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zhangzhicheng</h5>
+          <a href="mailto:793338023@qq.com" title="793338023@qq.com" class="mail">793338023@qq.com</a>
+        </hgroup>
+      </div>
     </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link mobile-active">Home</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/793338023" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
         
       </ul>
     </div>
   </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">张志成博客</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
 </header>
- <main class="app-body">
-  <div class="zzc-total">总共74篇</div>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">张志成博客</h1>
+        <h5 class="subtitle">
+            
+                
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-AST抽象树" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-18 08:49:52" datetime="2020-04-18T00:49:52.000Z" itemprop="datePublished">2020-04-18</time>
+
+        
+
+
+    </div>
+
+    
+
 
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/18/AST抽象树/">
-        AST抽象语法树 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-18</p>
-     
-  <a href="/tags#js">
-    <span class="tag-code">js</span>
-  </a>
- 
-    <div class="article-summary">
-       抽象语法树 AST在计算机科学中，抽象语法树（AbstractSyntaxTree，AST），或简称语法树（Syntax tree），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构。之所以说语法是“抽象”的，是因为这里的语法并不会 ...
-      
-    </div>
-    <a class="more" href="/2020/04/18/AST抽象树/">Read more</a>
-  </article>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/18/AST抽象树/">AST抽象语法树</a>
+    </h3>
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/11/npm安装机制/">
-        npm安装机制 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-11</p>
-     
-  <a href="/tags#npm">
-    <span class="tag-code">npm</span>
-  </a>
- 
-    <div class="article-summary">
-       从输入 npm install 后
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        抽象语法树 AST在计算机科学中，抽象语法树（AbstractSyntaxTree，AST），或简称语法树（Syntax tree），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构。之所以说语法是“抽象”的，是因为这里的语法并不会表示出真实语法中出现的每个细节。比如，嵌套括号被隐含在树的结构中，并没有以节点的形式呈现；而类似于 i...
+    
+
+        <a href="/2020/04/18/AST抽象树/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-npm安装机制" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-11 18:07:36" datetime="2020-04-11T10:07:36.000Z" itemprop="datePublished">2020-04-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/11/npm安装机制/">npm安装机制</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        从输入 npm install 后
 项目下有 package.json，输入npm i,查询 node_modules 是否存在，不存在新增，存在在此下安装模块。
 
-根据 package.json 的依赖模块，查询 node_modules 目录之中是否已经存在指定模块，若存在，不再重新安装 ...
-      
+根据 package.json 的依赖模块，查询 node_modules 目录之中是否已经存在指定模块，若存在，不再重新安装，若不存在， npm 向 registry 查询模块压缩包的网址，下载压缩包，存放在本地的缓存目录里，...
+    
+
+        <a href="/2020/04/11/npm安装机制/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/04/11/npm安装机制/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/06/webpack之plugin实现与vscode调试方式/">
-        webpack之plugin实现与vscode调试方式 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-06</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       Plugin由于 loader 作用范围是很明显的，所以就有了它的边界，那么超出这个边界的事情我们就可以使用 Plugin 去实现，这样 webpack 就可以适用用各种各样的场景，如 loader 很困难直接对多种规则的内容进行最后的整合然后输出，而且 loader 之间有顺序规则之类，如 ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
     </div>
-    <a class="more" href="/2020/04/06/webpack之plugin实现与vscode调试方式/">Read more</a>
-  </article>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-webpack之plugin实现与vscode调试方式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-06 23:09:35" datetime="2020-04-06T15:09:35.000Z" itemprop="datePublished">2020-04-06</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/05/webpack-externals/">
-        webpack-externals 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-05</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       前言webpack5 出了 federated-modules，对于对微前端有需求的项目来说，无疑是一个好消息，因为它解决跨应用之间的共享模块。而这也是微前端的核心功能之一。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/06/webpack之plugin实现与vscode调试方式/">webpack之plugin实现与vscode调试方式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Plugin由于 loader 作用范围是很明显的，所以就有了它的边界，那么超出这个边界的事情我们就可以使用 Plugin 去实现，这样 webpack 就可以适用用各种各样的场景，如 loader 很困难直接对多种规则的内容进行最后的整合然后输出，而且 loader 之间有顺序规则之类，如果规则与规则之间有关联且要按某种顺序进行执行，那么就很难实现，而这是使用 Plugin 实现是最好的。...
+    
+
+        <a href="/2020/04/06/webpack之plugin实现与vscode调试方式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-webpack-externals" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-05 17:21:37" datetime="2020-04-05T09:21:37.000Z" itemprop="datePublished">2020-04-05</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/05/webpack-externals/">webpack-externals</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言webpack5 出了 federated-modules，对于对微前端有需求的项目来说，无疑是一个好消息，因为它解决跨应用之间的共享模块。而这也是微前端的核心功能之一。
 github 例子federated-modules 资料
-而这个功能还在试行阶段，在这之前一般都是使用 exter ...
-      
+而这个功能还在试行阶段，在这之前一般都是使用 externals 解决这种跨应用问题，当然 externals 不止这些作用，还可以优化编译速度。
+exter...
+    
+
+        <a href="/2020/04/05/webpack-externals/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/04/05/webpack-externals/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/04/超简单的搭建功能完善的组件开发库/">
-        超简单的搭建功能完善的组件开发库 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-04</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       前言搭建组件开发库，往往要有很多打包工具知识，从中选择符合当前需求的，如要有 webpack、rollup、gulp、单元测试、eslint、typescript 等等知识，如果想搭建一个理想好用的，还要会使用 node 写命令或脚手架。
-但阿里的前端工具生态已经有很好用工具可开箱即可，免去 ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
     </div>
-    <a class="more" href="/2020/04/04/超简单的搭建功能完善的组件开发库/">Read more</a>
-  </article>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-超简单的搭建功能完善的组件开发库" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-04 20:11:56" datetime="2020-04-04T12:11:56.000Z" itemprop="datePublished">2020-04-04</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/04/01/职责链模式/">
-        职责链模式 
-      </a>
-    </h2>
-    <p class="article-date">2020-04-01</p>
-     
-  <a href="/tags#设计模式">
-    <span class="tag-code">设计模式</span>
-  </a>
- 
-    <div class="article-summary">
-       职责链的定义使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/04/超简单的搭建功能完善的组件开发库/">超简单的搭建功能完善的组件开发库</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言搭建组件开发库，往往要有很多打包工具知识，从中选择符合当前需求的，如要有 webpack、rollup、gulp、单元测试、eslint、typescript 等等知识，如果想搭建一个理想好用的，还要会使用 node 写命令或脚手架。
+但阿里的前端工具生态已经有很好用工具可开箱即可，免去入门门槛，dumi。
+详细文档请移步 github 查看，里面有个例子项目
+2020/4/4 清明-全...
+    
+
+        <a href="/2020/04/04/超简单的搭建功能完善的组件开发库/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-职责链模式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-04-01 20:43:07" datetime="2020-04-01T12:43:07.000Z" itemprop="datePublished">2020-04-01</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/04/01/职责链模式/">职责链模式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        职责链的定义使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。
 在以下场景中可以考虑使用责任链模式
 一个系统的审批需要多个对象才能完成处理的情况下，例如报销系统等。
-代码中存在多个 if-else  ...
-      
+代码中存在多个 if-else 语句的情况下，此时可以考虑使用责任链模式来对代码进行重构。
+
+代码例子1234567891011121...
+    
+
+        <a href="/2020/04/01/职责链模式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/04/01/职责链模式/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-chrome插件开发与为什么数据埋点请求使用图片" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-29 20:52:24" datetime="2020-03-29T12:52:24.000Z" itemprop="datePublished">2020-03-29</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/29/chrome插件开发与为什么数据埋点请求使用图片/">
-        chrome插件开发与为什么数据埋点请求使用图片 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-29</p>
-     
-  <a href="/tags#chrome">
-    <span class="tag-code">chrome</span>
-  </a>
- 
-    <div class="article-summary">
-       chrome 插件-使用 vue 实现为什么通常在发送数据埋点请求的时候使用的是 1x1 像素的透明 gif 图片
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/29/chrome插件开发与为什么数据埋点请求使用图片/">chrome插件开发与为什么数据埋点请求使用图片</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        chrome 插件-使用 vue 实现为什么通常在发送数据埋点请求的时候使用的是 1x1 像素的透明 gif 图片
 避免跨域（img 天然支持跨域）
 
-利用空白 gif 或 1x1 px 的 img 是互联网广告或网站监测方面常用的手段，简单、安全、相比 PNG/JPG 体积小，1px 透明 ...
-      
+利用空白 gif 或 1x1 px 的 img 是互联网广告或网站监测方面常用的手段，简单、安全、相比 PNG/JPG 体积小，1px 透明图，对网页内容的影响几乎没有影响，这种请求用在很多地方，比如浏览、点击、热点、心跳、ID 颁发等等，
+...
+    
+
+        <a href="/2020/03/29/chrome插件开发与为什么数据埋点请求使用图片/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/03/29/chrome插件开发与为什么数据埋点请求使用图片/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/25/fiddler代理方式/">
-        fiddler代理方式 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-25</p>
-     
-  <a href="/tags#调试">
-    <span class="tag-code">调试</span>
-  </a>
- 
-    <div class="article-summary">
-       请求转发到本地文件身为一名前端，当为了调试某些情况下请求的返回参数需要人为改动来调试时，可以使用 AutoResponder如:配置规则为
-123regex:https://www.juhe.cn/loginStatusC:\Users\M\Desktop\data.json
-带 regex ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chrome/">chrome</a></li></ul>
+
     </div>
-    <a class="more" href="/2020/03/25/fiddler代理方式/">Read more</a>
-  </article>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-fiddler代理方式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-25 23:31:05" datetime="2020-03-25T15:31:05.000Z" itemprop="datePublished">2020-03-25</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/12/设计模式之工厂模式/">
-        设计模式之工厂模式 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-12</p>
-     
-  <a href="/tags#设计模式">
-    <span class="tag-code">设计模式</span>
-  </a>
- 
-    <div class="article-summary">
-       前言工厂模式的目的是为了创建对象，它通常在类或者类的静态方法中实现，具有以下目标：
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/25/fiddler代理方式/">fiddler代理方式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        请求转发到本地文件身为一名前端，当为了调试某些情况下请求的返回参数需要人为改动来调试时，可以使用 AutoResponder如:
+                
+                    
+                    
+                
+                本地转发
+            配置规则为
+123regex:https://...
+    
+
+        <a href="/2020/03/25/fiddler代理方式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/调试/">调试</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-设计模式之工厂模式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-12 23:11:51" datetime="2020-03-12T15:11:51.000Z" itemprop="datePublished">2020-03-12</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/12/设计模式之工厂模式/">设计模式之工厂模式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言工厂模式的目的是为了创建对象，它通常在类或者类的静态方法中实现，具有以下目标：
 当创建相似对象时执行重复操作当编译时不知道具体类型的情况下，为工厂客户提供一个创建对象的接口与创建型模式类似，工厂模式创建对象（视为工厂里的产品）时无需指定创建对象的具体类。
-工厂模式定义一个用于创建对象的接 ...
-      
+工厂模式定义一个用于创建对象的接口，这个接口由子类决定实例化哪一个类。该模式使一个类的实例化延迟到了子类。而子类可以重写接口方法以便创...
+    
+
+        <a href="/2020/03/12/设计模式之工厂模式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/03/12/设计模式之工厂模式/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-设计模式-策略模式" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-11 23:09:23" datetime="2020-03-11T15:09:23.000Z" itemprop="datePublished">2020-03-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/11/设计模式-策略模式/">
-        设计模式-策略模式 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-11</p>
-     
-  <a href="/tags#设计模式">
-    <span class="tag-code">设计模式</span>
-  </a>
- 
-    <div class="article-summary">
-       策略模式定义：定义一系列算法，把他们各自封装成策略类，然后把不变的部分和变化的部分分离开来，其中包括策略类和环境类(Context)。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/11/设计模式-策略模式/">设计模式-策略模式</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        策略模式定义：定义一系列算法，把他们各自封装成策略类，然后把不变的部分和变化的部分分离开来，其中包括策略类和环境类(Context)。
 这里的算法可以理解为用于处理逻辑的方法。
 使用
 经典例子:
 
-1234567891011121314const strategies = &#123;    ...
-      
+1234567891011121314const strategies = &#123;    &quot;Q2&quot;:(s)=&gt; s*2,    &quot;Q3&quot;:(s)...
+    
+
+        <a href="/2020/03/11/设计模式-策略模式/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/03/11/设计模式-策略模式/">Read more</a>
-  </article>
-    <div class="guide-pager">
-  
-    <a href="/page/2/"><span class="page-arrow">← </span>Prev</a>
-  
-  
-    <a href="/page/4/">Next<span class="page-arrow"> →</span></a>
-  
-</div> 
-</main>
- <div class="scroll-top">
-  <span class="arrow-icon"></span>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    </div>
+</nav>
+
+
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
-  </p>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zhangzhicheng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/page/3/&title=张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/page/3/&title=张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/page/3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=张志成博客&url=https://793338023.github.io/page/3/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/page/3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://793338023.github.io/page/3/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
 <script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '欸，你怎么走了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '你是木头啊!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  })
+})();
 </script>
-<!-- Baidu Tongji -->
 
-<script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+
+</body>
 </html>

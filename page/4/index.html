@@ -1,413 +1,765 @@
 <!DOCTYPE html>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="zhangzhicheng&#39;s blog">
-  <meta name="keyword" content="hexo-theme, vuejs">
-  
-    <link rel="shortcut icon" href="/css/images/logo.png">
-  
-  <title>
+<head><meta name="generator" content="Hexo 3.8.0">
     
-      张志成博客
+
     
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
-  
-  
-    <!-- MathJax support START -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
-  
+    
 
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>张志成博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="张志成博客">
+<meta property="og:url" content="https://793338023.github.io/page/4/index.html">
+<meta property="og:site_name" content="张志成博客">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="张志成博客">
+    
+        <link rel="alternate" type="application/atom+xml" title="张志成博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
 
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>张志成博客</span>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
     </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link active">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/a.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zhangzhicheng</h5>
+          <a href="mailto:793338023@qq.com" title="793338023@qq.com" class="mail">793338023@qq.com</a>
+        </hgroup>
+      </div>
     </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link mobile-active">Home</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/793338023" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
         
       </ul>
     </div>
   </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">张志成博客</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
 </header>
- <main class="app-body">
-  <div class="zzc-total">总共74篇</div>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">张志成博客</h1>
+        <h5 class="subtitle">
+            
+                
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-install的坑" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-08 20:42:58" datetime="2020-03-08T12:42:58.000Z" itemprop="datePublished">2020-03-08</time>
+
+        
+
+
+    </div>
+
+    
+
 
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/08/install的坑/">
-        npm install的坑 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-08</p>
-     
-  <a href="/tags#npm">
-    <span class="tag-code">npm</span>
-  </a>
- 
-    <div class="article-summary">
-       packagepackage 有两种依赖
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/08/install的坑/">npm install的坑</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        packagepackage 有两种依赖
 dependencies —— 运行依赖，依赖的项该是正常运行该包时所需要的依赖项，就是开发的项目需要的包，如 ui 框架包，react 包之类的。
-devDependencies —— 开发依赖，开发的时候需要的依赖项，像一些进行单元测试之类的包或 ...
-      
+devDependencies —— 开发依赖，开发的时候需要的依赖项，像一些进行单元测试之类的包或 webpack 打包需要的包。
+
+package 版本号详解在 npm 中安装固定的版本号 pack...
+    
+
+        <a href="/2020/03/08/install的坑/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/03/08/install的坑/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/">
-        npm进阶-node_modules与自动部署装包速度提升 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-03</p>
-     
-  <a href="/tags#npm">
-    <span class="tag-code">npm</span>
-  </a>
- 
-    <div class="article-summary">
-       自动部署装包速度提升现在程序的开发都提倡能用技术放开双手，那就要技术解决，所以现在无论是构建、代码检查、部署或者测试，这些都有一定程度的自动化过程，减少人为操作失误，而这的主题是 npm 装包耗时过长的优化方案。
-当我们本地使用 npm 装包时，因为在本地环境中安装依赖是有状态的，如 nod ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
     </div>
-    <a class="more" href="/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/">Read more</a>
-  </article>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-npm进阶-node-modules与自动部署装包速度提升" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-03 21:37:57" datetime="2020-03-03T13:37:57.000Z" itemprop="datePublished">2020-03-03</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/03/02/react-微前端/">
-        react-微前端 
-      </a>
-    </h2>
-    <p class="article-date">2020-03-02</p>
-     
-  <a href="/tags#react">
-    <span class="tag-code">react</span>
-  </a>
- 
-    <div class="article-summary">
-       当前微前端技术栈统一，仓库只有一个。 适用场景: 项目大，工程多，而都是由一个技术团队负责。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/">npm进阶-node_modules与自动部署装包速度提升</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        自动部署装包速度提升现在程序的开发都提倡能用技术放开双手，那就要技术解决，所以现在无论是构建、代码检查、部署或者测试，这些都有一定程度的自动化过程，减少人为操作失误，而这的主题是 npm 装包耗时过长的优化方案。
+当我们本地使用 npm 装包时，因为在本地环境中安装依赖是有状态的，如 node_modules，~/.npmrc，~/.npm 一系列硬盘目录及文件，无不构成状态。而在生产环境中...
+    
+
+        <a href="/2020/03/03/npm进阶-node-modules与自动部署装包速度提升/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-react-微前端" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-03-02 22:59:22" datetime="2020-03-02T14:59:22.000Z" itemprop="datePublished">2020-03-02</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/03/02/react-微前端/">react-微前端</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        当前微前端技术栈统一，仓库只有一个。 适用场景: 项目大，工程多，而都是由一个技术团队负责。
 github 项目详情
-      
+    
+
+        <a href="/2020/03/02/react-微前端/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/03/02/react-微前端/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-webpack-离线应用" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-02-15 21:23:53" datetime="2020-02-15T13:23:53.000Z" itemprop="datePublished">2020-02-15</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/02/15/webpack-离线应用/">
-        webpack-离线应用 
-      </a>
-    </h2>
-    <p class="article-date">2020-02-15</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       前言离线缓存应用，意思就是没有网络的情况下，被缓存的资源能从本地直接返回，让应用在一定范围内能正常运行。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/02/15/webpack-离线应用/">webpack-离线应用</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言离线缓存应用，意思就是没有网络的情况下，被缓存的资源能从本地直接返回，让应用在一定范围内能正常运行。
 离线应用有以下优点：
 
 在没有网络的情况下也能打开网页。
 由于部分被缓存的资源直接从本地加载，对用户来说可以加速网页加载速度，对网站运营者来说可以减少服务器压力以及传输流量费用。
 
-实现 ...
-      
+实现离线缓存的技术有两种:
+
+AppCache 又叫 Application Cache，目前已经从 We...
+    
+
+        <a href="/2020/02/15/webpack-离线应用/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/02/15/webpack-离线应用/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-重温webpack-02" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-01-18 23:03:56" datetime="2020-01-18T15:03:56.000Z" itemprop="datePublished">2020-01-18</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/01/18/重温webpack-02/">
-        重温webpack-02 
-      </a>
-    </h2>
-    <p class="article-date">2020-01-18</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       前言配置
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/01/18/重温webpack-02/">重温webpack-02</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言配置
 Entrycontext
 
 OutputfilenamechunkFilenamepathpublicPathcrossOriginloadinglibraryTargetlibrarylibraryExport
 
 
-在使用 Babel 的项目中接入 React 框架很简单，只需要 ...
-      
+在使用 Babel 的项目中接入 React 框架很简单，只需要加入 React 所依赖的 Presets babel-preset-react
+与 Babel 相比...
+    
+
+        <a href="/2020/01/18/重温webpack-02/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/01/18/重温webpack-02/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-重温webpack-01" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-01-12 11:47:12" datetime="2020-01-12T03:47:12.000Z" itemprop="datePublished">2020-01-12</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/01/12/重温webpack-01/">
-        重温webpack-01 
-      </a>
-    </h2>
-    <p class="article-date">2020-01-12</p>
-     
-  <a href="/tags#webpack">
-    <span class="tag-code">webpack</span>
-  </a>
- 
-    <div class="article-summary">
-       前言webpack 当下最流行的前端架构工具。
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/01/12/重温webpack-01/">重温webpack-01</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言webpack 当下最流行的前端架构工具。
 Webpack 是一个打包模块化 JavaScript 的工具，在 Webpack 里一切文件皆模块，通过 Loader 转换文件，通过 Plugin 注入钩子，最后输出由多个模块组合成的文件。Webpack 专注于构建模块化项目。
-一切文件： ...
-      
+一切文件：JavaScript、CSS、SCSS、图片、模板，在 Webpack 眼中都是一个个模块，这样的好处...
+    
+
+        <a href="/2020/01/12/重温webpack-01/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/01/12/重温webpack-01/">Read more</a>
-  </article>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-liunx-pm2与nginx" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-01-01 00:16:23" datetime="2019-12-31T16:16:23.000Z" itemprop="datePublished">2020-01-01</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2020/01/01/liunx-pm2与nginx/">
-        liunx-pm2与nginx 
-      </a>
-    </h2>
-    <p class="article-date">2020-01-01</p>
-     
-  <a href="/tags#liunx">
-    <span class="tag-code">liunx</span>
-  </a>
- 
-    <div class="article-summary">
-       pm2日志管理：应用程序日志保存在服务器的硬盘中~/.pm2/logs/
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/01/01/liunx-pm2与nginx/">liunx-pm2与nginx</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        pm2日志管理：应用程序日志保存在服务器的硬盘中~/.pm2/logs/
 负载均衡：PM2 可以通过创建共享同一服务器端口的多个子进程来扩展您的应用程序。这样做还允许您以零秒停机时间重新启动应用程序。
-终端监控：可以在终端中监控您的应用程序并检查应用程序运行状况（CPU 使用率，使用的内存， ...
-      
+终端监控：可以在终端中监控您的应用程序并检查应用程序运行状况（CPU 使用率，使用的内存，请求/分钟等）。
+SSH 部署：自动部署，避免逐个在所有服务器中进行 ssh。
+静态服务：支持静态服务...
+    
+
+        <a href="/2020/01/01/liunx-pm2与nginx/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2020/01/01/liunx-pm2与nginx/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/12/25/npm与npx/">
-        npm、nrm与npx 
-      </a>
-    </h2>
-    <p class="article-date">2019-12-25</p>
-     
-  <a href="/tags#npm">
-    <span class="tag-code">npm</span>
-  </a>
- 
-    <div class="article-summary">
-       前言NPM 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题，如允许用户从 NPM 服务器下载别人编写的第三方包到本地使用、允许用户从 NPM 服务器下载并安装别人编写的命令行程序到本地使用、允许用户将自己编写的包或命令行程序上传到 NPM 服务器供别人 ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
+
     </div>
-    <a class="more" href="/2019/12/25/npm与npx/">Read more</a>
-  </article>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-npm与npx" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-12-25 23:00:00" datetime="2019-12-25T15:00:00.000Z" itemprop="datePublished">2019-12-25</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/12/21/liunx-虚拟机使用/">
-        liunx-虚拟机使用 
-      </a>
-    </h2>
-    <p class="article-date">2019-12-21</p>
-     
-  <a href="/tags#liunx">
-    <span class="tag-code">liunx</span>
-  </a>
- 
-    <div class="article-summary">
-       工具virtualBox + CentOS-6.8
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/12/25/npm与npx/">npm、nrm与npx</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言NPM 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题，如允许用户从 NPM 服务器下载别人编写的第三方包到本地使用、允许用户从 NPM 服务器下载并安装别人编写的命令行程序到本地使用、允许用户将自己编写的包或命令行程序上传到 NPM 服务器供别人使用。
+以下的操作系统都已 window 的为主，且主要介绍一些我觉得有意思的东西，如简化命令，pac...
+    
+
+        <a href="/2019/12/25/npm与npx/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-liunx-虚拟机使用" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-12-21 11:13:11" datetime="2019-12-21T03:13:11.000Z" itemprop="datePublished">2019-12-21</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/12/21/liunx-虚拟机使用/">liunx-虚拟机使用</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        工具virtualBox + CentOS-6.8
 virtualBox 官网下载即可。
-CentOS-6.8 这个镜像有点旧，网上下载一个最新版的镜像，否则在安装一些环境时会出现 libc.so.6 与 GLIBCXX\* 的错误，比如在安装 node 时我就出现这些错误，但此类的问题在网 ...
-      
+CentOS-6.8 这个镜像有点旧，网上下载一个最新版的镜像，否则在安装一些环境时会出现 libc.so.6 与 GLIBCXX\* 的错误，比如在安装 node 时我就出现这些错误，但此类的问题在网上都可以搜索到解决方法，都是下载 libc.so.6 与 GLIBCXX\*的适合版本，然后安装，重新...
+    
+
+        <a href="/2019/12/21/liunx-虚拟机使用/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
     </div>
-    <a class="more" href="/2019/12/21/liunx-虚拟机使用/">Read more</a>
-  </article>
-  
-  <article class="article-card">
-    <h2 class="article-head">
-      <a href="/2019/12/07/koa例子/">
-        koa例子 
-      </a>
-    </h2>
-    <p class="article-date">2019-12-07</p>
-     
-  <a href="/tags#node">
-    <span class="tag-code">node</span>
-  </a>
- 
-    <div class="article-summary">
-       前言koa 是由 Express 原班人马打造的，致力于成为一个更小、更富有表现力、更健壮的 Web 框架。使用 koa 编写 web 应用，通过组合不同的 generator，可以免除重复繁琐的回调函数嵌套，并极大地提升错误处理的效率。koa 不在内核方法中绑定任何中间件，它仅仅提供了一个 ...
-      
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
+
     </div>
-    <a class="more" href="/2019/12/07/koa例子/">Read more</a>
-  </article>
-    <div class="guide-pager">
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-koa例子" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-12-07 15:06:16" datetime="2019-12-07T07:06:16.000Z" itemprop="datePublished">2019-12-07</time>
+
+        
+
+
+    </div>
+
+    
+
+
   
-    <a href="/page/3/"><span class="page-arrow">← </span>Prev</a>
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/12/07/koa例子/">koa例子</a>
+    </h3>
   
-  
-    <a href="/page/5/">Next<span class="page-arrow"> →</span></a>
-  
-</div> 
-</main>
- <div class="scroll-top">
-  <span class="arrow-icon"></span>
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言koa 是由 Express 原班人马打造的，致力于成为一个更小、更富有表现力、更健壮的 Web 框架。使用 koa 编写 web 应用，通过组合不同的 generator，可以免除重复繁琐的回调函数嵌套，并极大地提升错误处理的效率。koa 不在内核方法中绑定任何中间件，它仅仅提供了一个轻量优雅的函数库，使得编写 Web 应用变得得心应手。
+脚手架1234567891011121.安装 ...
+    
+
+        <a href="/2019/12/07/koa例子/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+    </div>
+</nav>
+
+
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
-  </p>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zhangzhicheng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/page/4/&title=张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/page/4/&title=张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/page/4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=张志成博客&url=https://793338023.github.io/page/4/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/page/4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://793338023.github.io/page/4/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
 <script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '欸，你怎么走了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '你是木头啊!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  })
+})();
 </script>
-<!-- Baidu Tongji -->
 
-<script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+
+</body>
 </html>

@@ -1,152 +1,180 @@
 <!DOCTYPE html>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="zhangzhicheng&#39;s blog">
-  <meta name="keyword" content="hexo-theme, vuejs">
-  
-    <link rel="shortcut icon" href="/css/images/logo.png">
-  
-  <title>
+<head><meta name="generator" content="Hexo 3.8.0">
     
-      es6语法使用之大全 | 张志成博客
+
     
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
-  
-  
-    <!-- MathJax support START -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
-  
+    
 
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>es6语法使用之大全 | 张志成博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="js">
+    <meta name="description" content="let与const声明let与const都是块级作用域，所以不能想var声明一样，没有变量声明提升。let是声明变量，const是常量声明，不能修改。12let a = 5;const b = 10; 块级作用域代替函数作用域1234567891011(function()&amp;#123;	// 函数作用域	var a = &quot;ccc&quot;;&amp;#125;)()console.log(a);// 块级作用域&amp;">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6语法使用之大全">
+<meta property="og:url" content="https://793338023.github.io/2019/01/07/es6语法使用之大全/index.html">
+<meta property="og:site_name" content="张志成博客">
+<meta property="og:description" content="let与const声明let与const都是块级作用域，所以不能想var声明一样，没有变量声明提升。let是声明变量，const是常量声明，不能修改。12let a = 5;const b = 10; 块级作用域代替函数作用域1234567891011(function()&amp;#123;	// 函数作用域	var a = &quot;ccc&quot;;&amp;#125;)()console.log(a);// 块级作用域&amp;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-01T07:44:03.023Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="es6语法使用之大全">
+<meta name="twitter:description" content="let与const声明let与const都是块级作用域，所以不能想var声明一样，没有变量声明提升。let是声明变量，const是常量声明，不能修改。12let a = 5;const b = 10; 块级作用域代替函数作用域1234567891011(function()&amp;#123;	// 函数作用域	var a = &quot;ccc&quot;;&amp;#125;)()console.log(a);// 块级作用域&amp;">
+    
+        <link rel="alternate" type="application/atom+xml" title="张志成博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
 
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>张志成博客</span>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
     </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/a.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zhangzhicheng</h5>
+          <a href="mailto:793338023@qq.com" title="793338023@qq.com" class="mail">793338023@qq.com</a>
+        </hgroup>
+      </div>
     </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link">Home</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/793338023" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
         
       </ul>
     </div>
   </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">es6语法使用之大全</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
 </header>
- <div id="article-banner">
-  <h2>es6语法使用之大全</h2>
-  <p class="post-date">2019-01-07</p>
-  <div class="arrow-down">
-    <a href="javascript:;"></a>
-  </div>
-</div>
-<main class="app-body flex-box">
-  <!-- Article START -->
-  <article class="post-article">
-    <section class="markdown-content"><h2 id="let与const"><a href="#let与const" class="headerlink" title="let与const"></a>let与const</h2><p>声明let与const都是块级作用域，所以不能想var声明一样，没有变量声明提升。<br>let是声明变量，const是常量声明，不能修改。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> a = 5;</span><br><span class="line">const b = 10;</span><br></pre></td></tr></table></figure></p>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">es6语法使用之大全</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-07T13:25:07.000Z" itemprop="datePublished" class="page-time">
+  2019-01-07
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#let与const"><span class="post-toc-number">1.</span> <span class="post-toc-text">let与const</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#块级作用域代替函数作用域"><span class="post-toc-number">2.</span> <span class="post-toc-text">块级作用域代替函数作用域</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#箭头函数"><span class="post-toc-number">3.</span> <span class="post-toc-text">箭头函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#字符串模板"><span class="post-toc-number">4.</span> <span class="post-toc-text">字符串模板</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#带标签的模板字符串"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">带标签的模板字符串</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解构"><span class="post-toc-number">5.</span> <span class="post-toc-text">解构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结构数组"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">结构数组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解构对象"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">解构对象</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#增强的对象字面量"><span class="post-toc-number">6.</span> <span class="post-toc-text">增强的对象字面量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数组的拓展方法"><span class="post-toc-number">7.</span> <span class="post-toc-text">数组的拓展方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#函数"><span class="post-toc-number">8.</span> <span class="post-toc-text">函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#函数的默认值"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">函数的默认值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#rest参数"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">rest参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#name属性"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">name属性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象函数简易写法"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">对象函数简易写法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#双冒号运算符"><span class="post-toc-number">8.5.</span> <span class="post-toc-text">双冒号运算符</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Set-和-Map"><span class="post-toc-number">9.</span> <span class="post-toc-text">Set 和 Map</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#for-of"><span class="post-toc-number">10.</span> <span class="post-toc-text">for..of</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Generators-生成器"><span class="post-toc-number">11.</span> <span class="post-toc-text">Generators 生成器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Promise"><span class="post-toc-number">12.</span> <span class="post-toc-text">Promise</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ayncs与await"><span class="post-toc-number">13.</span> <span class="post-toc-text">ayncs与await</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#class"><span class="post-toc-number">14.</span> <span class="post-toc-text">class</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-es6语法使用之大全" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">es6语法使用之大全</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-07 21:25:07" datetime="2019-01-07T13:25:07.000Z" itemprop="datePublished">2019-01-07</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="let与const"><a href="#let与const" class="headerlink" title="let与const"></a>let与const</h2><p>声明let与const都是块级作用域，所以不能想var声明一样，没有变量声明提升。<br>let是声明变量，const是常量声明，不能修改。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> a = 5;</span><br><span class="line">const b = 10;</span><br></pre></td></tr></table></figure></p>
 <h2 id="块级作用域代替函数作用域"><a href="#块级作用域代替函数作用域" class="headerlink" title="块级作用域代替函数作用域"></a>块级作用域代替函数作用域</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	// 函数作用域</span><br><span class="line">	var a = <span class="string">"ccc"</span>;</span><br><span class="line">&#125;)()</span><br><span class="line">console.log(a);</span><br><span class="line"></span><br><span class="line">// 块级作用域</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">let</span> b = 1000;</span><br><span class="line">&#125;</span><br><span class="line">console.log(b);</span><br></pre></td></tr></table></figure>
 <p>使用块级作用域就可以避免如循环后只能获取到最后一个值的情况。</p>
 <h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> arr = [1,2,3];</span><br><span class="line">arr.map((item, index)=&gt;&#123;</span><br><span class="line">	<span class="built_in">return</span> item+index;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -194,235 +222,275 @@
 <h2 id="class"><a href="#class" class="headerlink" title="class"></a><a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001458267339633fd3a83c597d04b5fb59f7d1f6792efb3000" target="_blank" rel="noopener">class</a></h2><p>ES6提供了更接近传统语言的写法，引入了Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 使用</span><br><span class="line">class Abc&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span></span>()&#123;</span><br><span class="line">    this.a = <span class="string">'abc'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">getA</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.a;</span><br><span class="line">  &#125;</span><br><span class="line">  setA(a)&#123;</span><br><span class="line">    this.a = a;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">let</span> abcx = new Abc();</span><br><span class="line">console.log(abcx.getA()); // abc</span><br><span class="line"></span><br><span class="line">// 继承</span><br><span class="line">class Ext extends Abc&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span></span>()&#123;</span><br><span class="line">    super();</span><br><span class="line">    super.getA();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">getSA</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.a;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">let</span> abcx = new Ext();</span><br><span class="line">console.log(abcx.getA()); // abc</span><br></pre></td></tr></table></figure></p>
 <p>继承时一定要调用super(),因为需要初始化父类，把父类的this指向子类的this，若不调用会报错。而父类的方法的使用可以使用super。</p>
 <p>后续会持续更新…</p>
-</section>
-    <!-- Tags START -->
-    
-      <div class="tags">
-        <span>Tags:</span>
-        
-  <a href="/tags#js">
-    <span class="tag-code">js</span>
-  </a>
 
-      </div>
-    
-    <!-- Tags END -->
-    <!-- NAV START -->
-    
-  <div class="nav-container">
-    <!-- reverse left and right to put prev and next in a more logic postition -->
-    
-      <a class="nav-left" href="/2018/12/27/github博客网站构建/">
-        <span class="nav-arrow">← </span>
-        
-          github博客网站构建
-        
-      </a>
-    
-    
-      <a class="nav-right" href="/2019/01/17/vue骨架屏/">
-        
-          vue骨架屏
-        
-        <span class="nav-arrow"> →</span>
-      </a>
-    
-  </div>
-
-    <!-- NAV END -->
-    <!-- 打赏 START -->
-    
-      <div class="money-like">
-        <div class="reward-btn">
-          赏
-          <span class="money-code">
-            <span class="alipay-code">
-              <div class="code-image"></div>
-              <b>使用支付宝打赏</b>
-            </span>
-            <span class="wechat-code">
-              <div class="code-image"></div>
-              <b>使用微信打赏</b>
-            </span>
-          </span>
         </div>
-        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
-      </div>
-    
-    <!-- 打赏 END -->
-    <!-- 二维码 START -->
-    
-      <div class="qrcode">
-        <canvas id="share-qrcode"></canvas>
-        <p class="notice">扫描二维码，分享此文章</p>
-      </div>
-    
-    <!-- 二维码 END -->
-    
-      <!-- Gitment START -->
-      <div id="comments"></div>
-      <!-- Gitment END -->
-    
-  </article>
-  <!-- Article END -->
-  <!-- Catalog START -->
-  
-    <aside class="catalog-container">
-  <div class="toc-main">
-    <strong class="toc-title">Catalog</strong>
-    
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#let与const"><span class="toc-nav-text">let与const</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#块级作用域代替函数作用域"><span class="toc-nav-text">块级作用域代替函数作用域</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#箭头函数"><span class="toc-nav-text">箭头函数</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字符串模板"><span class="toc-nav-text">字符串模板</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#带标签的模板字符串"><span class="toc-nav-text">带标签的模板字符串</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#解构"><span class="toc-nav-text">解构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#结构数组"><span class="toc-nav-text">结构数组</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#解构对象"><span class="toc-nav-text">解构对象</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#增强的对象字面量"><span class="toc-nav-text">增强的对象字面量</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数组的拓展方法"><span class="toc-nav-text">数组的拓展方法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数"><span class="toc-nav-text">函数</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#函数的默认值"><span class="toc-nav-text">函数的默认值</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#rest参数"><span class="toc-nav-text">rest参数</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#name属性"><span class="toc-nav-text">name属性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象函数简易写法"><span class="toc-nav-text">对象函数简易写法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#双冒号运算符"><span class="toc-nav-text">双冒号运算符</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Set-和-Map"><span class="toc-nav-text">Set 和 Map</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#for-of"><span class="toc-nav-text">for..of</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Generators-生成器"><span class="toc-nav-text">Generators 生成器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Promise"><span class="toc-nav-text">Promise</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ayncs与await"><span class="toc-nav-text">ayncs与await</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class"><span class="toc-nav-text">class</span></a></li></ol>
-    
-  </div>
-</aside>
-  
-  <!-- Catalog END -->
-</main>
 
-<script>
-  (function () {
-    var url = 'http://yoursite.com/2019/01/07/es6语法使用之大全/';
-    var banner = ''
-    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
-      $('#article-banner').css({
-        'background-image': 'url(' + banner + ')'
-      })
-    } else {
-      $('#article-banner').geopattern(url)
-    }
-    $('.header').removeClass('fixed-header')
-
-     // error image
-    $(".markdown-content img").on('error', function() {
-      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
-      $(this).css({
-        'cursor': 'default'
-      })
-    })
-
-    // zoom image
-    $(".markdown-content img").on('click', function() {
-      var src = $(this).attr('src')
-      if (src !== 'http://file.muyutech.com/error-img.png') {
-        var imageW = $(this).width()
-        var imageH = $(this).height()
+        <blockquote class="post-copyright">
+    
+    <div class="content">
         
-        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
-        zoom = zoom < 1 ? 1 : zoom
-        zoom = zoom > 2 ? 2 : zoom
-        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+<span class="post-time">
+    最后更新时间：<time datetime="2019-02-01T07:44:03.023Z" itemprop="dateUpdated">2019-02-01 15:44:03</time>
+</span><br>
 
-        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
-        $('.image-view-wrap').addClass('wrap-active')
-        $('.image-view-wrap img').css({
-          'width': `${imageW}`,
-          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
-        })
-        $('html').css('overflow', 'hidden')
 
-        $('.image-view-wrap').on('click', function() {
-          $(this).remove()
-          $('html').attr('style', '')
-        })
-      }
-    })
+        
+    </div>
+    
+    <footer>
+        <a href="https://793338023.github.io">
+            <img src="/img/a.jpg" alt="zhangzhicheng">
+            zhangzhicheng
+        </a>
+    </footer>
+</blockquote>
 
-    // qrcode
-    var qr = new QRious({
-      element: document.getElementById('share-qrcode'),
-      value: document.location.href
-    });
+        
 
-    // gitment
-    var gitmentConfig = "yanm1ng";
-    if (gitmentConfig !== 'undefined') {
-      var gitment = new Gitment({
-        id: "es6语法使用之大全",
-        owner: "yanm1ng",
-        repo: "yanm1ng.github.io",
-        oauth: {
-          client_id: "0f87e490e00ee3fd87ef",
-          client_secret: "4a9d2b148e7971c2201ad12131ce8bf8159ccd2e"
-        },
-        theme: {
-          render(state, instance) {
-            const container = document.createElement('div')
-            container.lang = "en-US"
-            container.className = 'gitment-container gitment-root-container'
-            container.appendChild(instance.renderHeader(state, instance))
-            container.appendChild(instance.renderEditor(state, instance))
-            container.appendChild(instance.renderComments(state, instance))
-            container.appendChild(instance.renderFooter(state, instance))
-            return container;
-          }
-        }
-      })
-      gitment.render(document.getElementById('comments'))
-    }
-  })();
-</script>
 
-<script>
-  var disqus_shortname = '';
-  
-  var disqus_url = 'http://yoursite.com/2019/01/07/es6语法使用之大全/';
-  
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//go.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
- <div class="scroll-top">
-  <span class="arrow-icon"></span>
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&title=《es6语法使用之大全》 — 张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&title=《es6语法使用之大全》 — 张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/2019/01/07/es6语法使用之大全/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《es6语法使用之大全》 — 张志成博客&url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/793338023?tab=repositories">zhangzhicheng</a>
-  </p>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/17/vue骨架屏/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">vue骨架屏</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/27/github博客网站构建/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">github博客网站构建</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zhangzhicheng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&title=《es6语法使用之大全》 — 张志成博客&pic=https://793338023.github.io/img/a.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&title=《es6语法使用之大全》 — 张志成博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://793338023.github.io/2019/01/07/es6语法使用之大全/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《es6语法使用之大全》 — 张志成博客&url=https://793338023.github.io/2019/01/07/es6语法使用之大全/&via=https://793338023.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://793338023.github.io/2019/01/07/es6语法使用之大全/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://793338023.github.io/2019/01/07/es6语法使用之大全/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
 </script>
 
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
 <script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '欸，你怎么走了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '你是木头啊!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  })
+})();
 </script>
-<!-- Baidu Tongji -->
 
-<script src="/js/script.js"></script>
-  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+
+</body>
 </html>
